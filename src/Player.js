@@ -2,12 +2,6 @@ import React from 'react';
 import Youtube from 'react-youtube';
 
 class Player extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      videoId: '4KV9qz90fYo',
-    }
-  }
 
   render() {
     const opts = {
@@ -18,13 +12,9 @@ class Player extends React.Component {
       }
     };
 
-    return(<Youtube videoId={this.props.videoId} opts={opts} onReady={this._onReady} onEnd={this._onEnd.bind(this)} />);
+    return(<Youtube videoId={this.props.videoId} opts={opts} onReady={this._onReady} onEnd={this.props.onEnd} />);
   }
 
-  _onEnd(event) {
-    this.setState({videoId: "MKIHb1lvqSc"})
-  }
-  
   _onReady(event) {
     // access to player in all event handlers via `event.target`
     // event.target.pauseVideo();

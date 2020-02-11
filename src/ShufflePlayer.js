@@ -1,49 +1,40 @@
 import React from 'react';
 import AppConstants from './AppConstants';
 import Player from './Player';
+import axios from 'axios';
 
 class ShufflePlayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videos: [],
+      videos: ["k4yXQkG2s1E", "ghWpp_iNkLg", "bnTrcl95lzc", "12CeaxLiMgE", "r7YZqD7dZcQ"],
       playlist_id: 'FL7B_s7wxX-D__fkTiYp3Oaw',
-      currentVideoId: 'V0s7TN80o9I',
+      currentVideoId: '',
       count: 0,
+      loadingResults: true,
     }
+
+    this.pickNextSong = this.pickNextSong.bind(this)
   }
 
-  playNextSong() {
-    this.setState({count: this.state.count+1});
+  pickNextSong(event) {
+    this.setState({currentVideoId: this.state.videos[Math.floor(Math.random()*this.state.videos.length)]});
   }
-
-  onSongEnd(event) {
-    console.log("Song ended, here is the event: ");
-    console.log(JSON.stringify(event));
-  }
-
   componentDidMount() {
-    fetch(AppConstants.APIEndpoints.SHUFFLE + this.state.playlist_id, {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        playlist_id: this.state.playlist_id
-      })
-    })
-    .then(response => response.json())
+    console.log(`Loading Playlist: ${this.state.playlist_id}`);
+    axios.get(AppConstants.APIEndpoints.SHUFFLE + this.state.playlist_id)
     .then(userFriendlyData => {
-      console.log("Here is userFriendlyData: " + JSON.stringify(userFriendlyData));
-      this.setState({videos: userFriendlyData, loadingResults: false});
+      this.setState({videos: userFriendlyData.data.video_ids, loadingResults: false});
+      this.pickNextSong();
     })
+    .catch((e) => console.log(`Couldn't retrieve playlist songs! ${e}`))
   }
 
   render() {
     return (
       <div>
-        <Player videoId={this.state.currentVideoId} ></Player>
+        <Player videoId={this.state.currentVideoId} onEnd={this.pickNextSong} ></Player>
+        <button onClick={this.pickNextSong}>Shuffle Again</button>
       </div>
     )
   }
