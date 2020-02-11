@@ -7,7 +7,7 @@ class ShufflePlayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videos: ["k4yXQkG2s1E", "ghWpp_iNkLg", "bnTrcl95lzc", "12CeaxLiMgE", "r7YZqD7dZcQ"],
+      videos: [],
       playlist_id: 'FL7B_s7wxX-D__fkTiYp3Oaw',
       currentVideoId: '',
       count: 0,
