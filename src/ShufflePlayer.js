@@ -19,6 +19,7 @@ class ShufflePlayer extends React.Component {
 
   pickNextSong(event) {
     this.setState({currentVideoId: this.state.videos[Math.floor(Math.random()*this.state.videos.length)]});
+    console.log("Now Playing: " + this.state.currentVideoId)
   }
   componentDidMount() {
     console.log(`Loading Playlist: ${this.state.playlist_id}`);
