@@ -9,7 +9,7 @@ class ShufflePlayer extends React.Component {
     this.state = {
       videos: [],
       playlist_id: 'FL7B_s7wxX-D__fkTiYp3Oaw',
-      currentVideoId: '',
+      currentVideoId: '[start]',
       count: 0,
       loadingResults: true,
     }
@@ -18,14 +18,15 @@ class ShufflePlayer extends React.Component {
   }
 
   pickNextSong(event) {
-    this.setState({currentVideoId: this.state.videos[Math.floor(Math.random()*this.state.videos.length)]});
-    console.log("Now Playing: " + this.state.currentVideoId)
+    const nextSongId = this.state.videos[Math.floor(Math.random()*this.state.videos.length)]
+    this.setState({currentVideoId: nextSongId});
+    console.log(`Now Playing: https://youtube.com/watch?v=${nextSongId}`);
   }
   componentDidMount() {
     console.log(`Loading Playlist: ${this.state.playlist_id}`);
     axios.get(AppConstants.APIEndpoints.SHUFFLE + this.state.playlist_id)
-    .then(userFriendlyData => {
-      this.setState({videos: userFriendlyData.data.video_ids, loadingResults: false});
+    .then(response => {
+      this.setState({videos: response.data.video_ids, loadingResults: false});
       this.pickNextSong();
     })
     .catch((e) => console.log(`Couldn't retrieve playlist songs! ${e}`))
