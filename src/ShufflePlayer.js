@@ -10,8 +10,13 @@ class ShufflePlayer extends React.Component {
     this.state = {
       videos: [],
       played_history: [],
-      playlist_id: 'FL7B_s7wxX-D__fkTiYp3Oaw',
-      currentVideoId: '[start]',
+      playlist_ids: ["FL7B_s7wxX-D__fkTiYp3Oaw",            // Favorites
+                     "PL8g7AzKjYPsPZ5jy04jsKPhcpYdkmbCTe",  // Malayalam
+                     "PL8g7AzKjYPsOjSDrikmLU22NtJ5M2F65s",  // Inna
+                     "PL8g7AzKjYPsOCSWat1e3DjQ8UVj7G1zf1",  // KPop
+                     "PL8g7AzKjYPsNXA56I9GjB4hz3Z39NSrwN",  // Drum&Bass
+                     "PL8g7AzKjYPsNcw0KrijKocKW_Q7PgPEo9"], // PsyTrance
+      currentVideoId: '[waiting_to_load_video_lol]',
       count: 0,
       loadingResults: true,
       currentTitle: '',
@@ -28,16 +33,16 @@ class ShufflePlayer extends React.Component {
     this.setState({
         currentVideoId: nextSongId, 
         played_history: this.state.played_history.concat(nextSongId),
-        currentTitle: nextSong.title,
-      });
+        currentTitle:   nextSong.title,
+    });
 
     console.log(`${songCount}: https://youtube.com/watch?v=${nextSongId}\t${nextSong.title}`);
   }
 
 
   componentDidMount() {
-    console.log(`Loading Playlist: ${this.state.playlist_id}`);
-    axios.get(AppConstants.APIEndpoints.SHUFFLE + this.state.playlist_id)
+    console.log(`Loading Playlists: ${this.state.playlist_ids}`);
+    axios.post(AppConstants.APIEndpoints.SHUFFLE, {playlist_ids: this.state.playlist_ids})
     .then(response => {
       const songs = response.data.songs;
       this.setState({videos: songs, loadingResults: false});

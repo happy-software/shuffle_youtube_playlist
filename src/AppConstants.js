@@ -3,6 +3,6 @@ let APIRoot = "https://happy-youtube-watcher.herokuapp.com";
 
 export default {
   APIEndpoints: {
-  	SHUFFLE: APIRoot + "/shuffle/",
+  	SHUFFLE: APIRoot + "/shuffle",
   },
 };

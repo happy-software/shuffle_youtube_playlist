@@ -10,7 +10,7 @@ class Player extends React.Component {
       playerVars: {
         autoplay: 1
       },
-      // host: "https://www.youtube-nocookie.com"
+      // host: "https://www.youtube-nocookie.com" // TODO: Try to get this working so my extensions don't have to block tons of things
     };
 
     return(<Youtube videoId={this.props.videoId} opts={opts} onReady={this._onReady} onEnd={this.props.onEnd} />);
