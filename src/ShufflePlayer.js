@@ -1,6 +1,7 @@
 import React from 'react';
 import AppConstants from './AppConstants';
 import Player from './Player';
+import PlaylistSelector from './PlaylistSelector';
 import VideoTitleDisplay from './VideoTitleDisplay';
 import axios from 'axios';
 
@@ -57,11 +58,18 @@ class ShufflePlayer extends React.Component {
       fontSize: 44,
     };
 
+    const playlistSelectorOpts = {
+      color: 'pink',
+      fontSize: 22,
+      borderStyle: 'solid'
+    }
+
     return (
       <div>
         <Player videoId={this.state.currentVideoId} onEnd={this.pickNextSong} ></Player>
         <button onClick={this.pickNextSong}>Shuffle Again</button>
         <VideoTitleDisplay title={this.state.currentTitle} style={videoTitleOpts} ></VideoTitleDisplay>
+        <PlaylistSelector style={playlistSelectorOpts}></PlaylistSelector>
       </div>
     )
   }
