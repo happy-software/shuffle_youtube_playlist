@@ -13,10 +13,9 @@ class ShufflePlayer extends React.Component {
       played_history: [],
       playlists: [],
       playlist_ids: [],
-      currentVideoId: '[waiting_to_load_video_lol]',
-      count: 0,
       loadingResults: true,
       currentTitle: '',
+      currentVideoId: '[waiting_to_load_video_lol]',
     }
 
     this.pickNextSong = this.pickNextSong.bind(this);
@@ -26,16 +25,12 @@ class ShufflePlayer extends React.Component {
 
   pickNextSong(event) {
     const nextSong   = this.state.videos[Math.floor(Math.random()*this.state.videos.length)];
-    const nextSongId = nextSong.video_id;
-    const songCount  = this.state.played_history.length;
 
     this.setState({
-        currentVideoId: nextSongId, 
-        played_history: this.state.played_history.concat(nextSongId),
+        currentVideoId: nextSong.video_id, 
+        played_history: this.state.played_history.concat(nextSong.video_id),
         currentTitle:   nextSong.title,
     });
-
-    console.log(`${songCount}: https://youtube.com/watch?v=${nextSongId}\t${nextSong.title}`);
   }
 
   updateSelectedPlaylists(playlist_id) {
@@ -55,7 +50,6 @@ class ShufflePlayer extends React.Component {
   }
 
   shuffleSelectedPlaylists() {
-    console.log(`Shuffling playlists with ids: ${this.state.playlist_ids}`)
     axios.post(AppConstants.APIEndpoints.SHUFFLE, {playlist_ids: this.state.playlist_ids})
     .then(response => {
       const songs = response.data.songs;
@@ -68,7 +62,6 @@ class ShufflePlayer extends React.Component {
   componentDidMount() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
     .then(response => {
-      console.log(response.data);
       this.setState({
         playlists: response.data,
         playlist_ids: response.data.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
@@ -81,6 +74,7 @@ class ShufflePlayer extends React.Component {
     const videoTitleOpts = {
       color: 'pink',
       fontSize: 44,
+      textDecoration: 'none'
     };
 
     const playlistSelectorOpts = {
@@ -93,7 +87,7 @@ class ShufflePlayer extends React.Component {
       <div>
         <Player videoId={this.state.currentVideoId} onEnd={this.pickNextSong} ></Player>
         <button onClick={this.shuffleSelectedPlaylists}>Shuffle Again</button>
-        <VideoTitleDisplay title={this.state.currentTitle} style={videoTitleOpts} ></VideoTitleDisplay>
+        <VideoTitleDisplay videoId={this.state.currentVideoId} title={this.state.currentTitle} style={videoTitleOpts} ></VideoTitleDisplay>
         <PlaylistSelector playlists={this.state.playlists} onChange={this.updateSelectedPlaylists} style={playlistSelectorOpts}></PlaylistSelector>
       </div>
     )
