@@ -11,12 +11,8 @@ class ShufflePlayer extends React.Component {
     this.state = {
       videos: [],
       played_history: [],
-      playlist_ids: ["FL7B_s7wxX-D__fkTiYp3Oaw",            // Favorites
-                     "PL8g7AzKjYPsPZ5jy04jsKPhcpYdkmbCTe",  // Malayalam
-                     "PL8g7AzKjYPsOjSDrikmLU22NtJ5M2F65s",  // Inna
-                     "PL8g7AzKjYPsOCSWat1e3DjQ8UVj7G1zf1",  // KPop
-                     "PL8g7AzKjYPsNXA56I9GjB4hz3Z39NSrwN",  // Drum&Bass
-                     "PL8g7AzKjYPsNcw0KrijKocKW_Q7PgPEo9"], // PsyTrance
+      playlists: [],
+      playlist_ids: [],
       currentVideoId: '[waiting_to_load_video_lol]',
       count: 0,
       loadingResults: true,
@@ -24,6 +20,8 @@ class ShufflePlayer extends React.Component {
     }
 
     this.pickNextSong = this.pickNextSong.bind(this);
+    this.updateSelectedPlaylists = this.updateSelectedPlaylists.bind(this);
+    this.shuffleSelectedPlaylists = this.shuffleSelectedPlaylists.bind(this);
   }
 
   pickNextSong(event) {
@@ -40,9 +38,24 @@ class ShufflePlayer extends React.Component {
     console.log(`${songCount}: https://youtube.com/watch?v=${nextSongId}\t${nextSong.title}`);
   }
 
+  updateSelectedPlaylists(playlist_id) {
+    const newPlaylists = this.state.playlists.map(playlist => {
+      if (playlist.playlist_id === playlist_id) {
+        return {
+          ...playlist,
+          is_default: !playlist.is_default,
+        }
+      }
+      return playlist;
+    });
+    this.setState({
+      playlists: newPlaylists,
+      playlist_ids: newPlaylists.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
+    });
+  }
 
-  componentDidMount() {
-    console.log(`Loading Playlists: ${this.state.playlist_ids}`);
+  shuffleSelectedPlaylists() {
+    console.log(`Shuffling playlists with ids: ${this.state.playlist_ids}`)
     axios.post(AppConstants.APIEndpoints.SHUFFLE, {playlist_ids: this.state.playlist_ids})
     .then(response => {
       const songs = response.data.songs;
@@ -50,6 +63,18 @@ class ShufflePlayer extends React.Component {
       this.pickNextSong();
     })
     .catch((e) => console.log(`Couldn't retrieve playlist songs! ${e}`))
+  }
+
+  componentDidMount() {
+    axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
+    .then(response => {
+      console.log(response.data);
+      this.setState({
+        playlists: response.data,
+        playlist_ids: response.data.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
+      }, this.shuffleSelectedPlaylists)
+    })
+    .catch((e) => console.log(`Couldn't retrieve playlists! ${e}`))
   }
 
   render() {
@@ -67,9 +92,9 @@ class ShufflePlayer extends React.Component {
     return (
       <div>
         <Player videoId={this.state.currentVideoId} onEnd={this.pickNextSong} ></Player>
-        <button onClick={this.pickNextSong}>Shuffle Again</button>
+        <button onClick={this.shuffleSelectedPlaylists}>Shuffle Again</button>
         <VideoTitleDisplay title={this.state.currentTitle} style={videoTitleOpts} ></VideoTitleDisplay>
-        <PlaylistSelector style={playlistSelectorOpts}></PlaylistSelector>
+        <PlaylistSelector playlists={this.state.playlists} onChange={this.updateSelectedPlaylists} style={playlistSelectorOpts}></PlaylistSelector>
       </div>
     )
   }

@@ -25,31 +25,34 @@ class PlaylistSelector extends React.Component {
     }
 
     toggleCheckbox(playlist_id) {
-        const prevSelectedValue = !!this.state.checkedItems.get(playlist_id);
+        this.props.onChange(playlist_id);
+        // const prevSelectedValue = !!this.state.checkedItems.get(playlist_id);
 
-        this.setState(prevState => ({ 
-            checkedItems: prevState.checkedItems.set(playlist_id, !prevSelectedValue) 
-        }), () => {
-            console.log(this.state.checkedItems);
+        // this.setState(prevState => ({ 
+        //     checkedItems: prevState.checkedItems.set(playlist_id, !prevSelectedValue) 
+        // }), () => {
+        //     console.log(this.state.checkedItems);
             
-            const playlistIDs = 
-                Array.from(this.state.checkedItems)
-                .filter(playlist => playlist[1] == true)
-                .map(playlist => playlist[0])
-                .join(', ');
+        //     const playlistIDs = 
+        //         Array.from(this.state.checkedItems)
+        //         .filter(playlist => !!playlist[1] === true)
+        //         .map(playlist => playlist[0])
+        //         .join(', ');
 
-            console.log(playlistIDs);
-        });
+        //     console.log(playlistIDs);
+        // });
     }
 
     render() {
         return (
             <div id="playlistSelector" style={this.props.style}>
                 <div><b>Tracked Playlists</b></div>
-                {this.state.playlists.map(p =>
+                {this.props.playlists.map(p =>
                     <Checkbox
+                    key={p.playlist_id}
                     label={p.name}
                     value={p.playlist_id}
+                    checked={p.is_default}
                     handleCheckboxChange={this.toggleCheckbox}
                     />
                 )}

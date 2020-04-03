@@ -11,7 +11,7 @@ class Checkbox extends React.Component {
     }
 
     toggleCheckboxChange() {
-        this.setState({ isChecked: !this.state.isChecked });
+        //this.setState({ isChecked: !this.state.isChecked });
         this.props.handleCheckboxChange(this.props.value);
     }
 
@@ -23,7 +23,7 @@ class Checkbox extends React.Component {
                     <input 
                         type="checkbox"
                         value={this.props.value}
-                        checked={this.state.isChecked}
+                        checked={this.props.checked}
                         onChange={this.toggleCheckboxChange}
                     />
                     {this.props.label}
