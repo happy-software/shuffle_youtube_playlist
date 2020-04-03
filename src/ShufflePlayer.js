@@ -11,38 +11,47 @@ class ShufflePlayer extends React.Component {
     this.state = {
       videos: [],
       played_history: [],
-      playlist_ids: ["FL7B_s7wxX-D__fkTiYp3Oaw",            // Favorites
-                     "PL8g7AzKjYPsPZ5jy04jsKPhcpYdkmbCTe",  // Malayalam
-                     "PL8g7AzKjYPsOjSDrikmLU22NtJ5M2F65s",  // Inna
-                     "PL8g7AzKjYPsOCSWat1e3DjQ8UVj7G1zf1",  // KPop
-                     "PL8g7AzKjYPsNXA56I9GjB4hz3Z39NSrwN",  // Drum&Bass
-                     "PL8g7AzKjYPsNcw0KrijKocKW_Q7PgPEo9"], // PsyTrance
-      currentVideoId: '[waiting_to_load_video_lol]',
-      count: 0,
+      playlists: [],
+      playlist_ids: [],
       loadingResults: true,
       currentTitle: '',
+      currentVideoId: '[waiting_to_load_video_lol]',
     }
 
     this.pickNextSong = this.pickNextSong.bind(this);
+    this.updateSelectedPlaylists = this.updateSelectedPlaylists.bind(this);
+    this.shuffleSelectedPlaylists = this.shuffleSelectedPlaylists.bind(this);
   }
 
   pickNextSong(event) {
     const nextSong   = this.state.videos[Math.floor(Math.random()*this.state.videos.length)];
-    const nextSongId = nextSong.video_id;
-    const songCount  = this.state.played_history.length;
-
     this.setState({
-        currentVideoId: nextSongId, 
-        played_history: this.state.played_history.concat(nextSongId),
+        currentVideoId: nextSong.video_id, 
+        played_history: this.state.played_history.concat(nextSong.video_id),
         currentTitle:   nextSong.title,
-    });
+    });	
 
+    const songCount  = this.state.played_history.length;	
     console.log(`${songCount}: https://youtube.com/watch?v=${nextSongId}\t${nextSong.title}`);
   }
 
+  updateSelectedPlaylists(playlist_id) {
+    const newPlaylists = this.state.playlists.map(playlist => {
+      if (playlist.playlist_id === playlist_id) {
+        return {
+          ...playlist,
+          is_default: !playlist.is_default,
+        }
+      }
+      return playlist;
+    });
+    this.setState({
+      playlists: newPlaylists,
+      playlist_ids: newPlaylists.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
+    });
+  }
 
-  componentDidMount() {
-    console.log(`Loading Playlists: ${this.state.playlist_ids}`);
+  shuffleSelectedPlaylists() {
     axios.post(AppConstants.APIEndpoints.SHUFFLE, {playlist_ids: this.state.playlist_ids})
     .then(response => {
       const songs = response.data.songs;
@@ -52,10 +61,22 @@ class ShufflePlayer extends React.Component {
     .catch((e) => console.log(`Couldn't retrieve playlist songs! ${e}`))
   }
 
+  componentDidMount() {
+    axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
+    .then(response => {
+      this.setState({
+        playlists: response.data,
+        playlist_ids: response.data.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
+      }, this.shuffleSelectedPlaylists)
+    })
+    .catch((e) => console.log(`Couldn't retrieve playlists! ${e}`))
+  }
+
   render() {
     const videoTitleOpts = {
       color: 'pink',
       fontSize: 44,
+      textDecoration: 'none'
     };
 
     const playlistSelectorOpts = {
@@ -67,9 +88,9 @@ class ShufflePlayer extends React.Component {
     return (
       <div>
         <Player videoId={this.state.currentVideoId} onEnd={this.pickNextSong} ></Player>
-        <button onClick={this.pickNextSong}>Shuffle Again</button>
-        <VideoTitleDisplay title={this.state.currentTitle} style={videoTitleOpts} ></VideoTitleDisplay>
-        <PlaylistSelector style={playlistSelectorOpts}></PlaylistSelector>
+        <button onClick={this.shuffleSelectedPlaylists}>Shuffle Again</button>
+        <VideoTitleDisplay videoId={this.state.currentVideoId} title={this.state.currentTitle} style={videoTitleOpts} ></VideoTitleDisplay>
+        <PlaylistSelector playlists={this.state.playlists} onChange={this.updateSelectedPlaylists} style={playlistSelectorOpts}></PlaylistSelector>
       </div>
     )
   }
