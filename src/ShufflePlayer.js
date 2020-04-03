@@ -25,12 +25,14 @@ class ShufflePlayer extends React.Component {
 
   pickNextSong(event) {
     const nextSong   = this.state.videos[Math.floor(Math.random()*this.state.videos.length)];
-
     this.setState({
         currentVideoId: nextSong.video_id, 
         played_history: this.state.played_history.concat(nextSong.video_id),
         currentTitle:   nextSong.title,
-    });
+    });	
+
+    const songCount  = this.state.played_history.length;	
+    console.log(`${songCount}: https://youtube.com/watch?v=${nextSongId}\t${nextSong.title}`);
   }
 
   updateSelectedPlaylists(playlist_id) {
