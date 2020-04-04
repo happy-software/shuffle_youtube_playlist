@@ -2,6 +2,7 @@ import React from 'react';
 import AppConstants from './AppConstants';
 import Player from './Player';
 import PlaylistSelector from './PlaylistSelector';
+import VideoQueue from './VideoQueue';
 import VideoTitleDisplay from './VideoTitleDisplay';
 import axios from 'axios';
 
@@ -15,20 +16,24 @@ class ShufflePlayer extends React.Component {
       playlist_ids: [],
       loadingResults: true,
       currentTitle: '',
-      currentVideoId: '[waiting_to_load_video_lol]',
+      currentVideoId: '',
+      currentVideoIndex: -1
     }
 
-    this.pickNextSong = this.pickNextSong.bind(this);
+    this.pickNextSong = this.pickNextSong.bind(this);    
     this.updateSelectedPlaylists = this.updateSelectedPlaylists.bind(this);
+    this.getTrackedPlaylists = this.getTrackedPlaylists.bind(this);
     this.shuffleSelectedPlaylists = this.shuffleSelectedPlaylists.bind(this);
   }
 
   pickNextSong(event) {
-    const nextSong   = this.state.videos[Math.floor(Math.random()*this.state.videos.length)];
+    const nextSongIndex = (this.state.currentVideoIndex + 1) % this.state.videos.length;
+    const nextSong = this.state.videos[nextSongIndex];
     this.setState({
         currentVideoId: nextSong.video_id, 
         played_history: this.state.played_history.concat(nextSong.video_id),
         currentTitle:   nextSong.title,
+        currentVideoIndex: nextSongIndex,
     });	
 
     const songCount  = this.state.played_history.length;	
@@ -51,6 +56,17 @@ class ShufflePlayer extends React.Component {
     });
   }
 
+  getTrackedPlaylists() {
+    axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
+    .then(response => {
+      this.setState({
+        playlists: response.data,
+        playlist_ids: response.data.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
+      })
+    })
+    .catch((e) => console.log(`Couldn't retrieve playlists! ${e}`))
+  }
+
   shuffleSelectedPlaylists() {
     axios.post(AppConstants.APIEndpoints.SHUFFLE, {playlist_ids: this.state.playlist_ids})
     .then(response => {
@@ -62,22 +78,12 @@ class ShufflePlayer extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
-    .then(response => {
-      this.setState({
-        playlists: response.data,
-        playlist_ids: response.data.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
-      }, this.shuffleSelectedPlaylists)
-    })
-    .catch((e) => console.log(`Couldn't retrieve playlists! ${e}`))
+    this.shuffleSelectedPlaylists();
+    this.getTrackedPlaylists();
   }
 
   render() {
-    const videoTitleOpts = {
-      color: 'pink',
-      fontSize: 44,
-      textDecoration: 'none'
-    };
+    const videoTitleFontSize = 44;
 
     const playlistSelectorOpts = {
       color: 'pink',
@@ -85,12 +91,37 @@ class ShufflePlayer extends React.Component {
       borderStyle: 'solid'
     }
 
+    const videoQueueOpts = {
+      color: 'pink',
+      borderStyle: 'solid',
+      fontSize: 18,
+      display: 'block'
+    }
+
     return (
       <div>
-        <Player videoId={this.state.currentVideoId} onEnd={this.pickNextSong} ></Player>
-        <button onClick={this.shuffleSelectedPlaylists}>Shuffle Again</button>
-        <VideoTitleDisplay videoId={this.state.currentVideoId} title={this.state.currentTitle} style={videoTitleOpts} ></VideoTitleDisplay>
-        <PlaylistSelector playlists={this.state.playlists} onChange={this.updateSelectedPlaylists} style={playlistSelectorOpts}></PlaylistSelector>
+        <Player 
+          videoId={this.state.currentVideoId} 
+          onEnd={this.pickNextSong}
+        />
+        <button 
+          onClick={this.shuffleSelectedPlaylists}
+        >Shuffle Again</button>
+        <VideoTitleDisplay 
+          videoId={this.state.currentVideoId} 
+          title={this.state.currentTitle}
+          fontSize={videoTitleFontSize}
+        />
+        <PlaylistSelector 
+          playlists={this.state.playlists} 
+          onChange={this.updateSelectedPlaylists} 
+          style={playlistSelectorOpts}
+        />
+        <VideoQueue 
+          videos={this.state.videos} 
+          currentVideoIndex={this.state.currentVideoIndex} 
+          style={videoQueueOpts}
+        />
       </div>
     )
   }
