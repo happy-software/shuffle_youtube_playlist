@@ -29,11 +29,11 @@ class ShufflePlayer extends React.Component {
   pickNextSong(event) {
     const nextSongIndex = (this.state.currentVideoIndex + 1) % this.state.videos.length;
     const nextSong = this.state.videos[nextSongIndex];
-    this.setState({
-        currentVideoId: nextSong.video_id, 
-        played_history: this.state.played_history.concat(nextSong.video_id),
-        currentTitle:   nextSong.title,
-        currentVideoIndex: nextSongIndex,
+    this.setState({ 
+      currentVideoIndex: nextSongIndex,
+      currentVideoId: nextSong.video_id,
+      played_history: this.state.played_history.concat(nextSong.video_id),
+      currentTitle:   nextSong.title,
     });	
 
     const songCount  = this.state.played_history.length;	
@@ -83,45 +83,31 @@ class ShufflePlayer extends React.Component {
   }
 
   render() {
-    const videoTitleFontSize = 44;
-
-    const playlistSelectorOpts = {
-      color: 'pink',
-      fontSize: 22,
-      borderStyle: 'solid'
-    }
-
-    const videoQueueOpts = {
-      color: 'pink',
-      borderStyle: 'solid',
-      fontSize: 18,
-      display: 'block'
-    }
-
     return (
       <div>
         <Player 
           videoId={this.state.currentVideoId} 
           onEnd={this.pickNextSong}
         />
-        <button 
-          onClick={this.shuffleSelectedPlaylists}
-        >Shuffle Again</button>
         <VideoTitleDisplay 
+          key={this.state.currentVideoId}
           videoId={this.state.currentVideoId} 
           title={this.state.currentTitle}
-          fontSize={videoTitleFontSize}
+          className='currentVideoTitle' 
         />
-        <PlaylistSelector 
-          playlists={this.state.playlists} 
-          onChange={this.updateSelectedPlaylists} 
-          style={playlistSelectorOpts}
-        />
-        <VideoQueue 
-          videos={this.state.videos} 
-          currentVideoIndex={this.state.currentVideoIndex} 
-          style={videoQueueOpts}
-        />
+        <div className='contentRow'>
+          <PlaylistSelector 
+            playlists={this.state.playlists} 
+            onChange={this.updateSelectedPlaylists}
+            onShuffle={this.shuffleSelectedPlaylists}
+            className='playlistSelector'
+          />
+          <VideoQueue 
+            videos={this.state.videos} 
+            currentVideoIndex={this.state.currentVideoIndex}
+            className='videoQueue'
+          />
+        </div>
       </div>
     )
   }

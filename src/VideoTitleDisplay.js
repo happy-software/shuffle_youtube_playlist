@@ -1,26 +1,30 @@
 import React from 'react';
 
 class VideoTitleDisplay extends React.Component {
-  render() {
-    const videoTitleDisplayOpts = {
-      color: !!this.props.selected ? 'blue' : 'pink',
-      fontSize: this.props.fontSize ?? 22,
-      textDecoration: 'none',
-      display: this.props.collapsed? 'none' : 'block',
-    };
+  constructor(props){
+    super(props);
+    this.state = {
+      url: `https://youtube.com/watch?v=${this.props.videoId}`
+    }
+  }
 
-    console.log(this.props.key);
-    console.log(this.props.currentVideoIndex);
-    console.log(this.props.selected);
+  render() {
+    const titleOpts = {
+      flex: 1
+    }
+    const anchorOpts = {
+      paddingLeft: 3, 
+      flex: 0
+    }
+
 
     return(
-      <div id="videoTitleDisplay">
-        <a 
-          href={'https://youtube.com/watch?v=' + this.props.videoId} 
-          style={videoTitleDisplayOpts}
-        >
-          {this.props.title}
-        </a>
+      <div 
+        id="videoTitleDisplay" 
+        className={`${this.props.className}${this.props.selected?' selected':''}`}
+      >
+        <div style={titleOpts}>{this.props.title}</div>
+        <a style={anchorOpts} href={this.state.url}><img alt='Go to Youtube' src={'/arrow-up-right.svg'}></img></a>
       </div>
       );
   }
