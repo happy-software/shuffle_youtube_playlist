@@ -19,6 +19,8 @@ class Player extends React.Component {
   _onReady(event) {
     // access to player in all event handlers via `event.target`
     // event.target.pauseVideo();
+    //console.log(event.target.getVolume());
+    //https://developers.google.com/youtube/iframe_api_reference#Playback_controls
     console.log("Player ready");
   }
 }
