@@ -5,31 +5,36 @@ class VideoQueue extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-        collapsed: true
+      collapsed: true
     }
     this.toggleCollapsedState = this.toggleCollapsedState.bind(this)
   }
 
   toggleCollapsedState(){
-      this.setState({
-          collapsed: !this.state.collapsed
-      })
+    this.setState({
+      collapsed: !this.state.collapsed
+    })
   }
 
   render() {
     return (
-      <div id="playlistSelector" style={this.props.style}>
-        <div onClick={this.toggleCollapsedState}><b>Song Queue (click to Expand/Collapse)</b></div>
-        {this.props.videos.map((video, index) =>
-          <VideoTitleDisplay 
-            key={index}
-            fontSize={this.props.style.fontSize}
-            collapsed={this.state.collapsed}
-            selected={index === this.props.currentVideoIndex}
-            videoId={video.video_id} 
-            title={video.title}
-          />
-        )}
+      <div id="videoQueue" className={this.props.className}>
+        <div 
+          className={`${this.props.className}Title`} 
+          onClick={this.toggleCollapsedState}
+        ><b>Song Queue (click to Expand/Collapse)</b></div>
+
+        <div className={`videoQueueList ${this.state.collapsed?'hide':''}`}>
+          {this.props.videos.map((video, index) =>
+            <VideoTitleDisplay 
+              key={index}
+              selected={index === this.props.currentVideoIndex}
+              videoId={video.video_id} 
+              title={video.title}
+              className={`${this.props.className}Item`} 
+            />
+          )}
+        </div>
       </div>
     );
   }
