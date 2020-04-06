@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom";
 import ShufflePlayer from './ShufflePlayer';
+import TrackPlaylistForm from './TrackPlaylistForm';
 
 export default function AppRoot() {
   return(
@@ -13,7 +14,7 @@ export default function AppRoot() {
       <div>
         <Switch>
           <Route path="/track-new-playlist">
-            <h1>Route not set up yet</h1>
+            <TrackPlaylistForm />
           </Route>
           <Route path="/">
             <ShufflePlayer />
