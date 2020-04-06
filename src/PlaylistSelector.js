@@ -13,8 +13,9 @@ class PlaylistSelector extends React.Component {
 
   render() {
     return (
-      <div id="playlistSelector" style={this.props.style}>
+      <div id="playlistSelector" className={this.props.className}>
         <div><b>Tracked Playlists</b></div>
+        <button onClick={this.props.onShuffle}>Shuffle Again</button>
         {this.props.playlists.map(p =>
           <Checkbox
           key={p.playlist_id}

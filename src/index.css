@@ -1,0 +1,59 @@
+.currentVideoTitle {
+  color: pink;
+  font-size: 44px;
+  display: flex;
+}
+
+.contentRow {
+  display: flex;
+}
+
+.playlistSelector {
+  color: pink;
+  border: 1px solid pink;
+  padding: 4px;
+  font-size: 18px;
+  flex: 1;
+  overflow: auto;
+  max-height: 20em;
+}
+
+.videoQueue {
+  border: 1px solid pink;
+  flex: 1;
+  height: 20em;
+  display: flex;
+  flex-direction: column;
+}
+
+.videoQueueTitle {
+  padding: 4px;
+  flex: 1;
+  
+  font-size: 24px;
+  border: 2px solid pink;
+  text-emphasis: bold;
+  color: pink;
+}
+
+.videoQueueList {
+  flex: 9;
+  overflow-y: auto;
+}
+
+.videoQueueItem {
+  padding: 1px 3px;
+  font-size: 18px;
+  border-bottom: 1px solid pink;
+  color: pink;
+  display: flex;
+}
+
+.videoQueueItem.selected {
+    color: hotpink;
+}
+
+.hide {
+    display: none;
+}
+
