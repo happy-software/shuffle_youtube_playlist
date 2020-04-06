@@ -11,7 +11,7 @@ class ShufflePlayer extends React.Component {
     super(props);
     this.state = {
       videos: [],
-      played_history: [],
+      playedHistory: [],
       playlists: [],
       playlist_ids: [],
       loadingResults: true,
@@ -20,23 +20,24 @@ class ShufflePlayer extends React.Component {
       currentVideoIndex: -1
     }
 
-    this.pickNextSong = this.pickNextSong.bind(this);    
+    this.pickNextSong = this.pickNextSong.bind(this);
     this.updateSelectedPlaylists = this.updateSelectedPlaylists.bind(this);
     this.getTrackedPlaylists = this.getTrackedPlaylists.bind(this);
     this.shuffleSelectedPlaylists = this.shuffleSelectedPlaylists.bind(this);
   }
 
-  pickNextSong(event) {
-    const nextSongIndex = (this.state.currentVideoIndex + 1) % this.state.videos.length;
+  pickNextSong(event, videoIndex) {
+    var nextSongIndex = videoIndex || Math.floor(Math.random()*this.state.videos.length);
+    nextSongIndex %= this.state.videos.length;
     const nextSong = this.state.videos[nextSongIndex];
     this.setState({ 
       currentVideoIndex: nextSongIndex,
       currentVideoId: nextSong.video_id,
-      played_history: this.state.played_history.concat(nextSong.video_id),
+      playedHistory: this.state.playedHistory.concat(nextSong.video_id),
       currentTitle:   nextSong.title,
-    });	
+    });
 
-    const songCount  = this.state.played_history.length;	
+    const songCount  = this.state.playedHistory.length;	
     console.log(`${songCount}: https://youtube.com/watch?v=${nextSong.video_id}\t${nextSong.title}`);
   }
 
@@ -89,12 +90,18 @@ class ShufflePlayer extends React.Component {
           videoId={this.state.currentVideoId} 
           onEnd={this.pickNextSong}
         />
-        <VideoTitleDisplay 
-          key={this.state.currentVideoId}
-          videoId={this.state.currentVideoId} 
-          title={this.state.currentTitle}
-          className='currentVideoTitle' 
-        />
+        <div className='contentRow'>
+          <VideoTitleDisplay 
+            key={this.state.currentVideoId}
+            videoId={this.state.currentVideoId} 
+            title={this.state.currentTitle}
+            className='currentVideoTitle' 
+          />
+          <button 
+            onClick={this.pickNextSong}
+            className='nextSongButton'
+          >Next Song</button>
+        </div>
         <div className='contentRow'>
           <PlaylistSelector 
             playlists={this.state.playlists} 
@@ -105,6 +112,7 @@ class ShufflePlayer extends React.Component {
           <VideoQueue 
             videos={this.state.videos} 
             currentVideoIndex={this.state.currentVideoIndex}
+            onVideoClicked={this.pickNextSong}
             className='videoQueue'
           />
         </div>

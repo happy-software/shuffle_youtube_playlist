@@ -6,6 +6,11 @@ class VideoTitleDisplay extends React.Component {
     this.state = {
       url: `https://youtube.com/watch?v=${this.props.videoId}`
     }
+    this.clickEvent = this.clickEvent.bind(this);
+  }
+
+  clickEvent(){
+    this.props.videoClicked ? this.props.videoClicked(this.props.index) : console.log('😎');
   }
 
   render() {
@@ -21,6 +26,7 @@ class VideoTitleDisplay extends React.Component {
     return(
       <div 
         id="videoTitleDisplay" 
+        onClick={this.clickEvent}
         className={`${this.props.className}${this.props.selected?' selected':''}`}
       >
         <div style={titleOpts}>{this.props.title}</div>
