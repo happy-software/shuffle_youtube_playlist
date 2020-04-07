@@ -2,7 +2,7 @@ import React from 'react';
 import AppConstants from './AppConstants';
 import Player from './Player';
 import PlaylistSelector from './PlaylistSelector';
-import VideoQueue from './VideoQueue';
+import VideoPool from './VideoPool';
 import VideoTitleDisplay from './VideoTitleDisplay';
 import axios from 'axios';
 
@@ -17,28 +17,31 @@ class ShufflePlayer extends React.Component {
       loadingResults: true,
       currentTitle: '',
       currentVideoId: '',
-      currentVideoIndex: -1
     }
 
-    this.pickNextSong = this.pickNextSong.bind(this);
+    this.pickNextVideo = this.pickNextVideo.bind(this);
     this.updateSelectedPlaylists = this.updateSelectedPlaylists.bind(this);
     this.getTrackedPlaylists = this.getTrackedPlaylists.bind(this);
     this.shuffleSelectedPlaylists = this.shuffleSelectedPlaylists.bind(this);
   }
 
-  pickNextSong(event, videoIndex) {
-    var nextSongIndex = videoIndex || Math.floor(Math.random()*this.state.videos.length);
-    nextSongIndex %= this.state.videos.length;
-    const nextSong = this.state.videos[nextSongIndex];
+  pickNextVideo(event, videoId) {
+    let nextVideoIndex = -1;
+    if (videoId) {
+      nextVideoIndex = this.state.videos.findIndex(video => video.video_id === videoId);
+    } else {
+      nextVideoIndex = Math.floor(Math.random()*this.state.videos.length) % this.state.videos.length;
+    }
+    const nextVideo = this.state.videos[nextVideoIndex];
     this.setState({ 
-      currentVideoIndex: nextSongIndex,
-      currentVideoId: nextSong.video_id,
-      playedHistory: this.state.playedHistory.concat(nextSong.video_id),
-      currentTitle:   nextSong.title,
+      currentVideoIndex: nextVideoIndex,
+      currentVideoId: nextVideo.video_id,
+      playedHistory: this.state.playedHistory.concat(nextVideo),
+      currentTitle: nextVideo.title,
     });
 
-    const songCount  = this.state.playedHistory.length;	
-    console.log(`${songCount}: https://youtube.com/watch?v=${nextSong.video_id}\t${nextSong.title}`);
+    const videoCount  = this.state.playedHistory.length;	
+    console.log(`${videoCount}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
   }
 
   updateSelectedPlaylists(playlist_id) {
@@ -71,11 +74,11 @@ class ShufflePlayer extends React.Component {
   shuffleSelectedPlaylists() {
     axios.post(AppConstants.APIEndpoints.SHUFFLE, {playlist_ids: this.state.playlist_ids})
     .then(response => {
-      const songs = response.data.songs;
-      this.setState({videos: songs, loadingResults: false});
-      this.pickNextSong();
+      const videos = response.data.songs;
+      this.setState({videos: videos, loadingResults: false});
+      this.pickNextVideo();
     })
-    .catch((e) => console.log(`Couldn't retrieve playlist songs! ${e}`))
+    .catch((e) => console.log(`Couldn't retrieve playlist videos! ${e}`))
   }
 
   componentDidMount() {
@@ -88,7 +91,7 @@ class ShufflePlayer extends React.Component {
       <div>
         <Player 
           videoId={this.state.currentVideoId} 
-          onEnd={this.pickNextSong}
+          onEnd={this.pickNextVideo}
         />
         <div className='contentRow'>
           <VideoTitleDisplay 
@@ -98,9 +101,9 @@ class ShufflePlayer extends React.Component {
             className='currentVideoTitle' 
           />
           <button 
-            onClick={this.pickNextSong}
-            className='nextSongButton'
-          >Next Song</button>
+            onClick={this.pickNextVideo}
+            className='nextVideoButton'
+          >Next Video</button>
         </div>
         <div className='contentRow'>
           <PlaylistSelector 
@@ -109,11 +112,19 @@ class ShufflePlayer extends React.Component {
             onShuffle={this.shuffleSelectedPlaylists}
             className='playlistSelector'
           />
-          <VideoQueue 
+          <VideoPool 
+            title='Composed Playlist'
             videos={this.state.videos} 
-            currentVideoIndex={this.state.currentVideoIndex}
-            onVideoClicked={this.pickNextSong}
-            className='videoQueue'
+            currentVideoIndex={this.state.currentVideoId}
+            onVideoClicked={this.pickNextVideo}
+            className='videoPool'
+          />
+          <VideoPool 
+            title='Video History'
+            videos={this.state.playedHistory} 
+            currentVideoIndex={this.state.currentVideoId}
+            onVideoClicked={this.pickNextVideo}
+            className='videoPool'
           />
         </div>
       </div>

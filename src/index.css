@@ -19,7 +19,7 @@
   max-height: 20em;
 }
 
-.videoQueue {
+.videoPool {
   border: 1px solid pink;
   flex: 1;
   height: 20em;
@@ -27,7 +27,7 @@
   flex-direction: column;
 }
 
-.videoQueueTitle {
+.videoPoolTitle {
   padding: 4px;
   flex: 1;
   
@@ -37,12 +37,12 @@
   color: pink;
 }
 
-.videoQueueList {
+.videoPoolList {
   flex: 9;
   overflow-y: auto;
 }
 
-.videoQueueItem {
+.videoPoolItem {
   padding: 1px 3px;
   font-size: 18px;
   border-bottom: 1px solid pink;
@@ -50,7 +50,7 @@
   display: flex;
 }
 
-.videoQueueItem.selected {
+.videoPoolItem.selected {
   color: hotpink;
 }
 
@@ -58,7 +58,7 @@
   display: none;
 }
 
-.nextSongButton {
+.nextVideoButton {
   flex: 1;
   width: 40px;
   height: 30px;

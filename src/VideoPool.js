@@ -1,7 +1,7 @@
 import React from 'react';
 import VideoTitleDisplay from './VideoTitleDisplay';
 
-class VideoQueue extends React.Component {
+class VideoPool extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -17,24 +17,24 @@ class VideoQueue extends React.Component {
     })
   }
 
-  videoClicked(index){
-    this.props.onVideoClicked(null, index);
+  videoClicked(videoId){
+    this.props.onVideoClicked(null, videoId);
   }
 
   render() {
     return (
-      <div id="videoQueue" className={this.props.className}>
+      <div className={this.props.className}>
         <div 
           className={`${this.props.className}Title`} 
           onClick={this.toggleCollapsedState}
-        ><b>Song Pool (click to Expand/Collapse)</b></div>
+        ><b>{this.props.title} (Expand/Collapse)</b></div>
 
-        <div className={`videoQueueList ${this.state.collapsed?'hide':''}`}>
+        <div className={`${this.props.className}List ${this.state.collapsed?'hide':''}`}>
           {this.props.videos.map((video, index) =>
             <VideoTitleDisplay 
               key={index}
               index={index}
-              selected={index === this.props.currentVideoIndex}
+              selected={video.video_id === this.props.currentVideoIndex}
               videoId={video.video_id} 
               title={video.title}
               videoClicked={this.videoClicked}
@@ -47,4 +47,4 @@ class VideoQueue extends React.Component {
   }
 }
 
-export default VideoQueue;
+export default VideoPool;

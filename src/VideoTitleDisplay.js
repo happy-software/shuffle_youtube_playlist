@@ -10,7 +10,7 @@ class VideoTitleDisplay extends React.Component {
   }
 
   clickEvent(){
-    this.props.videoClicked ? this.props.videoClicked(this.props.index) : console.log('😎');
+    this.props.videoClicked ? this.props.videoClicked(this.props.videoId) : console.log('😎');
   }
 
   render() {
