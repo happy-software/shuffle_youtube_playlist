@@ -5,7 +5,7 @@ class VideoPool extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      collapsed: true
+      collapsed: this.props.isCollapsedDefault
     }
     this.toggleCollapsedState = this.toggleCollapsedState.bind(this)
     this.videoClicked = this.videoClicked.bind(this)

@@ -116,12 +116,14 @@ class ShufflePlayer extends React.Component {
             title='Composed Playlist'
             videos={this.state.videos} 
             currentVideoIndex={this.state.currentVideoId}
+            isCollapsedDefault={true}
             onVideoClicked={this.pickNextVideo}
             className='videoPool'
           />
           <VideoPool 
             title='Video History'
             videos={this.state.playedHistory} 
+            isCollapsedDefault={false}
             currentVideoIndex={this.state.currentVideoId}
             onVideoClicked={this.pickNextVideo}
             className='videoPool'
