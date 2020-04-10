@@ -4,11 +4,24 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-signin-client_id" content="163518975286-qq3jsj4r63rkibjcdie6494e77r006g3.apps.googleusercontent.com">
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Hebron's Youtube Shuffler" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
     <title>Shuffle Youtube Playlists</title>
+    <script src="https://apis.google.com/js/platform.js?onload=triggerGoogleLoaded" async defer></script>
+    <script type="text/javascript">
+        function triggerGoogleLoaded() {
+          console.log("google event loaded");
+            gapi.load('auth2', () => {
+                gapi.auth2.init().then(() => {
+                    // DO NOT ATTEMPT TO RENDER BUTTON UNTIL THE 'Init' PROMISE RETURNS
+                    window.dispatchEvent(new Event('google-loaded'));
+                });
+            });
+        }
+    </script>
   </head>
   <body background="background.jpeg">
     <noscript>You need to enable JavaScript to run this app. Sorry.</noscript>

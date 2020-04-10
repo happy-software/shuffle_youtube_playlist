@@ -5,6 +5,7 @@ import PlaylistSelector from './PlaylistSelector';
 import VideoPool from './VideoPool';
 import VideoTitleDisplay from './VideoTitleDisplay';
 import axios from 'axios';
+import LoginButton from './LoginButton';
 
 class ShufflePlayer extends React.Component {
   constructor(props) {
@@ -100,6 +101,7 @@ class ShufflePlayer extends React.Component {
             title={this.state.currentTitle}
             className='currentVideoTitle' 
           />
+          <LoginButton />
           <button 
             onClick={this.pickNextVideo}
             className='nextVideoButton'
