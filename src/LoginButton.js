@@ -22,17 +22,16 @@ class LoginButton extends React.Component {
     this.toggleLoggedIn();
 
     let user = googleUser.getBasicProfile();
-    let id_token = googleUser.getAuthResponse().id_token;
+    let access_token = googleUser.tc.access_token;
 
-    console.log('google user obj', user);
-    console.log('google_id_token', id_token);
+    this.props.isSignedIn(user, access_token);
     // plus any other logic here
   };
 
   renderGoogleLoginButton() {
     console.log('rendering google signin button');
     window.gapi.signin2.render('my-signin2', {
-      scope: 'profile email',
+      scope: 'https://www.googleapis.com/auth/youtube',
       width: 250,
       height: 40,
       longtitle: true,

@@ -22,6 +22,7 @@ class ShufflePlayer extends React.Component {
 
     this.pickNextVideo = this.pickNextVideo.bind(this);
     this.updateSelectedPlaylists = this.updateSelectedPlaylists.bind(this);
+    this.getUserPlaylists = this.getUserPlaylists.bind(this);
     this.getTrackedPlaylists = this.getTrackedPlaylists.bind(this);
     this.shuffleSelectedPlaylists = this.shuffleSelectedPlaylists.bind(this);
   }
@@ -61,6 +62,20 @@ class ShufflePlayer extends React.Component {
     });
   }
 
+  getUserPlaylists(user, access_token) {
+    if(!this.state.locked){
+      this.setState({ locked: true }, () => {
+        axios.get(AppConstants.APIEndpoints.YOUTUBE_PLAYLISTS, {
+          headers: { Authorization: "Bearer " + access_token },
+          params: { part: 'id', mine: true }
+        })
+        .then(response => console.log(response))
+        .catch(e => console.log(`Couldn't retrieve user playlists! ${e}`))
+        .finally(this.setState({ locked: false }))
+      })
+    }
+  }
+
   getTrackedPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
     .then(response => {
@@ -69,7 +84,7 @@ class ShufflePlayer extends React.Component {
         playlist_ids: response.data.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
       })
     })
-    .catch((e) => console.log(`Couldn't retrieve playlists! ${e}`))
+    .catch((e) => console.log(`Couldn't retrieve tracked playlists! ${e}`))
   }
 
   shuffleSelectedPlaylists() {
@@ -101,7 +116,7 @@ class ShufflePlayer extends React.Component {
             title={this.state.currentTitle}
             className='currentVideoTitle' 
           />
-          <LoginButton />
+          <LoginButton isSignedIn={this.getUserPlaylists} />
           <button 
             onClick={this.pickNextVideo}
             className='nextVideoButton'
