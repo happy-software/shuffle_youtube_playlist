@@ -1,10 +1,11 @@
 import React from 'react';
 import Checkbox from './Checkbox';
+import { Link } from 'react-router-dom'
 
 class PlaylistSelector extends React.Component {
   constructor(props) {
     super(props);
-    this.toggleCheckbox = this.toggleCheckbox.bind(this);
+    this.toggleCheckbox   = this.toggleCheckbox.bind(this);
   }
 
   toggleCheckbox(playlist_id) {
@@ -25,6 +26,7 @@ class PlaylistSelector extends React.Component {
           handleCheckboxChange={this.toggleCheckbox}
           />
         )}
+        <Link to="/track-new-playlist">Track New Playlist</Link>
       </div>
     );
   }
