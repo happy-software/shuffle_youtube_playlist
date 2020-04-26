@@ -113,7 +113,7 @@ function ShufflePlayer(props) {
       <div className='contentRow'>
         <PlaylistSelector 
           playlists={playlists} 
-          onChange={() => updateSelectedPlaylists()}
+          onChange={(playlist_id) => updateSelectedPlaylists(playlist_id)}
           onShuffle={() => getComposedPlaylist()}
           className='playlistSelector'
         />
