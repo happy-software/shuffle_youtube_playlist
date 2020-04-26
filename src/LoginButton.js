@@ -29,7 +29,6 @@ class LoginButton extends React.Component {
   };
 
   renderGoogleLoginButton() {
-    console.log('rendering google signin button');
     window.gapi.signin2.render('my-signin2', {
       scope: 'https://www.googleapis.com/auth/youtube',
       width: 250,
@@ -41,8 +40,6 @@ class LoginButton extends React.Component {
   };
 
   logout() {
-    console.log('in logout');
-
     let auth2 = window.gapi && window.gapi.auth2.getAuthInstance();
     if (auth2) {
       auth2

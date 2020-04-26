@@ -1,50 +1,38 @@
 import React from 'react';
 import VideoTitleDisplay from './VideoTitleDisplay';
 
-class VideoPool extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      collapsed: this.props.isCollapsedDefault
-    }
-    this.toggleCollapsedState = this.toggleCollapsedState.bind(this)
-    this.videoClicked = this.videoClicked.bind(this)
+function VideoPool(props) {
+
+  function toggleCollapsedState() {
+    props.setCollapsed(!props.collapsed)
   }
 
-  toggleCollapsedState(){
-    this.setState({
-      collapsed: !this.state.collapsed
-    })
+  function videoClicked(videoId) {
+    props.onVideoClicked(null, videoId);
   }
 
-  videoClicked(videoId){
-    this.props.onVideoClicked(null, videoId);
-  }
+  return (
+    <div className={props.className}>
+      <div 
+        className={`${props.className}Title`} 
+        onClick={() => toggleCollapsedState()}
+      ><b>{props.title} (Expand/Collapse)</b></div>
 
-  render() {
-    return (
-      <div className={this.props.className}>
-        <div 
-          className={`${this.props.className}Title`} 
-          onClick={this.toggleCollapsedState}
-        ><b>{this.props.title} (Expand/Collapse)</b></div>
-
-        <div className={`${this.props.className}List ${this.state.collapsed?'hide':''}`}>
-          {this.props.videos.map((video, index) =>
-            <VideoTitleDisplay 
-              key={index}
-              index={index}
-              selected={video.video_id === this.props.currentVideoIndex}
-              videoId={video.video_id} 
-              title={video.title}
-              videoClicked={this.videoClicked}
-              className={`${this.props.className}Item`} 
-            />
-          )}
-        </div>
+      <div className={`${props.className}List ${props.collapsed?'hide':''}`}>
+        {props.videos.map((video, index) =>
+          <VideoTitleDisplay 
+            key={index}
+            index={index}
+            selected={video.video_id === props.currentVideoIndex}
+            videoId={video.video_id} 
+            title={video.title}
+            videoClicked={() => videoClicked()}
+            className={`${props.className}Item`} 
+          />
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default VideoPool;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import AppConstants from './AppConstants';
 import Player from './Player';
 import PlaylistSelector from './PlaylistSelector';
@@ -7,148 +7,137 @@ import VideoTitleDisplay from './VideoTitleDisplay';
 import axios from 'axios';
 import LoginButton from './LoginButton';
 
-class ShufflePlayer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      videos: [],
-      playedHistory: [],
-      playlists: [],
-      playlist_ids: [],
-      loadingResults: true,
-      currentTitle: '',
-      currentVideoId: '',
-    }
+function ShufflePlayer(props) {
+  const [videos, setVideos] = useState([]);
+  const [playedHistory, setPlayedHistory] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
+  const [playlistIds, setPlaylistIds] = useState([]);
+  const [currentTitle, setCurrentTitle] = useState('');
+  const [currentVideoId, setCurrentVideoId] = useState('');
+  const [videoPoolCollapsed, setVideoPoolCollapsed] = useState(true);
+  const [videoHistoryPoolCollapsed, setVideoHistoryPoolCollapsed] = useState(false);
+  const [locked, setLocked] = useState(false);
 
-    this.pickNextVideo = this.pickNextVideo.bind(this);
-    this.updateSelectedPlaylists = this.updateSelectedPlaylists.bind(this);
-    this.getUserPlaylists = this.getUserPlaylists.bind(this);
-    this.getTrackedPlaylists = this.getTrackedPlaylists.bind(this);
-    this.shuffleSelectedPlaylists = this.shuffleSelectedPlaylists.bind(this);
-  }
-
-  pickNextVideo(event, videoId) {
-    let nextVideoIndex = -1;
-    if (videoId) {
-      nextVideoIndex = this.state.videos.findIndex(video => video.video_id === videoId);
-    } else {
-      nextVideoIndex = Math.floor(Math.random()*this.state.videos.length) % this.state.videos.length;
-    }
-    const nextVideo = this.state.videos[nextVideoIndex];
-    this.setState({ 
-      currentVideoIndex: nextVideoIndex,
-      currentVideoId: nextVideo.video_id,
-      playedHistory: this.state.playedHistory.concat(nextVideo),
-      currentTitle: nextVideo.title,
-    });
-
-    const videoCount  = this.state.playedHistory.length;	
-    console.log(`${videoCount}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
-  }
-
-  updateSelectedPlaylists(playlist_id) {
-    const newPlaylists = this.state.playlists.map(playlist => {
-      if (playlist.playlist_id === playlist_id) {
+  function updateSelectedPlaylists(playlist_id) {
+    const newPlaylists = playlists.map(p => {
+      if (p.playlist_id === playlist_id) { 
         return {
-          ...playlist,
-          is_default: !playlist.is_default,
+          ...p,
+          is_default: !p.is_default,
         }
       }
-      return playlist;
+      return p;
     });
-    this.setState({
-      playlists: newPlaylists,
-      playlist_ids: newPlaylists.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
-    });
+    setPlaylists(newPlaylists);
+    setPlaylistIds(newPlaylists.filter(p => p.is_default).map(p => p.playlist_id));
   }
 
-  getUserPlaylists(user, access_token) {
-    if(!this.state.locked){
-      this.setState({ locked: true }, () => {
-        axios.get(AppConstants.APIEndpoints.YOUTUBE_PLAYLISTS, {
-          headers: { Authorization: "Bearer " + access_token },
-          params: { part: 'id', mine: true }
-        })
-        .then(response => console.log(response))
-        .catch(e => console.log(`Couldn't retrieve user playlists! ${e}`))
-        .finally(this.setState({ locked: false }))
+  function getUserPlaylists(user, access_token) {
+    if(!locked){
+      setLocked(true);
+      axios.get(AppConstants.APIEndpoints.YOUTUBE_PLAYLISTS, {
+        headers: { Authorization: "Bearer " + access_token },
+        params: { part: 'id', mine: true }
       })
+      .then(response => console.log(response))
+      .catch(e => console.log(`Couldn't retrieve user playlists! ${e}`))
+      .finally(setLocked(false))
     }
   }
 
-  getTrackedPlaylists() {
+  function getTrackedPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
     .then(response => {
-      this.setState({
-        playlists: response.data,
-        playlist_ids: response.data.filter(playlist => playlist.is_default).map(playlist => playlist.playlist_id),
-      })
+      setPlaylists(response.data)
+      setPlaylistIds(response.data.filter(p => p.is_default).map(p => p.playlist_id));
     })
     .catch((e) => console.log(`Couldn't retrieve tracked playlists! ${e}`))
   }
 
-  shuffleSelectedPlaylists() {
-    axios.post(AppConstants.APIEndpoints.SHUFFLE, {playlist_ids: this.state.playlist_ids})
+  function getComposedPlaylist() {
+    const body = {
+      playlistIds: playlistIds
+    }
+    axios.post(AppConstants.APIEndpoints.SHUFFLE, body)
     .then(response => {
-      const videos = response.data.songs;
-      this.setState({videos: videos, loadingResults: false});
-      this.pickNextVideo();
+      setVideos(response.data.songs);
     })
     .catch((e) => console.log(`Couldn't retrieve playlist videos! ${e}`))
   }
 
-  componentDidMount() {
-    this.shuffleSelectedPlaylists();
-    this.getTrackedPlaylists();
+  function pickNextVideo(event, videoId) {
+    if (!Array.isArray(videos) || !videos.length) return;
+
+    var nextVideo = null;
+    if (!!videoId) {
+      nextVideo = videos[videos.findIndex(v => v.video_id === videoId)]
+    } else {
+      nextVideo = videos[Math.floor(Math.random()*videos.length) % videos.length];
+      setCurrentVideoId(nextVideo.video_id);
+    }
+
+    setCurrentTitle(nextVideo.title);
+    setPlayedHistory(playedHistory.concat(nextVideo))
+
+    console.log(`${playedHistory.length}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
   }
 
-  render() {
-    return (
-      <div>
-        <Player 
-          videoId={this.state.currentVideoId} 
-          onEnd={this.pickNextVideo}
+  useEffect(() => {
+    getComposedPlaylist();
+    getTrackedPlaylists();
+  }, []);
+
+  useEffect(() => { 
+    pickNextVideo();
+  }, [videos])
+
+  return (
+    <div>
+      <Player 
+        videoId={currentVideoId} 
+        onEnd={() => pickNextVideo()}
+      />
+      <div className='contentRow'>
+        <VideoTitleDisplay 
+          key={currentVideoId}
+          videoId={currentVideoId} 
+          title={currentTitle}
+          className='currentVideoTitle' 
         />
-        <div className='contentRow'>
-          <VideoTitleDisplay 
-            key={this.state.currentVideoId}
-            videoId={this.state.currentVideoId} 
-            title={this.state.currentTitle}
-            className='currentVideoTitle' 
-          />
-          <LoginButton isSignedIn={this.getUserPlaylists} />
-          <button 
-            onClick={this.pickNextVideo}
-            className='nextVideoButton'
-          >Next Video</button>
-        </div>
-        <div className='contentRow'>
-          <PlaylistSelector 
-            playlists={this.state.playlists} 
-            onChange={this.updateSelectedPlaylists}
-            onShuffle={this.shuffleSelectedPlaylists}
-            className='playlistSelector'
-          />
-          <VideoPool 
-            title='Composed Playlist'
-            videos={this.state.videos} 
-            currentVideoIndex={this.state.currentVideoId}
-            isCollapsedDefault={true}
-            onVideoClicked={this.pickNextVideo}
-            className='videoPool'
-          />
-          <VideoPool 
-            title='Video History'
-            videos={this.state.playedHistory} 
-            isCollapsedDefault={false}
-            currentVideoIndex={this.state.currentVideoId}
-            onVideoClicked={this.pickNextVideo}
-            className='videoPool'
-          />
-        </div>
+        <LoginButton isSignedIn={() => getUserPlaylists()} />
+        <button 
+          onClick={() => pickNextVideo()}
+          className='nextVideoButton'
+        >Next Video</button>
       </div>
-    )
-  }
+      <div className='contentRow'>
+        <PlaylistSelector 
+          playlists={playlists} 
+          onChange={() => updateSelectedPlaylists()}
+          onShuffle={() => getComposedPlaylist()}
+          className='playlistSelector'
+        />
+        <VideoPool 
+          title='Composed Playlist'
+          videos={videos} 
+          currentVideoIndex={currentVideoId}
+          collapsed={videoPoolCollapsed}
+          setCollapsed={setVideoPoolCollapsed}
+          onVideoClicked={() => pickNextVideo()}
+          className='videoPool'
+        />
+        <VideoPool 
+          title='Video History'
+          videos={playedHistory} 
+          collapsed={videoHistoryPoolCollapsed}
+          setCollapsed={setVideoHistoryPoolCollapsed}
+          currentVideoIndex={currentVideoId}
+          onVideoClicked={() => pickNextVideo()}
+          className='videoPool'
+        />
+      </div>
+    </div>
+  )
 }
 
 export default ShufflePlayer;
