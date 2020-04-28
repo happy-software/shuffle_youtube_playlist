@@ -18,6 +18,10 @@ function ShufflePlayer(props) {
   const [videoHistoryPoolCollapsed, setVideoHistoryPoolCollapsed] = useState(false);
   const [locked, setLocked] = useState(false);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({});
+  const [accessToken, setAccessToken] = useState('');
+
   function updateSelectedPlaylists(playlist_id) {
     const newPlaylists = playlists.map(p => {
       if (p.playlist_id === playlist_id) { 
@@ -91,6 +95,10 @@ function ShufflePlayer(props) {
     pickNextVideo();
   }, [videos])
 
+  useEffect(() => {
+    getUserPlaylists()
+  }, [isLoggedIn])
+
   return (
     <div>
       <Player 
@@ -104,7 +112,12 @@ function ShufflePlayer(props) {
           title={currentTitle}
           className='currentVideoTitle' 
         />
-        <LoginButton isSignedIn={() => getUserPlaylists()} />
+        <LoginButton 
+          isLoggedIn = {isLoggedIn}
+          setIsLoggedIn = {setIsLoggedIn}
+          setUser = {setUser}
+          setAccessToken = {setAccessToken}
+        />
         <button 
           onClick={() => pickNextVideo()}
           className='nextVideoButton'
