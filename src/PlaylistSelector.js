@@ -17,7 +17,7 @@ function PlaylistSelector(props) {
         label={p.name}
         value={p.playlist_id}
         checked={p.is_default}
-        handleCheckboxChange={() => toggleCheckbox()}
+        handleCheckboxChange={(playlist_id) => toggleCheckbox(playlist_id)}
         />
       )}
       <Link to="/track-new-playlist">Track New Playlist</Link>
