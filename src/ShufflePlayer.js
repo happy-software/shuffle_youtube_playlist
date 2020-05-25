@@ -69,7 +69,7 @@ function ShufflePlayer(props) {
     .catch((e) => console.log(`Couldn't retrieve playlist videos! ${e}`))
   }
 
-  function pickNextVideo(event, videoId) {
+  function pickNextVideo(videoId) {
     if (!Array.isArray(videos) || !videos.length) return;
 
     var nextVideo = null;
@@ -77,9 +77,9 @@ function ShufflePlayer(props) {
       nextVideo = videos[videos.findIndex(v => v.video_id === videoId)]
     } else {
       nextVideo = videos[Math.floor(Math.random()*videos.length) % videos.length];
-      setCurrentVideoId(nextVideo.video_id);
     }
 
+    setCurrentVideoId(nextVideo.video_id);
     setCurrentTitle(nextVideo.title);
     setPlayedHistory(playedHistory.concat(nextVideo))
 
@@ -136,7 +136,7 @@ function ShufflePlayer(props) {
           currentVideoIndex={currentVideoId}
           collapsed={videoPoolCollapsed}
           setCollapsed={setVideoPoolCollapsed}
-          onVideoClicked={() => pickNextVideo()}
+          onVideoClicked={(videoId) => pickNextVideo(videoId)}
           className='videoPool'
         />
         <VideoPool 
@@ -145,7 +145,7 @@ function ShufflePlayer(props) {
           collapsed={videoHistoryPoolCollapsed}
           setCollapsed={setVideoHistoryPoolCollapsed}
           currentVideoIndex={currentVideoId}
-          onVideoClicked={() => pickNextVideo()}
+          onVideoClicked={(videoId) => pickNextVideo(videoId)}
           className='videoPool'
         />
       </div>

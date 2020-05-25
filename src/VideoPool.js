@@ -8,7 +8,7 @@ function VideoPool(props) {
   }
 
   function videoClicked(videoId) {
-    props.onVideoClicked(null, videoId);
+    props.onVideoClicked(videoId);
   }
 
   return (
@@ -26,7 +26,7 @@ function VideoPool(props) {
             selected={video.video_id === props.currentVideoIndex}
             videoId={video.video_id} 
             title={video.title}
-            videoClicked={() => videoClicked()}
+            videoClicked={(videoId) => videoClicked(videoId)}
             className={`${props.className}Item`} 
           />
         )}
