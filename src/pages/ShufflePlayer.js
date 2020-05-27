@@ -1,11 +1,11 @@
 import React, { useState, useEffect }  from 'react';
-import AppConstants from './AppConstants';
-import Player from './Player';
-import PlaylistSelector from './PlaylistSelector';
-import VideoPool from './VideoPool';
-import VideoTitleDisplay from './VideoTitleDisplay';
 import axios from 'axios';
-import LoginButton from './LoginButton';
+import AppConstants from '../AppConstants';
+import LoginButton from '../components/LoginButton';
+import Player from '../components/Player';
+import PlaylistSelector from '../components/PlaylistSelector';
+import VideoPool from '../components/VideoPool';
+import VideoTitleDisplay from '../components/VideoTitleDisplay';
 
 function ShufflePlayer(props) {
   const [videos, setVideos] = useState([]);
@@ -22,7 +22,7 @@ function ShufflePlayer(props) {
   const [user, setUser] = useState({});
   const [accessToken, setAccessToken] = useState('');
 
-  function updateSelectedPlaylists(playlist_id) {
+  function updateSelectedPlaylists(playlist_id,selected) {
     const newPlaylists = playlists.map(p => {
       if (p.playlist_id === playlist_id) { 
         return {
@@ -36,9 +36,22 @@ function ShufflePlayer(props) {
     setPlaylistIds(newPlaylists.filter(p => p.is_default).map(p => p.playlist_id));
   }
 
-  function getUserPlaylists(user, access_token) {
+  function onSelectNone() {
+    const newPlaylists = playlists.map(p => {
+      return {
+        ...p,
+        is_default: false,
+      }
+    });
+    setPlaylists(newPlaylists);
+    setPlaylistIds([]);
+  }
+
+  function getUserPlaylists(googleUser, access_token) {
     if(!locked){
       setLocked(true);
+      console.log(user);
+      console.log(accessToken);
       axios.get(AppConstants.APIEndpoints.YOUTUBE_PLAYLISTS, {
         headers: { Authorization: "Bearer " + access_token },
         params: { part: 'id', mine: true }
@@ -60,7 +73,7 @@ function ShufflePlayer(props) {
 
   function getComposedPlaylist() {
     const body = {
-      playlistIds: playlistIds
+      playlist_ids: playlistIds
     }
     axios.post(AppConstants.APIEndpoints.SHUFFLE, body)
     .then(response => {
@@ -86,18 +99,10 @@ function ShufflePlayer(props) {
     console.log(`${playedHistory.length}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
   }
 
-  useEffect(() => {
-    getComposedPlaylist();
-    getTrackedPlaylists();
-  }, []);
-
-  useEffect(() => { 
-    pickNextVideo();
-  }, [videos])
-
-  useEffect(() => {
-    getUserPlaylists()
-  }, [isLoggedIn])
+  useEffect(getComposedPlaylist, []);
+  useEffect(getTrackedPlaylists, []);
+  useEffect(pickNextVideo, [videos]);
+  useEffect(getUserPlaylists, [isLoggedIn]);
 
   return (
     <div>
@@ -126,8 +131,9 @@ function ShufflePlayer(props) {
       <div className='contentRow'>
         <PlaylistSelector 
           playlists={playlists} 
-          onChange={(playlist_id) => updateSelectedPlaylists(playlist_id)}
+          onCheckboxChange={(playlist_id) => updateSelectedPlaylists(playlist_id)}
           onShuffle={() => getComposedPlaylist()}
+          onSelectNone={() => onSelectNone()}
           className='playlistSelector'
         />
         <VideoPool 

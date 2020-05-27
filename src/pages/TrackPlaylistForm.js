@@ -1,7 +1,7 @@
 import React from "react";
-import AppConstants from './AppConstants';
 import {Redirect} from 'react-router-dom'
 import axios from 'axios';
+import AppConstants from '../AppConstants';
 
 class TrackPlaylistForm extends React.Component {
   constructor(props) {

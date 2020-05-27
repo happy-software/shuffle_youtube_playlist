@@ -2,20 +2,11 @@ import React from 'react';
 import VideoTitleDisplay from './VideoTitleDisplay';
 
 function VideoPool(props) {
-
-  function toggleCollapsedState() {
-    props.setCollapsed(!props.collapsed)
-  }
-
-  function videoClicked(videoId) {
-    props.onVideoClicked(videoId);
-  }
-
   return (
     <div className={props.className}>
       <div 
         className={`${props.className}Title`} 
-        onClick={() => toggleCollapsedState()}
+        onClick={() => props.setCollapsed(!props.collapsed)}
       ><b>{props.title} (Expand/Collapse)</b></div>
 
       <div className={`${props.className}List ${props.collapsed?'hide':''}`}>
@@ -26,7 +17,7 @@ function VideoPool(props) {
             selected={video.video_id === props.currentVideoIndex}
             videoId={video.video_id} 
             title={video.title}
-            videoClicked={(videoId) => videoClicked(videoId)}
+            onVideoClicked={(videoId) => props.onVideoClicked(videoId)}
             className={`${props.className}Item`} 
           />
         )}

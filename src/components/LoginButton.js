@@ -34,10 +34,12 @@ function LoginButton(props) {
     }
   };
 
-  useEffect(() => {
+  function onLoad() {
     window.addEventListener('google-loaded', renderGoogleLoginButton);
     window.gapi && renderGoogleLoginButton();
-  }, [])
+  }
+
+  useEffect(onLoad, [])
 
   return (
     <div>

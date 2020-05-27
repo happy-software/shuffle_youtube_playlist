@@ -3,10 +3,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  //Link
 } from "react-router-dom";
-import ShufflePlayer from './ShufflePlayer';
-import TrackPlaylistForm from './TrackPlaylistForm';
+import ShufflePlayer from './pages/ShufflePlayer';
+import TrackPlaylistForm from './pages/TrackPlaylistForm';
 
 export default function AppRoot() {
   return(
