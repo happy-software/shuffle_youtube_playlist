@@ -24,7 +24,12 @@ function VideoTitleDisplay(props) {
       className={`${props.className}${props.selected?' selected':''}`}
     >
       <div style={titleOpts}>{props.title}</div>
-      <a style={anchorOpts} href={`https://youtube.com/watch?v=${props.videoId}`}>
+      <a 
+        style={anchorOpts} 
+        href={`https://youtube.com/watch?v=${props.videoId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <img alt='Go to Youtube' src={'/arrow-up-right.svg'}></img>
       </a>
     </div>

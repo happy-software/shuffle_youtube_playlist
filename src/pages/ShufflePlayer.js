@@ -1,158 +1,124 @@
 import React, { useState, useEffect }  from 'react';
 import axios from 'axios';
 import AppConstants from '../AppConstants';
-import LoginButton from '../components/LoginButton';
+import ButtonList from '../components/ButtonList';
 import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
 import VideoPool from '../components/VideoPool';
 import VideoTitleDisplay from '../components/VideoTitleDisplay';
 
 function ShufflePlayer(props) {
-  const [videos, setVideos] = useState([]);
-  const [playedHistory, setPlayedHistory] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
-  const [playlistIds, setPlaylistIds] = useState([]);
-  const [currentTitle, setCurrentTitle] = useState('');
-  const [currentVideoId, setCurrentVideoId] = useState('');
-  const [videoPoolCollapsed, setVideoPoolCollapsed] = useState(true);
-  const [videoHistoryPoolCollapsed, setVideoHistoryPoolCollapsed] = useState(false);
-  const [locked, setLocked] = useState(false);
+  const [loadedPlaylists, setLoadedPlaylists] = useState([]);
+  const [loadedVideos, setLoadedVideos] = useState([]);
+  const [currentVideo, setCurrentVideo] = useState({});
+  const [playedVideos, setPlayedVideos] = useState([]);
+  const [googleState, setGoogleState] = useState({
+    apiRequestLock: false,
+    isLoggedIn: false,
+    user: '',
+    accessToken: '',
+  })
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({});
-  const [accessToken, setAccessToken] = useState('');
+  function loadPlaylists() {
+    axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
+    .then(response => setLoadedPlaylists(response.data))
+    .catch(error => console.log(`Couldn't retrieve tracked playlists! ${error}`))
+  }
 
-  function updateSelectedPlaylists(playlist_id,selected) {
-    const newPlaylists = playlists.map(p => {
-      if (p.playlist_id === playlist_id) { 
-        return {
-          ...p,
-          is_default: !p.is_default,
-        }
-      }
-      return p;
-    });
-    setPlaylists(newPlaylists);
-    setPlaylistIds(newPlaylists.filter(p => p.is_default).map(p => p.playlist_id));
+  function loadVideos() {
+    const playlistIdsToLoad = loadedPlaylists
+      .filter(p => p.is_default)
+      .map(p => p.playlist_id);
+    const requestBody = { playlist_ids: playlistIdsToLoad };
+    axios.post(AppConstants.APIEndpoints.SHUFFLE, requestBody)
+    .then(response => setLoadedVideos(response.data.songs))
+    .catch(error => console.log(`Couldn't retrieve playlist videos! ${error}`))
+  }
+
+  function togglePlaylistSelection(togglePlaylistId) {
+    const toggledOnePlaylist = loadedPlaylists.map(p => { 
+      return p.playlist_id === togglePlaylistId ? 
+        { ...p, is_default: !p.is_default } : p});
+    setLoadedPlaylists(toggledOnePlaylist);
   }
 
   function onSelectNone() {
-    const newPlaylists = playlists.map(p => {
-      return {
-        ...p,
-        is_default: false,
-      }
-    });
-    setPlaylists(newPlaylists);
-    setPlaylistIds([]);
+    const selectedNoPlaylists = loadedPlaylists.map(p => { 
+      return { ...p, is_default: false }});
+    setLoadedPlaylists(selectedNoPlaylists);
   }
 
-  function getUserPlaylists(googleUser, access_token) {
-    if(!locked){
-      setLocked(true);
-      console.log(user);
-      console.log(accessToken);
+  function getGoogleUserPlaylists() {
+    if(googleState.isLoggedIn && !googleState.apiRequestLock){
+      setGoogleState(state => ({ ...state, apiRequestLock: true}));
       axios.get(AppConstants.APIEndpoints.YOUTUBE_PLAYLISTS, {
-        headers: { Authorization: "Bearer " + access_token },
+        headers: { Authorization: "Bearer " + googleState.accessToken },
         params: { part: 'id', mine: true }
       })
       .then(response => console.log(response))
       .catch(e => console.log(`Couldn't retrieve user playlists! ${e}`))
-      .finally(setLocked(false))
+      .finally(setGoogleState(state => ({ ...state, apiRequestLock: false})))
     }
   }
 
-  function getTrackedPlaylists() {
-    axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
-    .then(response => {
-      setPlaylists(response.data)
-      setPlaylistIds(response.data.filter(p => p.is_default).map(p => p.playlist_id));
-    })
-    .catch((e) => console.log(`Couldn't retrieve tracked playlists! ${e}`))
-  }
-
-  function getComposedPlaylist() {
-    const body = {
-      playlist_ids: playlistIds
-    }
-    axios.post(AppConstants.APIEndpoints.SHUFFLE, body)
-    .then(response => {
-      setVideos(response.data.songs);
-    })
-    .catch((e) => console.log(`Couldn't retrieve playlist videos! ${e}`))
+  function pickPreviousVideo() {
+    if (!Array.isArray(playedVideos) || playedVideos.length <= 1) { return; }
+    const nextVideo = playedVideos[playedVideos.length - 2];
+    setCurrentVideo(nextVideo);
+    setPlayedVideos(playedVideos.concat(nextVideo))
+    console.log(`${playedVideos.length}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
   }
 
   function pickNextVideo(videoId) {
-    if (!Array.isArray(videos) || !videos.length) return;
-
-    var nextVideo = null;
-    if (!!videoId) {
-      nextVideo = videos[videos.findIndex(v => v.video_id === videoId)]
-    } else {
-      nextVideo = videos[Math.floor(Math.random()*videos.length) % videos.length];
-    }
-
-    setCurrentVideoId(nextVideo.video_id);
-    setCurrentTitle(nextVideo.title);
-    setPlayedHistory(playedHistory.concat(nextVideo))
-
-    console.log(`${playedHistory.length}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
+    if (!Array.isArray(loadedVideos) || !loadedVideos.length) { return; }
+    const nextVideo = !!videoId ? 
+      loadedVideos[loadedVideos.findIndex(v => v.video_id === videoId)] :
+      loadedVideos[Math.floor(Math.random()*loadedVideos.length) % loadedVideos.length];
+    setCurrentVideo(nextVideo);
+    setPlayedVideos(playedVideos.concat(nextVideo))
+    console.log(`${playedVideos.length}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
   }
 
-  useEffect(getComposedPlaylist, []);
-  useEffect(getTrackedPlaylists, []);
-  useEffect(pickNextVideo, [videos]);
-  useEffect(getUserPlaylists, [isLoggedIn]);
+  useEffect(loadVideos, []);
+  useEffect(loadPlaylists, []);
+  useEffect(pickNextVideo, [loadedVideos]);
+  useEffect(getGoogleUserPlaylists, [googleState.isLoggedIn === true]);
 
   return (
     <div>
       <Player 
-        videoId={currentVideoId} 
+        videoId={currentVideo.video_id} 
         onEnd={() => pickNextVideo()}
       />
       <div className='contentRow'>
         <VideoTitleDisplay 
-          key={currentVideoId}
-          videoId={currentVideoId} 
-          title={currentTitle}
+          key={currentVideo.video_id}
+          videoId={currentVideo.video_id} 
+          title={currentVideo.title}
           className='currentVideoTitle' 
         />
-        <LoginButton 
-          isLoggedIn = {isLoggedIn}
-          setIsLoggedIn = {setIsLoggedIn}
-          setUser = {setUser}
-          setAccessToken = {setAccessToken}
-        />
-        <button 
-          onClick={() => pickNextVideo()}
-          className='nextVideoButton'
-        >Next Video</button>
       </div>
       <div className='contentRow'>
         <PlaylistSelector 
-          playlists={playlists} 
-          onCheckboxChange={(playlist_id) => updateSelectedPlaylists(playlist_id)}
-          onShuffle={() => getComposedPlaylist()}
+          playlists={loadedPlaylists} 
+          onCheckboxChange={(playlist_id) => togglePlaylistSelection(playlist_id)}
+          onShuffle={() => loadVideos()}
           onSelectNone={() => onSelectNone()}
           className='playlistSelector'
         />
         <VideoPool 
-          title='Composed Playlist'
-          videos={videos} 
-          currentVideoIndex={currentVideoId}
-          collapsed={videoPoolCollapsed}
-          setCollapsed={setVideoPoolCollapsed}
-          onVideoClicked={(videoId) => pickNextVideo(videoId)}
-          className='videoPool'
-        />
-        <VideoPool 
           title='Video History'
-          videos={playedHistory} 
-          collapsed={videoHistoryPoolCollapsed}
-          setCollapsed={setVideoHistoryPoolCollapsed}
-          currentVideoIndex={currentVideoId}
+          videos={playedVideos}
+          currentVideo={currentVideo}
+          setCurrentVideo={setCurrentVideo}
+          isCollapsedDefault = {false}
           onVideoClicked={(videoId) => pickNextVideo(videoId)}
-          className='videoPool'
+        />
+        <ButtonList 
+          googleState={googleState}
+          setGoogleState={setGoogleState}
+          pickNextVideo={() => pickNextVideo()}
+          pickPreviousVideo={() => pickPreviousVideo()}
         />
       </div>
     </div>

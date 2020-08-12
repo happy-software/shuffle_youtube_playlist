@@ -1,23 +1,29 @@
 import React from 'react';
-import Checkbox from './Checkbox';
-import { Link } from 'react-router-dom';
+import PlaylistSelectorItem from './PlaylistSelectorItem';
 
 function PlaylistSelector(props) {
   return (
-    <div id="playlistSelector" className={props.className}>
-      <div><b>Tracked Playlists</b></div>
-      <button onClick={() => props.onShuffle()}>Combine Playlists</button>
-      <button onClick={() => props.onSelectNone()}>Select None</button>
-      {props.playlists.map(p =>
-        <Checkbox
-        key={p.playlist_id}
-        label={p.name}
-        value={p.playlist_id}
-        checked={p.is_default}
-        onCheckboxChange={(playlist_id) => props.onCheckboxChange(playlist_id)}
-        />
-      )}
-      <Link to="/track-new-playlist">Track New Playlist</Link>
+    <div id="playlistSelector" className="playlistSelector">
+      <div className="playlistSelectorTitle">Available Playlists</div>
+      <div className="playlistSelectorInner">
+        {props.playlists.map(p =>
+          <PlaylistSelectorItem
+          key={p.playlist_id}
+          label={p.name}
+          value={p.playlist_id}
+          checked={p.is_default}
+          onCheckboxChange={(playlist_id) => props.onCheckboxChange(playlist_id)}
+          />
+        )}
+      </div>
+      <button 
+        onClick={() => props.onShuffle()}
+        className="playlistSelectorButton"
+      >Combine Playlists</button>
+      <button 
+        onClick={() => props.onSelectNone()}
+        className="playlistSelectorButton"
+      >Select None</button>
     </div>
   );
 }
