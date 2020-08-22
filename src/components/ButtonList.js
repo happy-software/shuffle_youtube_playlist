@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GoogleLoginButton from '../components/GoogleLoginButton';
+import GoogleLoginButton from './GoogleLoginButton';
+import ToggleableButton from './ToggleableButton';
 
 function ButtonList(props) {
   return (
@@ -10,21 +11,29 @@ function ButtonList(props) {
           onClick={props.pickPreviousVideo}
           className='buttonListButton'
         >Previous Video</button>
+        <ToggleableButton
+          toggled={props.repeatVideo}
+          setToggled={props.setRepeatVideo}
+          message="Repeat Video"
+          className="buttonListButton"
+        />
         <button
           onClick={props.pickNextVideo}
           className='buttonListButton'
         >Next Video</button>
-        <Link to="/track-new-playlist">
-          <button 
-            type="button"
-            className="buttonListButton"
-          >Track New Playlist</button>
-        </Link>
         <GoogleLoginButton
           googleState={props.googleState}
           setGoogleState={props.setGoogleState}
           className="buttonListButton"
         />
+        <Link
+          to="/track-new-playlist"
+          className="link">
+          <button
+            type="button"
+            className="buttonListButton"
+          >Track New Playlist</button>
+        </Link>
       </div>
     </div>
   )

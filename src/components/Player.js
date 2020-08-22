@@ -21,12 +21,14 @@ function Player(props) {
     width={"100%"}
     height={"800px"}
     config={{
+      youtube: {
+        playerVars: {},
+        embedOptions: {
+          host: "https://www.youtube-nocookie.com",
+        }
+      },
       attributes: {},
       tracks: [],
-      playerVars: {},
-      embedOptions: {
-        host: "https://www.youtube-nocookie.com",
-      }
     }}
   />);
 }

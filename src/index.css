@@ -131,7 +131,7 @@ body {background-color: #312c4b;}
 }
 
 .buttonListButton {
-  background-color: #dad8df; /* Green background */
+  background-color: #838383; /* Green background */
   border: 1px solid gray; 
   color: black; 
   padding: 4px 20px; /* Some padding */
@@ -139,6 +139,20 @@ body {background-color: #312c4b;}
   cursor: pointer; /* Pointer/hand icon */
   width: 100%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
+}
+
+.buttonListButton:focus {
+  outline: none;
+}
+
+.link {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+
+.buttonListButton.toggled {
+  background-color: rgb(50, 184, 141);
 }
 
 .trackPlaylistForm {

@@ -10,7 +10,9 @@ import VideoTitleDisplay from '../components/VideoTitleDisplay';
 function ShufflePlayer(props) {
   const [loadedPlaylists, setLoadedPlaylists] = useState([]);
   const [loadedVideos, setLoadedVideos] = useState([]);
-  const [currentVideo, setCurrentVideo] = useState({});
+  const [currentVideo, setCurrentVideo] = useState({
+    video_id: null
+  });
   const [playedVideos, setPlayedVideos] = useState([]);
   const [googleState, setGoogleState] = useState({
     apiRequestLock: false,
@@ -18,6 +20,7 @@ function ShufflePlayer(props) {
     user: '',
     accessToken: '',
   })
+  const [repeatVideo, setRepeatVideo] = useState(false);
 
   function loadPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
@@ -71,6 +74,12 @@ function ShufflePlayer(props) {
 
   function pickNextVideo(videoId) {
     if (!Array.isArray(loadedVideos) || !loadedVideos.length) { return; }
+    if (repeatVideo) { 
+      var currentvideo = currentVideo;
+      setCurrentVideo({}); 
+      setCurrentVideo(currentvideo)
+      return;
+    }
     const nextVideo = !!videoId ? 
       loadedVideos[loadedVideos.findIndex(v => v.video_id === videoId)] :
       loadedVideos[Math.floor(Math.random()*loadedVideos.length) % loadedVideos.length];
@@ -117,6 +126,8 @@ function ShufflePlayer(props) {
         <ButtonList 
           googleState={googleState}
           setGoogleState={setGoogleState}
+          repeatVideo={repeatVideo}
+          setRepeatVideo={setRepeatVideo}
           pickNextVideo={() => pickNextVideo()}
           pickPreviousVideo={() => pickPreviousVideo()}
         />
