@@ -93,20 +93,28 @@ function ShufflePlayer(props) {
   useEffect(pickNextVideo, [loadedVideos]);
   useEffect(getGoogleUserPlaylists, [googleState.isLoggedIn === true]);
 
+  const titleOpts = {
+    flex: 1
+  }
+  const anchorOpts = {
+    paddingLeft: 3, 
+    flex: 0
+  }
+
   return (
     <div>
       <Player 
         videoId={currentVideo.video_id} 
         onEnd={() => pickNextVideo()}
       />
-      <div className='contentRow'>
-        <VideoTitleDisplay 
-          key={currentVideo.video_id}
-          videoId={currentVideo.video_id} 
-          title={currentVideo.title}
-          className='currentVideoTitle' 
-        />
+
+      <div id="videoTitleDisplay" className='currentVideoTitle' >
+        <div style={titleOpts}>{currentVideo.title}</div>
+        <a style={anchorOpts} href={`https://youtube.com/watch?v=${props.videoId}`} target="_blank" rel="noopener noreferrer">
+          <img alt='Go to Youtube' src={'/arrow-up-right.svg'}></img>
+        </a>
       </div>
+
       <div className='contentRow'>
         <PlaylistSelector 
           playlists={loadedPlaylists} 
