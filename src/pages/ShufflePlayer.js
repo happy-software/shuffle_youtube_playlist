@@ -5,7 +5,6 @@ import ButtonList from '../components/ButtonList';
 import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
 import VideoPool from '../components/VideoPool';
-import VideoTitleDisplay from '../components/VideoTitleDisplay';
 
 function ShufflePlayer(props) {
   const [loadedPlaylists, setLoadedPlaylists] = useState([]);
