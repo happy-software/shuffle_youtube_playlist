@@ -1,14 +1,6 @@
 import React from 'react';
 
 function VideoTitleDisplay(props) {
-  function onClick(){
-    if (typeof props.onVideoClicked == 'function') {
-      props.onVideoClicked(props.videoId);
-     } else {
-      console.log('😎');
-    }
-  }
-
   const titleOpts = {
     flex: 1
   }
@@ -20,8 +12,8 @@ function VideoTitleDisplay(props) {
   return (
     <div 
       id="videoTitleDisplay" 
-      onClick={() => onClick()}
-      className={`${props.className}${props.selected?' selected':''}`}
+      onClick={() => props.onVideoClicked(props.videoId)}
+      className={`${props.className}`}
     >
       <div style={titleOpts}>{props.title}</div>
       <a 
