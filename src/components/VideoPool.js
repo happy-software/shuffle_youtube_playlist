@@ -9,13 +9,13 @@ function VideoPool(props) {
       <div 
         className={`videoPoolTitle`} 
         onClick={() => setVideoPoolCollapsed(!videoPoolCollapsed)}
-      >{props.title} (Expand/Collapse)</div>
+      >Video History (Expand/Collapse)</div>
 
       <div className={`videoPoolList ${videoPoolCollapsed ?'hide' : ''}`}>
         {
-        props.videos.reverse().map((video) =>
+        props.videos.map((video, index) =>
           <VideoTitleDisplay 
-            key={video.video_id}
+            key={index}
             videoId={video.video_id} 
             title={video.title}
             onVideoClicked={(videoId) => props.onVideoClicked(videoId)}

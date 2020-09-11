@@ -5,13 +5,12 @@ import ButtonList from '../components/ButtonList';
 import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
 import VideoPool from '../components/VideoPool';
+import CurrentVideoInfo from '../components/CurrentVideoInfo';
 
 function ShufflePlayer(props) {
   const [loadedPlaylists, setLoadedPlaylists] = useState([]);
   const [loadedVideos, setLoadedVideos] = useState([]);
-  const [currentVideo, setCurrentVideo] = useState({
-    video_id: null
-  });
+  const [currentVideo, setCurrentVideo] = useState({});
   const [playedVideos, setPlayedVideos] = useState([]);
   const [googleState, setGoogleState] = useState({
     apiRequestLock: false,
@@ -71,20 +70,22 @@ function ShufflePlayer(props) {
     console.log(`${playedVideos.length}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
   }
 
+  function randomVideoIndex() {
+    return Math.floor(Math.random()*loadedVideos.length) % loadedVideos.length;
+  }
+
   function pickNextVideo(videoId) {
-    if (!Array.isArray(loadedVideos) || !loadedVideos.length) { return; }
+    if (!loadedVideos.length) { return; }
     if (repeatVideo) { 
-      var currentvideo = currentVideo;
-      setCurrentVideo({}); 
-      setCurrentVideo(currentvideo)
+      setCurrentVideo(currentVideo);
       return;
     }
     const nextVideo = !!videoId ? 
-      loadedVideos[loadedVideos.findIndex(v => v.video_id === videoId)] :
-      loadedVideos[Math.floor(Math.random()*loadedVideos.length) % loadedVideos.length];
+      loadedVideos.filter(v => v.video_id === videoId)[0] :
+      loadedVideos[randomVideoIndex()];
+
     setCurrentVideo(nextVideo);
     setPlayedVideos(playedVideos.concat(nextVideo))
-    console.log(`${playedVideos.length}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
   }
 
   useEffect(loadVideos, []);
@@ -92,27 +93,11 @@ function ShufflePlayer(props) {
   useEffect(pickNextVideo, [loadedVideos]);
   useEffect(getGoogleUserPlaylists, [googleState.isLoggedIn === true]);
 
-  const titleOpts = {
-    flex: 1
-  }
-  const anchorOpts = {
-    paddingLeft: 3, 
-    flex: 0
-  }
 
   return (
     <div>
-      <Player 
-        videoId={currentVideo.video_id} 
-        onEnd={() => pickNextVideo()}
-      />
-
-      <div id="videoTitleDisplay" className='currentVideoTitle' >
-        <div style={titleOpts}>{currentVideo.title}</div>
-        <a style={anchorOpts} href={`https://youtube.com/watch?v=${props.videoId}`} target="_blank" rel="noopener noreferrer">
-          <img alt='Go to Youtube' src={'/arrow-up-right.svg'}></img>
-        </a>
-      </div>
+      <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} />
+      <CurrentVideoInfo className={'contentRow'} currentVideo={currentVideo} />
 
       <div className='contentRow'>
         <PlaylistSelector 
@@ -123,7 +108,6 @@ function ShufflePlayer(props) {
           className='playlistSelector'
         />
         <VideoPool 
-          title='Video History'
           videos={playedVideos}
           currentVideo={currentVideo}
           setCurrentVideo={setCurrentVideo}
