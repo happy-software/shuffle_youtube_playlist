@@ -83,9 +83,9 @@ function ShufflePlayer(props) {
     const nextVideo = !!videoId ? 
       loadedVideos.filter(v => v.video_id == videoId)[0] :
       loadedVideos[randomVideoIndex()];
+
     setCurrentVideo(nextVideo);
     setPlayedVideos(playedVideos.concat(nextVideo))
-    console.log(`${playedVideos.length}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
   }
 
   useEffect(loadVideos, []);
@@ -96,11 +96,7 @@ function ShufflePlayer(props) {
 
   return (
     <div>
-      <Player 
-        videoId={currentVideo.video_id} 
-        onEnd={() => pickNextVideo()}
-      />
-
+      <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} />
       <CurrentVideoInfo className={'contentRow'} currentVideo={currentVideo} />
 
       <div className='contentRow'>

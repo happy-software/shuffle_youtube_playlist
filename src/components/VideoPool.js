@@ -13,7 +13,7 @@ function VideoPool(props) {
 
       <div className={`videoPoolList ${videoPoolCollapsed ?'hide' : ''}`}>
         {
-        props.videos.reverse().map((video, index) =>
+        props.videos.map((video, index) =>
           <VideoTitleDisplay 
             key={index}
             videoId={video.video_id} 
