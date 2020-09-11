@@ -81,7 +81,7 @@ function ShufflePlayer(props) {
       return;
     }
     const nextVideo = !!videoId ? 
-      loadedVideos.filter(v => v.video_id == videoId)[0] :
+      loadedVideos.filter(v => v.video_id === videoId)[0] :
       loadedVideos[randomVideoIndex()];
 
     setCurrentVideo(nextVideo);
