@@ -7,7 +7,7 @@ function Player(props) {
   }
 
   function onError(event) {
-    console.log(`BROKEN VIDEO: https://www.youtube.com/watch?v=${props.videoId}`)
+    console.log(`BROKEN VIDEO: ${JSON.stringify(props.videoId, null, 2)}`)
     props.onEnd()
   }
 
