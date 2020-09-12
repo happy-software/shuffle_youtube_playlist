@@ -3,6 +3,7 @@ import VideoTitleDisplay from './VideoTitleDisplay';
 
 function VideoPool(props) {
   const [videoPoolCollapsed, setVideoPoolCollapsed] = useState(props.isCollapsedDefault);
+  const playedVideos = props.videos.slice().reverse();
 
   return (
     <div className={`videoPool`}>
@@ -13,7 +14,7 @@ function VideoPool(props) {
 
       <div className={`videoPoolList ${videoPoolCollapsed ?'hide' : ''}`}>
         {
-        props.videos.map((video, index) =>
+        playedVideos.map((video, index) =>
           <VideoTitleDisplay 
             key={index}
             videoId={video.video_id} 
