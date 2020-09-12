@@ -3,7 +3,7 @@ import VideoTitleDisplay from './VideoTitleDisplay';
 
 function VideoPool(props) {
   const [videoPoolCollapsed, setVideoPoolCollapsed] = useState(props.isCollapsedDefault);
-  let playedVideos = props.videos.slice().reverse();
+  const playedVideos = props.videos.slice().reverse();
 
   return (
     <div className={`videoPool`}>
