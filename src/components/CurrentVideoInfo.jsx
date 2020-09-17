@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }  from 'react';
 
 function CurrentVideoInfo(props) {
   const titleOpts = {
@@ -9,14 +9,23 @@ function CurrentVideoInfo(props) {
     flex: 0
   }
 
+  const [videoInfoCollapsed, setVideoInfoCollapsed] = useState(true);
+
   return(
-    <div id="videoTitleDisplay" className='currentVideoTitle' >
+    <>
+    <div id="videoTitleDisplay" className='currentVideoTitle contentRow' onClick={() => setVideoInfoCollapsed(!videoInfoCollapsed)}>
       <div style={titleOpts}>{props.currentVideo.title}</div>
       <a style={anchorOpts} href={`https://youtube.com/watch?v=${props.currentVideo.video_id}`} target="_blank" rel="noopener noreferrer">
         <img alt='Go to Youtube' src={'/arrow-up-right.svg'}></img>
       </a>
-      {/*TODO: Create a collapsable section here for video description*/}
     </div>
+
+    <div class="contentRow">
+      <div className={`${videoInfoCollapsed ? 'hide' : ''}`}>
+        {props.currentVideo.description}
+      </div>
+    </div>
+    </>
   );
 }
 

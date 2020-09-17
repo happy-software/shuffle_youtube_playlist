@@ -97,7 +97,7 @@ function ShufflePlayer(props) {
   return (
     <div>
       <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} />
-      <CurrentVideoInfo className={'contentRow'} currentVideo={currentVideo} />
+      <CurrentVideoInfo currentVideo={currentVideo} />
 
       <div className='contentRow'>
         <PlaylistSelector 
@@ -111,7 +111,7 @@ function ShufflePlayer(props) {
           videos={playedVideos}
           currentVideo={currentVideo}
           setCurrentVideo={setCurrentVideo}
-          isCollapsedDefault = {false}
+          isCollapsedDefault={false}
           onVideoClicked={(videoId) => pickNextVideo(videoId)}
         />
         <ButtonList 
