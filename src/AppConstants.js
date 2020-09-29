@@ -6,5 +6,6 @@ export default {
     SHUFFLE: APIRoot + "/shuffle",
     TRACKED_PLAYLISTS: APIRoot + "/tracked-playlists",
     YOUTUBE_PLAYLISTS: APIRootYoutube + "/playlists",
+    TRACKED_VIDEOS:    APIRoot + "/videos",
   },
 };
