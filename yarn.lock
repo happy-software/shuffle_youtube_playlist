@@ -10258,7 +10258,7 @@ type@^2.0.0:
   resolved "https://registry.yarnpkg.com/type/-/type-2.1.0.tgz#9bdc22c648cf8cf86dd23d32336a41cfb6475e3f"
   integrity sha512-G9absDWvhAWCV2gmF1zKud3OyC61nZDwWvBL2DApaVFogI07CprggiQAOOjvp2NRjYWFzPyu7vwtDrQFq8jeSA==
 
-typeco@1.0.0, typeco@^1.0.0:
+typeco@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/typeco/-/typeco-1.0.0.tgz#7e3ff93aafb03d9769e159fccad2dbcc13fe1bdd"
   integrity sha512-3mWzemIyiY5jL/fmW2sZp1vv7ifQ5ONjF6fT/4RMHJw3/1oabumpxvYZ9D+z01a5wRFSRPPXZkQjM4WIUzY+GA==
