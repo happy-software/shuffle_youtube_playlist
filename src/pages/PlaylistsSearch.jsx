@@ -32,16 +32,16 @@ function filteredList(queryString, list) {
 }
 
 function matchingItem(item, queryString) {
-  console.log(`Filtering on list with queryString: ${queryString}`)
   if (queryString === "") { return true } 
   queryString = queryString.toLowerCase();
   if (item.videoId.toString().toLowerCase().search(queryString) >= 0 ||
     item.title.toString().toLowerCase().search(queryString) >= 0 ||
     item.description.toString().toLowerCase().search(queryString) >= 0
     ) {
-    console.log(`videoID or title includes ${queryString}`)
     return true;
   }
+
+  return false;
 }
 
 
@@ -70,4 +70,4 @@ function PlaylistsSearch(props) {
     );
 }
 
-export default PlaylistsSearch;  
+export default PlaylistsSearch;
