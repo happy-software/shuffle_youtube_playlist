@@ -20,7 +20,7 @@ function CurrentVideoInfo(props) {
       </a>
     </div>
 
-    <div class="contentRow">
+    <div className="contentRow">
       <div className={`${videoInfoCollapsed ? 'hide' : ''}`}>
         {props.currentVideo.description}
       </div>
