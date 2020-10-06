@@ -34,6 +34,16 @@ function ButtonList(props) {
             className="buttonListButton"
           >Track New Playlist</button>
         </Link>
+        <Link
+          to="/search"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link">
+          <button
+            type="button"
+            className="buttonListButton"
+          >Search</button>
+        </Link>
       </div>
     </div>
   )
