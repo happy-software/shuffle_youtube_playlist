@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GoogleLoginButton from './GoogleLoginButton';
 import ToggleableButton from './ToggleableButton';
 
 function ButtonList(props) {
@@ -21,11 +20,6 @@ function ButtonList(props) {
           onClick={props.pickNextVideo}
           className='buttonListButton'
         >Next Video</button>
-        <GoogleLoginButton
-          googleState={props.googleState}
-          setGoogleState={props.setGoogleState}
-          className="buttonListButton"
-        />
         <Link
           to="/track-new-playlist"
           className="link">
