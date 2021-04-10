@@ -12,12 +12,6 @@ function ShufflePlayer(props) {
   const [loadedVideos, setLoadedVideos] = useState([]);
   const [currentVideo, setCurrentVideo] = useState({});
   const [playedVideos, setPlayedVideos] = useState([]);
-  const [googleState, setGoogleState] = useState({
-    apiRequestLock: false,
-    isLoggedIn: false,
-    user: '',
-    accessToken: '',
-  })
   const [repeatVideo, setRepeatVideo] = useState(false);
 
   function loadPlaylists() {
@@ -49,19 +43,6 @@ function ShufflePlayer(props) {
     setLoadedPlaylists(selectedNoPlaylists);
   }
 
-  function getGoogleUserPlaylists() {
-    if(googleState.isLoggedIn && !googleState.apiRequestLock){
-      setGoogleState(state => ({ ...state, apiRequestLock: true}));
-      axios.get(AppConstants.APIEndpoints.YOUTUBE_PLAYLISTS, {
-        headers: { Authorization: "Bearer " + googleState.accessToken },
-        params: { part: 'id', mine: true }
-      })
-      .then(response => console.log(response))
-      .catch(e => console.log(`Couldn't retrieve user playlists! ${e}`))
-      .finally(setGoogleState(state => ({ ...state, apiRequestLock: false})))
-    }
-  }
-
   function pickPreviousVideo() {
     if (!Array.isArray(playedVideos) || playedVideos.length <= 1) { return; }
     const nextVideo = playedVideos[playedVideos.length - 2];
@@ -91,7 +72,6 @@ function ShufflePlayer(props) {
   useEffect(loadVideos, []);
   useEffect(loadPlaylists, []);
   useEffect(pickNextVideo, [loadedVideos]);
-  useEffect(getGoogleUserPlaylists, [googleState.isLoggedIn === true]);
 
 
   return (
@@ -115,8 +95,6 @@ function ShufflePlayer(props) {
           onVideoClicked={(videoId) => pickNextVideo(videoId)}
         />
         <ButtonList 
-          googleState={googleState}
-          setGoogleState={setGoogleState}
           repeatVideo={repeatVideo}
           setRepeatVideo={setRepeatVideo}
           pickNextVideo={() => pickNextVideo()}

@@ -16,16 +16,6 @@
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Hebron's Youtube Shuffler" />
     <title>Shuffle Youtube Playlists</title>
-    <script src="https://apis.google.com/js/platform.js?onload=triggerGoogleLoaded" async defer></script>
-    <script type="text/javascript">
-      function triggerGoogleLoaded() {
-        gapi.load('auth2', () => {
-          gapi.auth2.init().then(() => {
-            window.dispatchEvent(new Event('google-loaded'));
-          });
-        });
-      }
-    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app. Sorry.</noscript>
