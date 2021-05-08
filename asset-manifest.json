@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/shuffle_youtube_player/static/css/main.f0aefdbb.chunk.css",
+    "main.js": "/shuffle_youtube_player/static/js/main.4e35a9d3.chunk.js",
+    "main.js.map": "/shuffle_youtube_player/static/js/main.4e35a9d3.chunk.js.map",
+    "runtime-main.js": "/shuffle_youtube_player/static/js/runtime-main.61b947c9.js",
+    "runtime-main.js.map": "/shuffle_youtube_player/static/js/runtime-main.61b947c9.js.map",
+    "static/js/2.18901b33.chunk.js": "/shuffle_youtube_player/static/js/2.18901b33.chunk.js",
+    "static/js/2.18901b33.chunk.js.map": "/shuffle_youtube_player/static/js/2.18901b33.chunk.js.map",
+    "index.html": "/shuffle_youtube_player/index.html",
+    "precache-manifest.5a00666632bbf1ebf085cadb2f74e640.js": "/shuffle_youtube_player/precache-manifest.5a00666632bbf1ebf085cadb2f74e640.js",
+    "service-worker.js": "/shuffle_youtube_player/service-worker.js",
+    "static/css/main.f0aefdbb.chunk.css.map": "/shuffle_youtube_player/static/css/main.f0aefdbb.chunk.css.map",
+    "static/js/2.18901b33.chunk.js.LICENSE.txt": "/shuffle_youtube_player/static/js/2.18901b33.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.61b947c9.js",
+    "static/js/2.18901b33.chunk.js",
+    "static/css/main.f0aefdbb.chunk.css",
+    "static/js/main.4e35a9d3.chunk.js"
+  ]
+}
