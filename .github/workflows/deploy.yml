@@ -11,11 +11,16 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install Packages
       run: yarn
-    - name: Authorizing Github action
-      with:
-        token: "${{ secrets.DEPLOY_TOKEN }}"
-      uses: oleksiyrudenko/gha-git-credentials@v1
-    - name: Deploy to GH Pages
-      run: yarn deploy
+    - name: Deploy
+      run: |
+        git config --global user.name $user_name
+        git config --global user.email $user_email
+        git remote set-url origin https://${github_token}@github.com/${repository}
+        yarn deploy
+      env:
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        github_token: ${{ secrets.SYT_DEPLOY_PERSONAL_ACCESS_TOKEN }}
+        repository: ${{ github.repository }}
     - name: Updating Domain
       run: echo "Update domain"
