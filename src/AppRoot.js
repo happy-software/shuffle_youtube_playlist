@@ -12,7 +12,7 @@ import PlaylistsSearch   from './pages/PlaylistsSearch';
 
 export default function AppRoot() {
   return(
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div>
         <Switch>
           <Route path="/track-new-playlist">
