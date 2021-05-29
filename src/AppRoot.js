@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   //Link
@@ -11,10 +11,8 @@ import PlaylistsManager  from './pages/PlaylistsManager';
 import PlaylistsSearch   from './pages/PlaylistsSearch';
 
 export default function AppRoot() {
-  console.log("This is process.env.PUBLIC_URL: " + process.env.PUBLIC_URL);
-
   return(
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router>
       <div>
         <Switch>
           <Route path="/track-new-playlist">
