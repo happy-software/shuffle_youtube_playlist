@@ -11,9 +11,10 @@ import PlaylistsManager  from './pages/PlaylistsManager';
 import PlaylistsSearch   from './pages/PlaylistsSearch';
 
 export default function AppRoot() {
+  console.log("This is process.env.PUBLIC_URL: " + process.env.PUBLIC_URL);
 
   return(
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div>
         <Switch>
           <Route path="/track-new-playlist">
