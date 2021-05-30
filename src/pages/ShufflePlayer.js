@@ -2,12 +2,14 @@ import React, { useState, useEffect }  from 'react';
 import axios from 'axios';
 import AppConstants from '../AppConstants';
 import ButtonList from '../components/ButtonList';
+import LoadingPlaceholder from '../components/LoadingPlaceholder';
 import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
 import VideoPool from '../components/VideoPool';
 import CurrentVideoInfo from '../components/CurrentVideoInfo';
 
 function ShufflePlayer(props) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [loadedPlaylists, setLoadedPlaylists] = useState([]);
   const [loadedVideos, setLoadedVideos] = useState([]);
   const [currentVideo, setCurrentVideo] = useState({});
@@ -16,7 +18,10 @@ function ShufflePlayer(props) {
 
   function loadPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
-    .then(response => setLoadedPlaylists(response.data))
+    .then(response => {
+      setLoadedPlaylists(response.data);
+      setIsLoaded(true);
+    })
     .catch(error => console.log(`Couldn't retrieve tracked playlists! ${error}`))
   }
 
@@ -76,6 +81,7 @@ function ShufflePlayer(props) {
 
   return (
     <div>
+      <LoadingPlaceholder isLoaded={isLoaded} />
       <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} />
       <CurrentVideoInfo currentVideo={currentVideo} />
 

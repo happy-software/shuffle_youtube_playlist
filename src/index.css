@@ -3,7 +3,7 @@
   font-family: 'Roboto', sans-serif; 
 }
 
-body {background-color: #312c4b;}
+body {background-color: #110f36;}
 
 .currentVideoTitle {
   padding-left: 5px;
@@ -120,7 +120,7 @@ body {background-color: #312c4b;}
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .buttonList {
@@ -189,4 +189,20 @@ input, button {
   margin: 0px 0px;
   cursor: pointer; /* Pointer/hand icon */
   box-sizing: border-box;
+}
+
+.loader{
+  height: 100%;
+  width: 50%;
+  text-align: center;
+  padding: 1em;
+  display: table;
+  margin: 0 auto;
+  border: 1px solid black;
+  vertical-align: top;
+}
+
+svg path,
+svg rect{
+  fill: #FF6700;
 }
