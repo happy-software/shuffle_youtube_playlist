@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactPlayer from 'react-player/youtube';
+import ReactPlayer from 'react-player';
 
 function Player(props) {
   function onReady(event) {
