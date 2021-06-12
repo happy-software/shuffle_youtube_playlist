@@ -9,12 +9,12 @@ import VideoPool from '../components/VideoPool';
 import CurrentVideoInfo from '../components/CurrentVideoInfo';
 
 function ShufflePlayer(props) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded,        setIsLoaded]        = useState(false);
   const [loadedPlaylists, setLoadedPlaylists] = useState([]);
-  const [loadedVideos, setLoadedVideos] = useState([]);
-  const [currentVideo, setCurrentVideo] = useState({});
-  const [playedVideos, setPlayedVideos] = useState([]);
-  const [repeatVideo, setRepeatVideo] = useState(false);
+  const [loadedVideos,    setLoadedVideos]    = useState([]);
+  const [currentVideo,    setCurrentVideo]    = useState({});
+  const [playedVideos,    setPlayedVideos]    = useState([]);
+  const [repeatVideo,     setRepeatVideo]     = useState(false);
 
   function loadPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
@@ -37,8 +37,7 @@ function ShufflePlayer(props) {
 
   function togglePlaylistSelection(togglePlaylistId) {
     const toggledOnePlaylist = loadedPlaylists.map(p => { 
-      return p.playlist_id === togglePlaylistId ? 
-        { ...p, is_default: !p.is_default } : p});
+      return p.playlist_id === togglePlaylistId ? { ...p, is_default: !p.is_default } : p});
     setLoadedPlaylists(toggledOnePlaylist);
   }
 

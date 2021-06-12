@@ -24,7 +24,6 @@ class TrackPlaylistForm extends React.Component {
   }
 
   handleSubmit(event) {
-    console.log("Submitting to server!");
     event.preventDefault();
     axios.post(AppConstants.APIEndpoints.TRACKED_PLAYLISTS, {playlist_id: this.state.playlist_id, is_default: this.state.is_default})
       .then((response) => console.log(response))
