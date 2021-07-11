@@ -31,7 +31,7 @@ class TrackPlaylistForm extends React.Component {
     axios.post(AppConstants.APIEndpoints.TRACKED_PLAYLISTS, {playlist_id: this.state.playlist_id, is_default: this.state.is_default})
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
-          this.setState({redirect_home: true})g
+          this.setState({redirect_home: true})
         }
       })
       .catch((e) => this.setState({server_errors: [e], redirect_home: false}))
