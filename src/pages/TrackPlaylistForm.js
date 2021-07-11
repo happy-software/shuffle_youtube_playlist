@@ -13,7 +13,6 @@ class TrackPlaylistForm extends React.Component {
       redirect_home: false,
     }
 
-  
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit      = this.handleSubmit.bind(this);
   }
