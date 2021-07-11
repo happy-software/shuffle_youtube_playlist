@@ -2,8 +2,7 @@ import React from "react";
 import {
   HashRouter as Router,
   Switch,
-  Route,
-  //Link
+  Route
 } from "react-router-dom";
 import ShufflePlayer from './pages/ShufflePlayer';
 import TrackPlaylistForm from './pages/TrackPlaylistForm';
@@ -24,7 +23,7 @@ export default function AppRoot() {
           <Route path="/search">
             <PlaylistsSearch />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <ShufflePlayer />
           </Route>
         </Switch>
