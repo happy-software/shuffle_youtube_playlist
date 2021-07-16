@@ -5,14 +5,14 @@
   "homepage": "https://syt.hebron.wtf",
   "dependencies": {
     "axios": "^0.21.1",
-    "gh-pages": "^3.1.0",
+    "gh-pages": "^3.2.3",
     "nan": "^2.14.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-player": "^2.0.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0",
-    "react-search-field": "^1.1.0"
+    "react-scripts": "4.0.3",
+    "react-search-field": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
