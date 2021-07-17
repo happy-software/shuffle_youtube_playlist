@@ -1,7 +1,7 @@
 import React, { useState }  from 'react';
 import VideoTitleDisplay from './VideoTitleDisplay';
 
-function VideoPool(props) {
+function PlayedHistory(props) {
   const [videoPoolCollapsed, setVideoPoolCollapsed] = useState(props.isCollapsedDefault);
   const playedVideos = props.videos.slice().reverse();
 
@@ -28,4 +28,4 @@ function VideoPool(props) {
   );
 }
 
-export default VideoPool;
+export default PlayedHistory;

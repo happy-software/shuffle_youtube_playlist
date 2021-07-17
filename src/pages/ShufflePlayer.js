@@ -5,7 +5,7 @@ import ButtonList from '../components/ButtonList';
 import LoadingPlaceholder from '../components/LoadingPlaceholder';
 import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
-import VideoPool from '../components/VideoPool';
+import PlayedHistory from '../components/PlayedHistory';
 import CurrentVideoInfo from '../components/CurrentVideoInfo';
 
 function ShufflePlayer(props) {
@@ -52,14 +52,23 @@ function ShufflePlayer(props) {
     return Math.floor(Math.random()*loadedVideos.length) % loadedVideos.length;
   }
 
-  function pickNextVideo(videoId) {
+  function pickNextVideo() {
     if (!loadedVideos.length) { return; }
-    const nextVideo = !!videoId ? 
-      loadedVideos.filter(v => v.video_id === videoId)[0] :
-      loadedVideos[randomVideoIndex()];
+    const nextVideo = loadedVideos[randomVideoIndex()];
 
     setCurrentVideo(nextVideo);
-    setPlayedVideos(playedVideos.concat(nextVideo))
+    updatePlayedHistory(nextVideo)
+  }
+
+  function selectSpecificVideo(videoId) {
+    if (!loadedVideos.length) { return; }
+    const video = loadedVideos.filter(v => v.video_id === videoId)[0];
+    setCurrentVideo(video);
+    updatePlayedHistory(video);
+  }
+
+  function updatePlayedHistory(video) {
+    setPlayedVideos(playedVideos.concat(video))
   }
 
   useEffect(loadVideos, []);
@@ -79,12 +88,10 @@ function ShufflePlayer(props) {
           onSelectNone={() => onSelectNone()}
           className='playlistSelector'
         />
-        <VideoPool 
+        <PlayedHistory 
           videos={playedVideos}
-          currentVideo={currentVideo}
-          setCurrentVideo={setCurrentVideo}
           isCollapsedDefault={false}
-          onVideoClicked={(videoId) => pickNextVideo(videoId)}
+          onVideoClicked={(videoId) => selectSpecificVideo(videoId)}
         />
         <ButtonList 
           repeatVideo={repeatVideo}
