@@ -52,7 +52,7 @@ class TrackPlaylistForm extends React.Component {
 
         <p><input type="submit" value="Submit" /></p>
 
-        <div style={{"margin-top": "25px"}} className={`${this.state.server_errors.length > 0 ? '' : 'hide'}`}>
+        <div style={{"marginTop": "25px"}} className={`${this.state.server_errors.length > 0 ? '' : 'hide'}`}>
           Submission Errors: {this.state.server_errors.map((e, index) => <li key={index}>{e.response.data.errors}</li>)}
         </div>
       </form>
