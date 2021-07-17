@@ -78,10 +78,8 @@ function ShufflePlayer(props) {
   useEffect(loadPlaylists, []);
   useEffect(pickNextVideo, [loadedVideos]);
 
-
-  return (
+  return ( !isLoaded ? <LoadingPlaceholder /> : 
     <div>
-      <LoadingPlaceholder isLoaded={isLoaded} />
       <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} />
       <CurrentVideoInfo currentVideo={currentVideo} />
 
