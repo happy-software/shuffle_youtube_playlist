@@ -6,16 +6,16 @@ function ButtonList(props) {
   return (
     <div className="buttonList">
       <div>
+        <button
+          onClick={props.pickNextVideo}
+          className='buttonListButton nextVideoButton'
+        >Next Video</button>
         <ToggleableButton
           toggled={props.repeatVideo}
           setToggled={props.setRepeatVideo}
           message="Repeat Video"
           className="buttonListButton"
         />
-        <button
-          onClick={props.pickNextVideo}
-          className='buttonListButton'
-        >Next Video</button>
         <Link
           to="/track-new-playlist"
           className="link">
