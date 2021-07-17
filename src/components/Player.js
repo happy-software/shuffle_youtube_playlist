@@ -14,6 +14,7 @@ function Player(props) {
   return(<ReactPlayer
     url={`https://www.youtube.com/watch?v=${props.videoId}`}
     controls={true}
+    loop={props.repeatVideo}
     onReady={(event) => onReady(event)}
     onEnded={() => props.onEnd()}
     onError={() => onError()}

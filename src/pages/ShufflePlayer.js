@@ -54,10 +54,6 @@ function ShufflePlayer(props) {
 
   function pickNextVideo(videoId) {
     if (!loadedVideos.length) { return; }
-    if (repeatVideo) { 
-      setCurrentVideo(currentVideo);
-      return;
-    }
     const nextVideo = !!videoId ? 
       loadedVideos.filter(v => v.video_id === videoId)[0] :
       loadedVideos[randomVideoIndex()];
@@ -72,7 +68,7 @@ function ShufflePlayer(props) {
 
   return ( !isLoaded ? <LoadingPlaceholder /> : 
     <div>
-      <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} />
+      <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} repeatVideo={repeatVideo} />
       <CurrentVideoInfo currentVideo={currentVideo} />
 
       <div className='contentRow'>
