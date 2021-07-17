@@ -48,14 +48,6 @@ function ShufflePlayer(props) {
     setLoadedPlaylists(selectedNoPlaylists);
   }
 
-  function pickPreviousVideo() {
-    if (!Array.isArray(playedVideos) || playedVideos.length <= 1) { return; }
-    const nextVideo = playedVideos[playedVideos.length - 2];
-    setCurrentVideo(nextVideo);
-    setPlayedVideos(playedVideos.concat(nextVideo))
-    console.log(`${playedVideos.length}: https://youtube.com/watch?v=${nextVideo.video_id}\t${nextVideo.title}`);
-  }
-
   function randomVideoIndex() {
     return Math.floor(Math.random()*loadedVideos.length) % loadedVideos.length;
   }
@@ -102,7 +94,6 @@ function ShufflePlayer(props) {
           repeatVideo={repeatVideo}
           setRepeatVideo={setRepeatVideo}
           pickNextVideo={() => pickNextVideo()}
-          pickPreviousVideo={() => pickPreviousVideo()}
         />
       </div>
     </div>
