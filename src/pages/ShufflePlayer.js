@@ -30,7 +30,6 @@ function ShufflePlayer(props) {
       .filter(p => p.is_default)
       .map(p => p.playlist_id);
     const requestBody = { playlist_ids: playlistIdsToLoad };
-    asdfioasoifuhasoi
     axios.post(AppConstants.APIEndpoints.SHUFFLE, requestBody)
     .then(response => setLoadedVideos(response.data.songs))
     .catch(error => console.log(`Couldn't retrieve playlist videos! ${error}`))
