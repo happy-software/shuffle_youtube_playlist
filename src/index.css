@@ -141,6 +141,10 @@ body {background-color: #110f36;}
   display: block; /* Make the buttons appear below each other */
 }
 
+.nextVideoButton {
+  height: 6em;
+}
+
 .buttonListButton:focus {
   outline: none;
 }
