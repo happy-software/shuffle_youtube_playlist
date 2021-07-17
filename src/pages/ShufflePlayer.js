@@ -74,8 +74,8 @@ function ShufflePlayer(props) {
     setPlayedVideos(playedVideos.concat(nextVideo))
   }
 
-  useEffect(loadVideos, []);
   useEffect(loadPlaylists, []);
+  useEffect(loadVideos, []);
   useEffect(pickNextVideo, [loadedVideos]);
 
   return ( !isLoaded ? <LoadingPlaceholder /> : 
