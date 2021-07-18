@@ -7,75 +7,79 @@ import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
 import PlayedHistory from '../components/PlayedHistory';
 import CurrentVideoInfo from '../components/CurrentVideoInfo';
+import UseDataApi from '../hooks/VideoHook';
 
-function ShufflePlayer(props) {
-  const [isLoaded, setIsLoaded] = useState(false);
+function randomInteger(min, max, inclusiveMax) {
+  return Math.floor(Math.random() * (max - min + (inclusiveMax ? 1 : 0))) + min;
+}
+
+function ShufflePlayer() {
   const [loadedPlaylists, setLoadedPlaylists] = useState([]);
-  const [loadedVideos, setLoadedVideos] = useState([]);
   const [currentVideo, setCurrentVideo] = useState({});
   const [playedVideos, setPlayedVideos] = useState([]);
   const [repeatVideo, setRepeatVideo] = useState(false);
+  
+  const [playlistIds, setPlaylistIds] = useState("");
+  const initialVideoState = { 
+    loadedVideos: []
+  };
+  const [videoDataResult, loadVideos] = UseDataApi(playlistIds, initialVideoState);
+  //console.log(videoDataResult);
 
   function loadPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
     .then(response => {
       setLoadedPlaylists(response.data);
-      setIsLoaded(true);
     })
     .catch(error => console.log(`Couldn't retrieve tracked playlists! ${error}`))
-  }
-
-  function loadVideos() {
-    const playlistIdsToLoad = loadedPlaylists
-      .filter(p => p.is_default)
-      .map(p => p.playlist_id);
-    const requestBody = { playlist_ids: playlistIdsToLoad };
-    axios.post(AppConstants.APIEndpoints.SHUFFLE, requestBody)
-    .then(response => setLoadedVideos(response.data.songs))
-    .catch(error => console.log(`Couldn't retrieve playlist videos! ${error}`))
   }
 
   function togglePlaylistSelection(togglePlaylistId) {
     const toggledOnePlaylist = loadedPlaylists.map(p => { 
       return p.playlist_id === togglePlaylistId ? 
         { ...p, is_default: !p.is_default } : p});
+    const playlistIds = toggledOnePlaylist
+      .filter(p => p.is_default)
+      .map(p => p.playlist_id);
+    
+    setPlaylistIds(playlistIds);
     setLoadedPlaylists(toggledOnePlaylist);
   }
 
   function onSelectNone() {
     const selectedNoPlaylists = loadedPlaylists.map(p => { 
       return { ...p, is_default: false }});
+    setPlaylistIds("");
     setLoadedPlaylists(selectedNoPlaylists);
   }
 
-  function randomVideoIndex() {
-    return Math.floor(Math.random()*loadedVideos.length) % loadedVideos.length;
-  }
-
   function pickNextVideo() {
-    if (!loadedVideos.length) { return; }
-    const nextVideo = loadedVideos[randomVideoIndex()];
+    if (!videoDataResult.isLoaded) { return; }
+    
+
+    // might return undefined? Needs to be tested
+    const videoIndex = randomInteger(0, videoDataResult.data.loadedVideos.length, true);
+    const nextVideo = videoDataResult.data.loadedVideos[videoIndex];
 
     setCurrentVideo(nextVideo);
     updatePlayedHistory(nextVideo)
   }
 
   function selectSpecificVideo(videoId) {
-    if (!loadedVideos.length) { return; }
-    const video = loadedVideos.filter(v => v.video_id === videoId)[0];
+    if (!videoDataResult.isLoaded) { return; }
+    const video = videoDataResult.data.loadedVideos.filter(v => v.video_id === videoId)[0];
     setCurrentVideo(video);
     updatePlayedHistory(video);
   }
 
   function updatePlayedHistory(video) {
-    setPlayedVideos(playedVideos.concat(video))
+    setPlayedVideos(vids => vids.concat(video))
   }
 
-  useEffect(loadVideos, []);
   useEffect(loadPlaylists, []);
-  useEffect(pickNextVideo, [loadedVideos]);
+  useEffect(pickNextVideo, [videoDataResult.data.loadedVideos, videoDataResult.isLoaded]);
 
-  return ( !isLoaded ? <LoadingPlaceholder /> : 
+  return ( !videoDataResult.isLoaded ? <LoadingPlaceholder /> : 
     <div>
       <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} repeatVideo={repeatVideo} />
       <CurrentVideoInfo currentVideo={currentVideo} />
@@ -84,11 +88,11 @@ function ShufflePlayer(props) {
         <PlaylistSelector 
           playlists={loadedPlaylists} 
           onCheckboxChange={(playlist_id) => togglePlaylistSelection(playlist_id)}
-          onShuffle={() => loadVideos()}
+          onShuffle={() => loadVideos(playlistIds)}
           onSelectNone={() => onSelectNone()}
           className='playlistSelector'
         />
-        <PlayedHistory 
+        <PlayedHistory
           videos={playedVideos}
           isCollapsedDefault={false}
           onVideoClicked={(videoId) => selectSpecificVideo(videoId)}
