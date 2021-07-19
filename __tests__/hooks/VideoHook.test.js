@@ -1,6 +1,8 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react-hooks";
 import axios from 'axios';
+import AppConstants from '../../src/AppConstants';
 import useVideoHook from "../../src/hooks/VideoHook";
+
 
 jest.mock('axios');
 
@@ -27,16 +29,37 @@ describe('useVideoHook', () => {
     const hookCallback = () => useVideoHook(initialPlaylistIds);
     const { result, waitForNextUpdate } = renderHook(hookCallback);
 
-    // State before fetched data
-    expect(result.current[0].videos).toEqual([]);
-    expect(result.current[0].isLoaded).toBe(false);
-    expect(result.current[0].isError).toBe(false);
+
+    const initialHookResult = result.current[0];
+    expect(axios.post).toHaveBeenCalledWith(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: initialPlaylistIds });
+    expect(initialHookResult.videos).toEqual([]);
+    expect(initialHookResult.isLoaded).toBe(false);
+    expect(initialHookResult.isError).toBe(false);
+
+    await waitForNextUpdate();
+    const hookResult = result.current[0];
+    expect(hookResult.videos).toEqual(testVideos);
+    expect(hookResult.isLoaded).toBe(true);
+    expect(hookResult.isError).toBe(false);
+
+    // Update the state
+    const playlistIds = ['abcd'];
+    act(() => {
+      const dispatchFunction = result.current[1];
+      dispatchFunction(playlistIds);
+    })
+    expect(axios.post).toHaveBeenCalledWith(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: playlistIds });
+
+    const hookUpdateResult = result.current[0];
+    expect(hookUpdateResult.videos).toEqual([]);
+    expect(hookUpdateResult.isLoaded).toBe(false);
+    expect(hookUpdateResult.isError).toBe(false);
 
     await waitForNextUpdate();
 
-    // State after fetched data
-    expect(result.current[0].videos).toEqual(testVideos);
-    expect(result.current[0].isLoaded).toBe(true);
-    expect(result.current[0].isError).toBe(false);
+    const hookErrorResult = result.current[0];
+    expect(hookErrorResult.videos).toEqual([]);
+    expect(hookErrorResult.isLoaded).toBe(false);
+    expect(hookErrorResult.isError).toBe(true);
   });
 });
