@@ -23,7 +23,7 @@ describe('useVideoHook', () => {
     };
     axios.post.mockImplementationOnce(() => Promise.resolve(responseData));
 
-    const initialPlaylistIds = ""    
+    const initialPlaylistIds = []    
     const hookCallback = () => useVideoHook(initialPlaylistIds);
     const { result, waitForNextUpdate } = renderHook(hookCallback);
 

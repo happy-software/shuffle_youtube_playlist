@@ -28,6 +28,7 @@ const stateEventReducer = (state, event) => {
         isError: true,
       };
     default:
+      console.log(`Unhandled event type: ${event.type}`);
       throw new Error();
   }
 };
