@@ -19,9 +19,7 @@ const stateEventReducer = (state, event) => {
         ...state,
         isLoaded: true,
         isError: false,
-        data: {
-          loadedVideos: event.payload.songs,
-        }
+        videos: event.videos,
       };
     case 'FETCH_FAILURE':
       return {
@@ -34,11 +32,11 @@ const stateEventReducer = (state, event) => {
   }
 };
 
-const useDataApi = (initialPlaylistIds, initialData) => {
+export default function useVideoHook(initialPlaylistIds) {
   // changes in the playlistIds will trigger a fetch
   const [playlistIds, setPlaylistIds] = useState(initialPlaylistIds);
 
-  const initialState = { data: initialData, isLoaded: false, isError: false, };
+  const initialState = { videos: [], isLoaded: false, isError: false, };
   // handle updates due to state events
   const [state, updateState] = useReducer(stateEventReducer, initialState);
 
@@ -49,15 +47,13 @@ const useDataApi = (initialPlaylistIds, initialData) => {
       updateState({ type: 'FETCH_INIT' });
 
       try {
-        console.log("fetching again");
-        const requestBody = { playlist_ids: playlistIds };
-        const result = await axios.post(AppConstants.APIEndpoints.SHUFFLE, requestBody);
+        const result = await axios.post(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: playlistIds });
 
         if (!didCancel) {
-          updateState({ type: 'FETCH_SUCCESS', payload: result.data });
+          updateState({ type: 'FETCH_SUCCESS', videos: result.data.songs });
         }
       } catch (error) {
-        if (!didCancel) {
+        if (!didCancel) { 
           updateState({ type: 'FETCH_FAILURE' });
         }
       }
@@ -72,5 +68,3 @@ const useDataApi = (initialPlaylistIds, initialData) => {
 
   return [state, setPlaylistIds];
 };
-
-export default useDataApi;

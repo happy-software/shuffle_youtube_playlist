@@ -7,7 +7,7 @@ import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
 import PlayedHistory from '../components/PlayedHistory';
 import CurrentVideoInfo from '../components/CurrentVideoInfo';
-import UseDataApi from '../hooks/VideoHook';
+import useVideoHook from '../hooks/VideoHook';
 
 function randomInteger(min, max, inclusiveMax) {
   return Math.floor(Math.random() * (max - min + (inclusiveMax ? 1 : 0))) + min;
@@ -20,11 +20,7 @@ function ShufflePlayer() {
   const [repeatVideo, setRepeatVideo] = useState(false);
   
   const [playlistIds, setPlaylistIds] = useState("");
-  const initialVideoState = { 
-    loadedVideos: []
-  };
-  const [videoDataResult, loadVideos] = UseDataApi(playlistIds, initialVideoState);
-  //console.log(videoDataResult);
+  const [videoHookResult, reloadVideos] = useVideoHook(playlistIds);
 
   function loadPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
@@ -54,20 +50,18 @@ function ShufflePlayer() {
   }
 
   function pickNextVideo() {
-    if (!videoDataResult.isLoaded) { return; }
-    
+    if (!videoHookResult.isLoaded) { return; }
 
-    // might return undefined? Needs to be tested
-    const videoIndex = randomInteger(0, videoDataResult.data.loadedVideos.length, true);
-    const nextVideo = videoDataResult.data.loadedVideos[videoIndex];
+    const videoIndex = randomInteger(0, videoHookResult.videos.length, true);
+    const nextVideo = videoHookResult.videos[videoIndex];
 
     setCurrentVideo(nextVideo);
     updatePlayedHistory(nextVideo)
   }
 
   function selectSpecificVideo(videoId) {
-    if (!videoDataResult.isLoaded) { return; }
-    const video = videoDataResult.data.loadedVideos.filter(v => v.video_id === videoId)[0];
+    if (!videoHookResult.isLoaded) { return; }
+    const video = videoHookResult.videos.filter(v => v.video_id === videoId)[0];
     setCurrentVideo(video);
     updatePlayedHistory(video);
   }
@@ -77,9 +71,9 @@ function ShufflePlayer() {
   }
 
   useEffect(loadPlaylists, []);
-  useEffect(pickNextVideo, [videoDataResult.data.loadedVideos, videoDataResult.isLoaded]);
+  useEffect(pickNextVideo, [videoHookResult.videos, videoHookResult.isLoaded]);
 
-  return ( !videoDataResult.isLoaded ? <LoadingPlaceholder /> : 
+  return ( !videoHookResult.isLoaded ? <LoadingPlaceholder /> : 
     <div>
       <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} repeatVideo={repeatVideo} />
       <CurrentVideoInfo currentVideo={currentVideo} />
@@ -88,7 +82,7 @@ function ShufflePlayer() {
         <PlaylistSelector 
           playlists={loadedPlaylists} 
           onCheckboxChange={(playlist_id) => togglePlaylistSelection(playlist_id)}
-          onShuffle={() => loadVideos(playlistIds)}
+          onShuffle={() => reloadVideos(playlistIds)}
           onSelectNone={() => onSelectNone()}
           className='playlistSelector'
         />
