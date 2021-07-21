@@ -9,8 +9,8 @@ import PlayedHistory from '../components/PlayedHistory';
 import CurrentVideoInfo from '../components/CurrentVideoInfo';
 import useVideoHook from '../hooks/VideoHook';
 
-function randomInteger(min, max, inclusiveMax) {
-  return Math.floor(Math.random() * (max - min + (inclusiveMax ? 1 : 0))) + min;
+function randomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function ShufflePlayer() {
@@ -52,7 +52,7 @@ function ShufflePlayer() {
   function pickNextVideo() {
     if (!videoHookResult.isLoaded) { return; }
 
-    const videoIndex = randomInteger(0, videoHookResult.videos.length, true);
+    const videoIndex = randomInteger(0, videoHookResult.videos.length);
     const nextVideo = videoHookResult.videos[videoIndex];
 
     setCurrentVideo(nextVideo);
