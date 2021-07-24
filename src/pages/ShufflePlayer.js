@@ -37,7 +37,6 @@ function ShufflePlayer() {
     const playlistIds = toggledOnePlaylist
       .filter(p => p.is_default)
       .map(p => p.playlist_id);
-    
     setPlaylistIds(playlistIds);
     setLoadedPlaylists(toggledOnePlaylist);
   }
@@ -45,7 +44,7 @@ function ShufflePlayer() {
   function onSelectNone() {
     const selectedNoPlaylists = loadedPlaylists.map(p => { 
       return { ...p, is_default: false }});
-    setPlaylistIds("");
+    setPlaylistIds([]);
     setLoadedPlaylists(selectedNoPlaylists);
   }
 
