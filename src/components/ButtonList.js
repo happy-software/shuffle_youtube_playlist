@@ -16,6 +16,12 @@ function ButtonList(props) {
           message="Repeat Video"
           className="buttonListButton"
         />
+        <ToggleableButton
+          toggled={props.hideVideo}
+          setToggled={props.setHideVideo}
+          message="Hide Video"
+          className="buttonListButton"
+        />
         <Link
           to="/track-new-playlist"
           className="link">
