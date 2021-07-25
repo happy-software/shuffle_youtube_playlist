@@ -19,7 +19,7 @@ function ButtonList(props) {
         <ToggleableButton
           toggled={props.hideVideo}
           setToggled={props.setHideVideo}
-          message="Hide Video"
+          message={props.hideVideo ? "Show Video" : "Hide Video"}
           className="buttonListButton"
         />
         <Link
