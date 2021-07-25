@@ -13,27 +13,31 @@ function Player(props) {
     props.onEnd()
   }
 
-  return(<ReactPlayer
-    url={`https://www.youtube.com/watch?v=${props.videoId}`}
-    controls={true}
-    loop={props.repeatVideo}
-    onReady={() => onReady()}
-    onEnded={() => props.onEnd()}
-    onError={() => onError()}
-    playing={isPlaying}
-    width={"100%"}
-    height={"800px"}
-    config={{
-      youtube: {
-        playerVars: {},
-        embedOptions: {
-          host: "https://www.youtube-nocookie.com",
-        }
-      },
-      attributes: {},
-      tracks: [],
-    }}
-  />);
+  return(
+    <div style={{display: props.hideVideo ? 'none' : 'block'}}>
+      <ReactPlayer
+        url={`https://www.youtube.com/watch?v=${props.videoId}`}
+        controls={true}
+        loop={props.repeatVideo}
+        onReady={(event) => onReady(event)}
+        onEnded={() => props.onEnd()}
+        onError={() => onError()}
+        playing={isPlaying}
+        width={"100%"}
+        height={"800px"}
+        config={{
+          youtube: {
+            playerVars: {},
+            embedOptions: {
+              host: "https://www.youtube-nocookie.com",
+            }
+          },
+          attributes: {},
+          tracks: [],
+        }}
+      />
+    </div>
+  );
 }
 
 export default Player;
