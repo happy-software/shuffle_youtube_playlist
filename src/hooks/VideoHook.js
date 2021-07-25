@@ -6,64 +6,53 @@ import {
 import axios from 'axios';
 import AppConstants from '../AppConstants';
 
-const stateEventReducer = (state, event) => {
+const videoFetchReducer = (_, event) => {
   switch (event.type) {
-    case 'FETCH_INIT':
-      return { 
-        videos: [],
-        isLoaded: false, 
-        isError: false 
-      };
     case 'FETCH_SUCCESS':
       return {
-        videos: event.videos,
+        videos: event.data.songs,
         isLoaded: true,
         isError: false,
       };
     case 'FETCH_FAILURE':
-      return {
+      const reducedState = {
         videos: [],
         isLoaded: false,
+        error: event.error,
         isError: true,
       };
+      console.log("Error encountered during video fetch");
+      console.log(reducedState);
+      return reducedState;
     default:
       throw new Error(`Unhandled event type: ${event.type}`);
   }
 };
 
-export default function useVideoHook(initialPlaylistIds) {
-  // changes in the playlistIds will trigger a fetch
-  const [playlistIds, setPlaylistIds] = useState(initialPlaylistIds);
+const fetchData = async (url, requestBody, raiseEvent, isCancelled) => {
+  try {
+    const result = await axios.post(url, requestBody);
+    if (isCancelled) return;
+    raiseEvent({ type: 'FETCH_SUCCESS', data: result.data });
+  } catch (error) {
+    if (isCancelled) return;
+    raiseEvent({ type: 'FETCH_FAILURE', error: error.message });
+  }
+};
 
-  const initialState = { videos: [], isLoaded: false, isError: false, };
-  // handle updates due to state events
-  const [state, updateState] = useReducer(stateEventReducer, initialState);
+export default function useVideoHook(initialPlaylistIds) {
+  const [playlistIds, setPlaylistIds] = useState(initialPlaylistIds);
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [reducedState, setReducedState] = useReducer(videoFetchReducer, {
+    videos: [],
+    isLoaded: false, 
+    isError: false,
+  });
 
   useEffect(() => {
-    let didCancel = false;
+    fetchData(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: playlistIds }, setReducedState, isCancelled);
+    return () => setIsCancelled(true);
+  }, [playlistIds, isCancelled]);
 
-    const fetchData = async () => {
-      updateState({ type: 'FETCH_INIT' });
-
-      try {
-        const result = await axios.post(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: playlistIds });
-
-        if (!didCancel) {
-          updateState({ type: 'FETCH_SUCCESS', videos: result.data.songs });
-        }
-      } catch (error) {
-        if (!didCancel) { 
-          updateState({ type: 'FETCH_FAILURE' });
-        }
-      }
-    };
-
-    fetchData();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [playlistIds]);
-
-  return [state, setPlaylistIds];
+  return [reducedState, setPlaylistIds];
 };

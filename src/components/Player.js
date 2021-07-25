@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactPlayer from 'react-player';
 
 function Player(props) {
-  const [isPlaying, setIsPlaying] = useState(false);
-
   function onReady() {
-    setIsPlaying(true);
+    // no op
   }
 
   function onError() {
@@ -22,7 +20,7 @@ function Player(props) {
         onReady={(event) => onReady(event)}
         onEnded={() => props.onEnd()}
         onError={() => onError()}
-        playing={isPlaying}
+        playing={true}
         width={"100%"}
         height={"800px"}
         config={{

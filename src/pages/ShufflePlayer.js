@@ -20,7 +20,7 @@ function ShufflePlayer() {
   const [repeatVideo, setRepeatVideo] = useState(false);
   const [hideVideo, setHideVideo] = useState(false);  
   const [playlistIds, setPlaylistIds] = useState([]);
-  const [videoHookResult, reloadVideos] = useVideoHook(playlistIds);
+  const [videoResult, reloadVideos] = useVideoHook(playlistIds);
 
   function loadPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
@@ -49,16 +49,16 @@ function ShufflePlayer() {
   }
 
   function pickNextVideo() {
-    if (!videoHookResult.isLoaded) { return; }
-    const videoIndex = randomInteger(0, videoHookResult.videos.length);
-    const nextVideo = videoHookResult.videos[videoIndex];
+    if (!videoResult.isLoaded) { return; }
+    const videoIndex = randomInteger(0, videoResult.videos.length);
+    const nextVideo = videoResult.videos[videoIndex];
     setCurrentVideo(nextVideo);
     updatePlayedHistory(nextVideo)
   }
 
   function selectSpecificVideo(videoId) {
-    if (!videoHookResult.isLoaded) { return; }
-    const video = videoHookResult.videos.filter(v => v.video_id === videoId)[0];
+    if (!videoResult.isLoaded) { return; }
+    const video = videoResult.videos.filter(v => v.video_id === videoId)[0];
     setCurrentVideo(video);
     updatePlayedHistory(video);
   }
@@ -68,9 +68,9 @@ function ShufflePlayer() {
   }
 
   useEffect(loadPlaylists, []);
-  useEffect(pickNextVideo, [videoHookResult.videos, videoHookResult.isLoaded]);
+  useEffect(pickNextVideo, [videoResult]);
 
-  return ( !videoHookResult.isLoaded ? <LoadingPlaceholder /> : 
+  return ( !videoResult.isLoaded ? <LoadingPlaceholder /> : 
     <div>
       <Player
         videoId={currentVideo.video_id}
