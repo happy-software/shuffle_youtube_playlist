@@ -2,11 +2,11 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 
 function Player(props) {
-  function onReady() {
-    // no op
+  function onReady(event) {
+    // no-op
   }
 
-  function onError() {
+  function onError(event) {
     console.log(`BROKEN VIDEO: ${JSON.stringify(props.videoId, null, 2)}`)
     props.onEnd()
   }
