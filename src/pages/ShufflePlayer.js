@@ -50,10 +50,8 @@ function ShufflePlayer() {
 
   function pickNextVideo() {
     if (!videoHookResult.isLoaded) { return; }
-
     const videoIndex = randomInteger(0, videoHookResult.videos.length);
     const nextVideo = videoHookResult.videos[videoIndex];
-
     setCurrentVideo(nextVideo);
     updatePlayedHistory(nextVideo)
   }
@@ -74,12 +72,16 @@ function ShufflePlayer() {
 
   return ( !videoHookResult.isLoaded ? <LoadingPlaceholder /> : 
     <div>
-      <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} repeatVideo={repeatVideo} />
+      <Player
+        videoId={currentVideo.video_id}
+        onEnd={() => pickNextVideo()}
+        repeatVideo={repeatVideo}
+      />
       <CurrentVideoInfo currentVideo={currentVideo} />
 
       <div className='contentRow'>
-        <PlaylistSelector 
-          playlists={loadedPlaylists} 
+        <PlaylistSelector
+          playlists={loadedPlaylists}
           onCheckboxChange={(playlist_id) => togglePlaylistSelection(playlist_id)}
           onShuffle={() => reloadVideos(playlistIds)}
           onSelectNone={() => onSelectNone()}

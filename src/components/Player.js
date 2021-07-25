@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
 
 function Player(props) {
-  function onReady(event) {
-    // no-op
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  function onReady() {
+    setIsPlaying(true);
   }
 
-  function onError(event) {
+  function onError() {
     console.log(`BROKEN VIDEO: ${JSON.stringify(props.videoId, null, 2)}`)
     props.onEnd()
   }
@@ -15,10 +17,10 @@ function Player(props) {
     url={`https://www.youtube.com/watch?v=${props.videoId}`}
     controls={true}
     loop={props.repeatVideo}
-    onReady={(event) => onReady(event)}
+    onReady={() => onReady()}
     onEnded={() => props.onEnd()}
     onError={() => onError()}
-    playing={true}
+    playing={isPlaying}
     width={"100%"}
     height={"800px"}
     config={{

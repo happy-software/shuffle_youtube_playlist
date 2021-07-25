@@ -10,21 +10,18 @@ const stateEventReducer = (state, event) => {
   switch (event.type) {
     case 'FETCH_INIT':
       return { 
-        ...state, 
         videos: [],
         isLoaded: false, 
         isError: false 
       };
     case 'FETCH_SUCCESS':
       return {
-        ...state,
         videos: event.videos,
         isLoaded: true,
         isError: false,
       };
     case 'FETCH_FAILURE':
       return {
-        ...state,
         videos: [],
         isLoaded: false,
         isError: true,
