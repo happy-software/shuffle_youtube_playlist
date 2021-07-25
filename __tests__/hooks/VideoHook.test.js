@@ -3,7 +3,6 @@ import axios from 'axios';
 import AppConstants from '../../src/AppConstants';
 import useVideoHook from "../../src/hooks/VideoHook";
 
-
 jest.mock('axios');
 
 const testVideos = [
@@ -15,51 +14,59 @@ const testVideos = [
     "playlist_owner": "Maluhtg"
   }
 ];
+const mockResponse = {
+  data: { 
+    songs: testVideos
+  }
+};
+const mockError = new Error('Error');
 
 describe('useVideoHook', () => {
   it('fetches data successfully from API', async () => {
-    const responseData = {
-      data: { 
-        songs: testVideos
-      }
-    };
-    axios.post.mockImplementationOnce(() => Promise.resolve(responseData));
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockResponse));
 
-    const initialPlaylistIds = []    
-    const hookCallback = () => useVideoHook(initialPlaylistIds);
-    const { result, waitForNextUpdate } = renderHook(hookCallback);
-
-
-    const initialHookResult = result.current[0];
+    // call the hook using renderHook (it requires a component)
+    const initialPlaylistIds = [];
+    const { result, waitForNextUpdate } = renderHook(() => useVideoHook(initialPlaylistIds));
     expect(axios.post).toHaveBeenCalledWith(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: initialPlaylistIds });
-    expect(initialHookResult.videos).toEqual([]);
-    expect(initialHookResult.isLoaded).toBe(false);
-    expect(initialHookResult.isError).toBe(false);
 
+    // expect hook state to have been initialized
+    let hookResult = result.current[0];
+    expect(hookResult.videos).toEqual([]);
+    expect(hookResult.isLoaded).toBe(false);
+    expect(hookResult.error).toBe(null);
+    expect(hookResult.isError).toBe(false);
+
+    // expect hook state to have been updated
     await waitForNextUpdate();
-    const hookResult = result.current[0];
+    hookResult = result.current[0];
     expect(hookResult.videos).toEqual(testVideos);
     expect(hookResult.isLoaded).toBe(true);
+    expect(hookResult.error).toBe(null);
     expect(hookResult.isError).toBe(false);
 
     // Update the state
-    const playlistIds = ['abcd'];
+    axios.post.mockImplementationOnce(() => Promise.reject(mockError));
+    const updatedPlaylistIds = ['abcd'];
     act(() => {
       const dispatchFunction = result.current[1];
-      dispatchFunction(playlistIds);
+      dispatchFunction(updatedPlaylistIds);
     })
-    expect(axios.post).toHaveBeenCalledWith(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: playlistIds });
+    expect(axios.post).toHaveBeenCalledWith(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: updatedPlaylistIds });
+    
+    // expect hook state to have been initialized
+    hookResult = result.current[0];
+    expect(hookResult.videos).toEqual([]);
+    expect(hookResult.isLoaded).toBe(false);
+    expect(hookResult.error).toBe(null);
+    expect(hookResult.isError).toBe(false);
 
-    const hookUpdateResult = result.current[0];
-    expect(hookUpdateResult.videos).toEqual([]);
-    expect(hookUpdateResult.isLoaded).toBe(false);
-    expect(hookUpdateResult.isError).toBe(false);
-
+    // expect hook state to have been updated due to error
     await waitForNextUpdate();
-
-    const hookErrorResult = result.current[0];
-    expect(hookErrorResult.videos).toEqual([]);
-    expect(hookErrorResult.isLoaded).toBe(false);
-    expect(hookErrorResult.isError).toBe(true);
+    hookResult = result.current[0];
+    expect(hookResult.videos).toEqual([]);
+    expect(hookResult.isLoaded).toBe(false);
+    expect(hookResult.error).toStrictEqual(mockError);
+    expect(hookResult.isError).toBe(true);
   });
 });

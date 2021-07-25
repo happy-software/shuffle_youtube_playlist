@@ -15,6 +15,8 @@ const initialReducedState = {
 
 const videoFetchReducer = (_, event) => {
   switch (event.type) {
+    case 'FETCH_INIT':
+      return initialReducedState;
     case 'FETCH_SUCCESS':
       return {
         ...initialReducedState,
@@ -36,13 +38,14 @@ const videoFetchReducer = (_, event) => {
 };
 
 const fetchData = async (url, requestBody, raiseEvent, isCancelled) => {
+  raiseEvent({ type: 'FETCH_INIT' });
   try {
     const result = await axios.post(url, requestBody);
     if (isCancelled) return;
     raiseEvent({ type: 'FETCH_SUCCESS', data: result.data });
   } catch (error) {
     if (isCancelled) return;
-    raiseEvent({ type: 'FETCH_FAILURE', error: error.message });
+    raiseEvent({ type: 'FETCH_FAILURE', error: error });
   }
 };
 
