@@ -18,7 +18,7 @@ function ShufflePlayer() {
   const [currentVideo, setCurrentVideo] = useState({});
   const [playedVideos, setPlayedVideos] = useState([]);
   const [repeatVideo, setRepeatVideo] = useState(false);
-  
+  const [hideVideo, setHideVideo] = useStatxe(false);  
   const [playlistIds, setPlaylistIds] = useState([]);
   const [videoHookResult, reloadVideos] = useVideoHook(playlistIds);
 
@@ -74,7 +74,12 @@ function ShufflePlayer() {
 
   return ( !videoHookResult.isLoaded ? <LoadingPlaceholder /> : 
     <div>
-      <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} repeatVideo={repeatVideo} />
+      <Player
+        videoId={currentVideo.video_id}
+        onEnd={() => pickNextVideo()}
+        repeatVideo={repeatVideo}
+        hideVideo={hideVideo}
+      />
       <CurrentVideoInfo currentVideo={currentVideo} />
 
       <div className='contentRow'>
@@ -93,6 +98,8 @@ function ShufflePlayer() {
         <ButtonList 
           repeatVideo={repeatVideo}
           setRepeatVideo={setRepeatVideo}
+          hideVideo={hideVideo}
+          setHideVideo={setHideVideo}
           pickNextVideo={() => pickNextVideo()}
         />
       </div>
