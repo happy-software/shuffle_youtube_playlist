@@ -23,11 +23,10 @@ function ShufflePlayer() {
   const [videoResult, reloadVideos] = useVideoHook(playlistIds);
 
   function loadPlaylists() {
-    axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
-    .then(response => {
-      setLoadedPlaylists(response.data);
-    })
-    .catch(error => console.log(`Couldn't retrieve tracked playlists! ${error}`))
+    axios
+      .get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
+      .then(response => setLoadedPlaylists(response.data))
+      .catch(error => console.log(`Couldn't retrieve tracked playlists! ${error}`))
   }
 
   function togglePlaylistSelection(togglePlaylistId) {

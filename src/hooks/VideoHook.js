@@ -36,7 +36,7 @@ const videoFetchReducer = (_, event) => {
       throw new Error(`Unhandled event type: ${event.type}`);
   }
 };
-
+ 
 const fetchData = async (url, requestBody, raiseEvent, isCancelled) => {
   raiseEvent({ type: 'FETCH_INIT' });
   try {
@@ -51,13 +51,13 @@ const fetchData = async (url, requestBody, raiseEvent, isCancelled) => {
 
 export default function useVideoHook(initialPlaylistIds) {
   const [playlistIds, setPlaylistIds] = useState(initialPlaylistIds);
-  const [isCancelled, setIsCancelled] = useState(false);
   const [reducedState, setReducedState] = useReducer(videoFetchReducer, initialReducedState);
 
   useEffect(() => {
+    let isCancelled = false;
     fetchData(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: playlistIds }, setReducedState, isCancelled);
-    return () => setIsCancelled(true);
-  }, [playlistIds, isCancelled]);
+    return () => isCancelled = true;
+  }, [playlistIds]);
 
   return [reducedState, setPlaylistIds];
 };
