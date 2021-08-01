@@ -15,6 +15,7 @@ function ShufflePlayer(props) {
   const [currentVideo, setCurrentVideo] = useState({});
   const [playedVideos, setPlayedVideos] = useState([]);
   const [repeatVideo, setRepeatVideo] = useState(false);
+  const [hideVideo, setHideVideo] = useState(false);
 
   function loadPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
@@ -77,7 +78,12 @@ function ShufflePlayer(props) {
 
   return ( !isLoaded ? <LoadingPlaceholder /> : 
     <div>
-      <Player videoId={currentVideo.video_id} onEnd={() => pickNextVideo()} repeatVideo={repeatVideo} />
+      <Player
+        videoId={currentVideo.video_id}
+        onEnd={() => pickNextVideo()}
+        repeatVideo={repeatVideo}
+        hideVideo={hideVideo}
+      />
       <CurrentVideoInfo currentVideo={currentVideo} />
 
       <div className='contentRow'>
@@ -96,6 +102,8 @@ function ShufflePlayer(props) {
         <ButtonList 
           repeatVideo={repeatVideo}
           setRepeatVideo={setRepeatVideo}
+          hideVideo={hideVideo}
+          setHideVideo={setHideVideo}
           pickNextVideo={() => pickNextVideo()}
         />
       </div>
