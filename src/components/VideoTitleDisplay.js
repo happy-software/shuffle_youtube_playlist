@@ -1,6 +1,6 @@
 import React from 'react';
 
-function VideoTitleDisplay(props) {
+function VideoTitleDisplay({ video, onVideoClicked, className }) {
   const titleOpts = {
     flex: 1
   }
@@ -12,13 +12,13 @@ function VideoTitleDisplay(props) {
   return (
     <div 
       id="videoTitleDisplay" 
-      onClick={() => props.onVideoClicked(props.videoId)}
-      className={`${props.className}`}
+      onClick={() => onVideoClicked(video)}
+      className={`${className}`}
     >
-      <div style={titleOpts}>{props.title}</div>
+      <div style={titleOpts}>{video.title}</div>
       <a 
         style={anchorOpts} 
-        href={`https://youtube.com/watch?v=${props.videoId}`}
+        href={`https://youtube.com/watch?v=${video.videoId}`}
         target="_blank"
         rel="noopener noreferrer"
       >

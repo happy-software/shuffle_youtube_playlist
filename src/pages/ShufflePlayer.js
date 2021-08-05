@@ -51,20 +51,14 @@ function ShufflePlayer() {
     if (!videoResult.isLoaded) { return; }
     const videoIndex = randomInteger(0, videoResult.videos.length);
     const nextVideo = videoResult.videos[videoIndex];
-    setCurrentVideo(nextVideo);
-    updatePlayedHistory(nextVideo)
+    playVideo(nextVideo);
   }
 
-  function selectSpecificVideo(videoId) {
-    if (!videoResult.isLoaded) { return; }
-    const video = videoResult.videos.filter(v => v.video_id === videoId)[0];
+  function playVideo(video) {
     setCurrentVideo(video);
-    updatePlayedHistory(video);
+    setPlayedVideos(played => played.concat(video))
   }
-
-  function updatePlayedHistory(video) {
-    setPlayedVideos(vids => vids.concat(video))
-  }
+  
 
   useEffect(loadPlaylists, []);
   useEffect(pickNextVideo, [videoResult]);
@@ -90,7 +84,7 @@ function ShufflePlayer() {
         <PlayedHistory
           videos={playedVideos}
           isCollapsedDefault={false}
-          onVideoClicked={(videoId) => selectSpecificVideo(videoId)}
+          onVideoClicked={video => playVideo(video)}
         />
         <ButtonList 
           repeatVideo={repeatVideo}

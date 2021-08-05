@@ -1,9 +1,9 @@
 import React, { useState }  from 'react';
 import VideoTitleDisplay from './VideoTitleDisplay';
 
-function PlayedHistory(props) {
-  const [videoPoolCollapsed, setVideoPoolCollapsed] = useState(props.isCollapsedDefault);
-  const playedVideos = props.videos.slice().reverse();
+function PlayedHistory({ videos, onVideoClicked, isCollapsedDefault }) {
+  const [videoPoolCollapsed, setVideoPoolCollapsed] = useState(isCollapsedDefault);
+  const playedVideos = videos.slice().reverse();
 
   return (
     <div className={`videoPool`}>
@@ -17,10 +17,9 @@ function PlayedHistory(props) {
         playedVideos.map((video, index) =>
           <VideoTitleDisplay 
             key={index}
-            videoId={video.video_id} 
-            title={video.title}
-            onVideoClicked={(videoId) => props.onVideoClicked(videoId)}
-            className={`videoPoolItem`} 
+            video={video}
+            onVideoClicked={onVideoClicked}
+            className='videoPoolItem'
           />
         )}
       </div>
