@@ -36,7 +36,7 @@ const videoFetchReducer = (_, event) => {
       throw new Error(`Unhandled event type: ${event.type}`);
   }
 };
- 
+
 const fetchData = async (url, requestBody, raiseEvent, isCancelled) => {
   raiseEvent({ type: 'FETCH_INIT' });
   try {

@@ -6,6 +6,7 @@ const appConstants = {
     TRACKED_PLAYLISTS: APIRoot + "/tracked-playlists",
     TRACKED_VIDEOS:    APIRoot + "/videos",
   },
+  KEY_NEXT_TRACK: "MediaTrackNext",
 };
 
 export default appConstants;

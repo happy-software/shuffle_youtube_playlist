@@ -8,6 +8,7 @@ import PlaylistSelector from '../components/PlaylistSelector';
 import PlayedHistory from '../components/PlayedHistory';
 import CurrentVideoInfo from '../components/CurrentVideoInfo';
 import useVideoHook from '../hooks/VideoHook';
+import useKeypressHook from '../hooks/KeyPressHook';
 
 function randomInteger(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -21,6 +22,9 @@ function ShufflePlayer() {
   const [hideVideo, setHideVideo] = useState(false);  
   const [playlistIds, setPlaylistIds] = useState([]);
   const [videoResult, reloadVideos] = useVideoHook(playlistIds);
+  useKeypressHook(AppConstants.KEY_NEXT_TRACK, () => {
+    pickNextVideo();
+  });
 
   function loadPlaylists() {
     axios
