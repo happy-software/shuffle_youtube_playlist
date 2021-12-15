@@ -18,7 +18,7 @@ function ShufflePlayer() {
   const [currentVideo, setCurrentVideo] = useState({});
   const [playedVideos, setPlayedVideos] = useState([]);
   const [repeatVideo, setRepeatVideo] = useState(false);
-  const [hideVideo, setHideVideo] = useState(false);  
+  const [hideVideo, setHideVideo] = useState(true);  
   const [playlistIds, setPlaylistIds] = useState([]);
   const [videoResult, reloadVideos] = useVideoHook(playlistIds);
 
