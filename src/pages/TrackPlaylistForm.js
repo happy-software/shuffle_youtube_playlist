@@ -1,5 +1,5 @@
 import React from "react";
-import {Redirect} from 'react-router-dom'
+import {Navigate} from 'react-router-dom'
 import axios from 'axios';
 import AppConstants from '../AppConstants';
 
@@ -39,7 +39,7 @@ class TrackPlaylistForm extends React.Component {
 
   render() {
     if (this.state.redirect_home) {
-      return(<Redirect to="/" />)
+      return(<Navigate to="/" />)
     }
 
     return(
