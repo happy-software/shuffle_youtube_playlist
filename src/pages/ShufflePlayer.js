@@ -18,7 +18,8 @@ function ShufflePlayer() {
   const [currentVideo, setCurrentVideo] = useState({});
   const [playedVideos, setPlayedVideos] = useState([]);
   const [repeatVideo, setRepeatVideo] = useState(false);
-  const [hideVideo, setHideVideo] = useState(true);  
+  const [hideVideo, setHideVideo] = useState(true);
+  const [collapseDescription, setCollapseDescription] = useState(true);
   const [playlistIds, setPlaylistIds] = useState([]);
   const [videoResult, reloadVideos] = useVideoHook(playlistIds);
 
@@ -56,6 +57,7 @@ function ShufflePlayer() {
 
   function playVideo(video) {
     setCurrentVideo(video);
+    setCollapseDescription(true);
     setPlayedVideos(played => played.concat(video))
   }
   
@@ -71,7 +73,8 @@ function ShufflePlayer() {
         repeatVideo={repeatVideo}
         hideVideo={hideVideo}
       />
-      <CurrentVideoInfo currentVideo={currentVideo} />
+
+      <CurrentVideoInfo currentVideo={currentVideo} collapseDescription={collapseDescription} setCollapseDescription={setCollapseDescription} />
 
       <div className='contentRow'>
         <PlaylistSelector
