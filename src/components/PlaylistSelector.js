@@ -1,6 +1,13 @@
 import React from 'react';
 import PlaylistSelectorItem from './PlaylistSelectorItem';
 
+function onSelectNone(props) {
+  const selectedNoPlaylists = props.playlists.map(p => { 
+    return { ...p, is_default: false }});
+  props.setPlaylistIds([]);
+  props.setLoadedPlaylists(selectedNoPlaylists);
+}
+
 function PlaylistSelector(props) {
   return (
     <div id="playlistSelector" className="playlistSelector">
@@ -21,7 +28,7 @@ function PlaylistSelector(props) {
         className="playlistSelectorButton"
       >Combine Playlists</button>
       <button 
-        onClick={() => props.onSelectNone()}
+        onClick={() => onSelectNone(props)}
         className="playlistSelectorButton"
       >Select None</button>
     </div>
