@@ -41,13 +41,6 @@ function ShufflePlayer() {
     setLoadedPlaylists(toggledOnePlaylist);
   }
 
-  function onSelectNone() {
-    const selectedNoPlaylists = loadedPlaylists.map(p => { 
-      return { ...p, is_default: false }});
-    setPlaylistIds([]);
-    setLoadedPlaylists(selectedNoPlaylists);
-  }
-
   function pickNextVideo() {
     if (!videoResult.isLoaded) { return; }
     const videoIndex = randomInteger(0, videoResult.videos.length);
@@ -81,7 +74,8 @@ function ShufflePlayer() {
           playlists={loadedPlaylists}
           onCheckboxChange={(playlist_id) => togglePlaylistSelection(playlist_id)}
           onShuffle={() => reloadVideos(playlistIds)}
-          onSelectNone={() => onSelectNone()}
+          setPlaylistIds={setPlaylistIds}
+          setLoadedPlaylists={setLoadedPlaylists}
           className='playlistSelector'
         />
         <PlayedHistory
