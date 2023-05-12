@@ -18,7 +18,7 @@ function VideoTitleDisplay({ video, onVideoClicked, className }) {
       <div style={titleOpts}>{video.title}</div>
       <a 
         style={anchorOpts} 
-        href={`https://youtube.com/watch?v=${video.videoId}`}
+        href={`https://youtube.com/watch?v=${video.video_id}`}
         target="_blank"
         rel="noopener noreferrer"
       >

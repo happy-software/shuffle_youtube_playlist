@@ -12,7 +12,7 @@ function PlayedHistory({ videos, onVideoClicked, isCollapsedDefault }) {
         onClick={() => setVideoPoolCollapsed(!videoPoolCollapsed)}
       >Video History (Expand/Collapse)</div>
 
-      <div className={`videoPoolList ${videoPoolCollapsed ?'hide' : ''}`}>
+      <div className={`videoPoolList ${videoPoolCollapsed ? 'hide' : ''}`}>
         {
         playedVideos.map((video, index) =>
           <VideoTitleDisplay 
