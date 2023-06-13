@@ -28,7 +28,6 @@ body {background-color: #110f36;}
   padding-left: 4px;
   padding-right: 4px;
   font-size: 18px;
-  max-height: 20em;
   margin: 2px;
 }
 
@@ -112,7 +111,6 @@ body {background-color: #110f36;}
 .videoPoolItem {
   padding: 1px 3px;
   font-size: 18px;
-  border-bottom: 1px solid white;
   color: white;
   display: flex;
 }
