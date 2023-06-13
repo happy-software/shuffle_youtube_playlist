@@ -21,6 +21,7 @@ export default function useVideoHook(initialPlaylistIds) {
 
 async function fetchData(ids, setResult) {
   try { 
+    setResult(initialFetchResult)
     const response = await axios.post(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: ids })
     setResult({
       ...initialFetchResult,
