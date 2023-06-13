@@ -10,38 +10,39 @@ import PlaylistSelector from '../components/PlaylistSelector';
 import useVideoHook from '../hooks/VideoHook';
 
 function ShufflePlayer() {
-  const [loadedPlaylists,     setLoadedPlaylists] =     useState([]);
-  const [currentVideo,        setCurrentVideo] =        useState({});
-  const [playedVideos,        setPlayedVideos] =        useState([]);
-  const [playlistIds,         setPlaylistIds] =         useState([]);
-  const [repeatVideo,         setRepeatVideo] =         useState(false);
-  const [hideVideo,           setHideVideo] =           useState(true);
-  const [collapseDescription, setCollapseDescription] = useState(true);
-  const [videoResult, reloadVideos] =                   useVideoHook(playlistIds);
-  useEffect(loadPlaylists, []);
-  useEffect(pickNextVideo, [videoResult]);
+  const [playlists,           setPlaylists]           = useState([])
+  const [currentVideo,        setCurrentVideo]        = useState({})
+  const [playedVideos,        setPlayedVideos]        = useState([])
+  const [selectedPlaylistIds, setSelectedPlaylistIds] = useState([])
+  const [repeatVideo,         setRepeatVideo]         = useState(false)
+  const [hideVideo,           setHideVideo]           = useState(true)
+  const [hideDescription,     setHideDescription]     = useState(true)
+  
+  const [videosResult, fetchPlaylistVideos] = useVideoHook(selectedPlaylistIds) 
+  useEffect(loadPlaylists, [])
+  useEffect(pickNextVideo, [videosResult])
 
   function loadPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
-      .then(response => setLoadedPlaylists(response.data))
+      .then(response => setPlaylists(response.data))
       .catch(error => console.log(`Couldn't retrieve tracked playlists! ${error}`))
   }
 
   function pickNextVideo() {
-    if (!videoResult.isLoaded) { return; }
+    if (!videosResult.isLoaded) { return; }
     function randomInteger(min, max) { return Math.floor(Math.random() * (max - min)) + min; }
-    const videoIndex = randomInteger(0, videoResult.videos.length);
-    const nextVideo = videoResult.videos[videoIndex];
+    const videoIndex = randomInteger(0, videosResult.videos.length);
+    const nextVideo = videosResult.videos[videoIndex];
     playVideo(nextVideo);
   }
 
   function playVideo(video) {
     setCurrentVideo(video);
-    setCollapseDescription(true);
+    setHideDescription(true);
     setPlayedVideos(played => played.concat(video))
   }
 
-  return ( !videoResult.isLoaded ? <LoadingPlaceholder /> : 
+  return ( !videosResult.isLoaded ? <LoadingPlaceholder /> : 
     <div>
       <Player
         videoId={currentVideo.video_id}
@@ -50,14 +51,18 @@ function ShufflePlayer() {
         hideVideo={hideVideo}
       />
 
-      <CurrentVideoInfo currentVideo={currentVideo} collapseDescription={collapseDescription} setCollapseDescription={setCollapseDescription} />
+      <CurrentVideoInfo 
+        currentVideo={currentVideo} 
+        collapseDescription={hideDescription} 
+        setCollapseDescription={setHideDescription} 
+      />
 
       <div className='contentRow'>
         <PlaylistSelector
-          playlists={loadedPlaylists}
-          onShuffle={() => reloadVideos(playlistIds)}
-          setPlaylistIds={setPlaylistIds}
-          setLoadedPlaylists={setLoadedPlaylists}
+          playlists={playlists}
+          onShuffle={() => fetchPlaylistVideos(selectedPlaylistIds)}
+          setPlaylistIds={setSelectedPlaylistIds}
+          setLoadedPlaylists={setPlaylists}
           className='playlistSelector'
         />
         <PlayedHistory
