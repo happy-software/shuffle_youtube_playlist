@@ -10,16 +10,14 @@ import PlaylistSelector from '../components/PlaylistSelector';
 import useVideoHook from '../hooks/VideoHook';
 
 function ShufflePlayer() {
-  // state
   const [playlists,           setPlaylists]           = useState([])
+  const [currentVideo,        setCurrentVideo]        = useState({})
+  const [playedVideos,        setPlayedVideos]        = useState([])
   const [selectedPlaylistIds, setSelectedPlaylistIds] = useState([])
-
-  const [hideVideo,       setHideVideo]       = useState(true)
-  const [repeatVideo,     setRepeatVideo]     = useState(false)
-  const [hideDescription, setHideDescription] = useState(true)
-  const [currentVideo,    setCurrentVideo]    = useState({})
-  const [playedVideos,    setPlayedVideos]    = useState([])
-
+  const [repeatVideo,         setRepeatVideo]         = useState(false)
+  const [hideVideo,           setHideVideo]           = useState(true)
+  const [hideDescription,     setHideDescription]     = useState(true)
+  
   const [videosResult, fetchPlaylistVideos] = useVideoHook(selectedPlaylistIds) 
   useEffect(loadPlaylists, [])
   useEffect(pickNextVideo, [videosResult])
