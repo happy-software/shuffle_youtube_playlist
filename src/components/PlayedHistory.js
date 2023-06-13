@@ -2,17 +2,17 @@ import React, { useState }  from 'react';
 import VideoTitleDisplay from './VideoTitleDisplay';
 
 function PlayedHistory({ videos, onVideoClicked, isCollapsedDefault }) {
-  const [videoPoolCollapsed, setVideoPoolCollapsed] = useState(isCollapsedDefault);
+  const [collapsed, setCollapsed] = useState(isCollapsedDefault);
   const playedVideos = videos.slice().reverse();
 
   return (
     <div className={`videoPool`}>
       <div 
         className={`videoPoolTitle`} 
-        onClick={() => setVideoPoolCollapsed(!videoPoolCollapsed)}
+        onClick={() => setCollapsed(!collapsed)}
       >Video History (Expand/Collapse)</div>
 
-      <div className={`videoPoolList ${videoPoolCollapsed ? 'hide' : ''}`}>
+      <div className={`videoPoolList ${collapsed ? 'hide' : ''}`}>
         {
         playedVideos.map((video, index) =>
           <VideoTitleDisplay 

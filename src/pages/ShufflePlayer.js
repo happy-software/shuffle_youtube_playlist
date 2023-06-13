@@ -58,8 +58,16 @@ function ShufflePlayer() {
       />
 
       <div className='contentRow'>
+        <ButtonList 
+          repeatVideo={repeatVideo}
+          setRepeatVideo={setRepeatVideo}
+          hideVideo={hideVideo}
+          setHideVideo={setHideVideo}
+          pickNextVideo={() => pickNextVideo()}
+        />
         <PlaylistSelector
           playlists={playlists}
+          isCollapsedDefault={false}
           onShuffle={() => fetchPlaylistVideos(selectedPlaylistIds)}
           setPlaylistIds={setSelectedPlaylistIds}
           setLoadedPlaylists={setPlaylists}
@@ -69,13 +77,6 @@ function ShufflePlayer() {
           videos={playedVideos}
           isCollapsedDefault={false}
           onVideoClicked={video => playVideo(video)}
-        />
-        <ButtonList 
-          repeatVideo={repeatVideo}
-          setRepeatVideo={setRepeatVideo}
-          hideVideo={hideVideo}
-          setHideVideo={setHideVideo}
-          pickNextVideo={() => pickNextVideo()}
         />
       </div>
     </div>

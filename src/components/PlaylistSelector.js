@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PlaylistSelectorItem from './PlaylistSelectorItem';
 
 function onSelectNone(props) {
@@ -21,28 +21,34 @@ function togglePlaylistSelection(props, togglePlaylistId) {
 }
 
 function PlaylistSelector(props) {
+  const [collapsed, setCollapsed] = useState(props.isCollapsedDefault);
   return (
     <div id="playlistSelector" className="playlistSelector">
-      <div className="playlistSelectorTitle">Available Playlists</div>
-      <div className="playlistSelectorInner">
-        {props.playlists.map(p =>
-          <PlaylistSelectorItem
-          key={p.playlist_id}
-          label={p.name}
-          value={p.playlist_id}
-          checked={p.is_default}
-          onCheckboxChange={(playlist_id) => togglePlaylistSelection(props, playlist_id)}
-          />
-        )}
+      <div 
+        className="playlistSelectorTitle"
+        onClick={() => setCollapsed(!collapsed)}
+      >Available Playlists (Expand/Collapse)</div>
+      <div className={`${collapsed ? 'hide' : ''}`}>
+        <div className={`playlistSelectorInner ${collapsed ? 'hide' : ''}`}>
+          {props.playlists.map(p =>
+            <PlaylistSelectorItem
+            key={p.playlist_id}
+            label={p.name}
+            value={p.playlist_id}
+            checked={p.is_default}
+            onCheckboxChange={(playlist_id) => togglePlaylistSelection(props, playlist_id)}
+            />
+          )}
+        </div>
+        <button 
+          onClick={() => props.onShuffle()}
+          className="playlistSelectorButton"
+        >Combine Playlists</button>
+        <button 
+          onClick={() => onSelectNone(props)}
+          className="playlistSelectorButton"
+        >Select None</button>
       </div>
-      <button 
-        onClick={() => props.onShuffle()}
-        className="playlistSelectorButton"
-      >Combine Playlists</button>
-      <button 
-        onClick={() => onSelectNone(props)}
-        className="playlistSelectorButton"
-      >Select None</button>
     </div>
   );
 }

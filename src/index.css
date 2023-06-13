@@ -16,6 +16,8 @@ body {background-color: #110f36;}
 
 .contentRow {
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .playlistSelector {
@@ -36,7 +38,6 @@ body {background-color: #110f36;}
   padding-top: 2px;
   padding-bottom: 2px;
   margin-bottom: 2px;
-  border-bottom: 1px solid white;
 }
 
 .playlistSelectorInner {
@@ -46,6 +47,7 @@ body {background-color: #110f36;}
   max-width: 20em;
   display: flex;
   flex-direction: column;
+  border-top: 1px solid white;
 
   overflow: auto;
   max-height: 16em;
@@ -92,7 +94,6 @@ body {background-color: #110f36;}
 
 .videoPoolTitle {
   font-size: 18px;
-  border-bottom: 1px solid white;
   color: white;
   text-align: center;
   font-size: 18px;
@@ -104,6 +105,7 @@ body {background-color: #110f36;}
 .videoPoolList {
   display: flex;
   flex-direction: column;
+  border-top: 1px solid white;
   overflow-y: auto;
 }
 
