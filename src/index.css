@@ -112,6 +112,12 @@ body {background-color: #110f36;}
   font-size: 18px;
   color: white;
   display: flex;
+  cursor: pointer; /* Pointer/hand icon */
+  border-bottom: 1px solid white;
+}
+
+.videoPoolItem:hover {
+  background-color: rgb(2, 85, 2);
 }
 
 .videoPoolItem.selected {

@@ -6,12 +6,13 @@ function CurrentVideoInfo(props) {
   }
   const anchorOpts = {
     paddingLeft: 3, 
+    paddingRight: 10,
     flex: 0
   }
 
   return(
     <>
-    <div id="videoTitleDisplay" className='currentVideoTitle contentRow' onClick={() => props.setCollapseDescription(!props.collapseDescription)}>
+    <div id="videoTitleDisplay" className='currentVideoTitle' onClick={() => props.setCollapseDescription(!props.collapseDescription)}>
       <div style={titleOpts}>{props.currentVideo.title}</div>
       <a style={anchorOpts} href={`https://youtube.com/watch?v=${props.currentVideo.video_id}`} target="_blank" rel="noopener noreferrer">
         <img alt='Go to Youtube' src={'/arrow-up-right.svg'}></img>
