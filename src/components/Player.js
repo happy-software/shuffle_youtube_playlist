@@ -12,8 +12,9 @@ function Player(props) {
   }
 
   return(
-    <div style={{display: props.hideVideo ? 'none' : 'block'}}>
+    <div className='playerWrapper' style={{display: props.hideVideo ? 'none' : 'block'}}>
       <ReactPlayer
+        className='player'
         url={`https://www.youtube.com/watch?v=${props.videoId}`}
         controls={true}
         loop={props.repeatVideo}
