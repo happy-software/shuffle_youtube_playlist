@@ -16,6 +16,8 @@ body {background-color: #110f36;}
 
 .contentRow {
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .playlistSelector {
@@ -26,7 +28,6 @@ body {background-color: #110f36;}
   padding-left: 4px;
   padding-right: 4px;
   font-size: 18px;
-  max-height: 20em;
   margin: 2px;
 }
 
@@ -36,16 +37,15 @@ body {background-color: #110f36;}
   padding-top: 2px;
   padding-bottom: 2px;
   margin-bottom: 2px;
-  border-bottom: 1px solid white;
 }
 
 .playlistSelectorInner {
   color: white;
   padding: 4px;
   font-size: 18px;
-  max-width: 20em;
   display: flex;
   flex-direction: column;
+  border-top: 1px solid white;
 
   overflow: auto;
   max-height: 16em;
@@ -92,7 +92,6 @@ body {background-color: #110f36;}
 
 .videoPoolTitle {
   font-size: 18px;
-  border-bottom: 1px solid white;
   color: white;
   text-align: center;
   font-size: 18px;
@@ -104,15 +103,21 @@ body {background-color: #110f36;}
 .videoPoolList {
   display: flex;
   flex-direction: column;
+  border-top: 1px solid white;
   overflow-y: auto;
 }
 
 .videoPoolItem {
   padding: 1px 3px;
   font-size: 18px;
-  border-bottom: 1px solid white;
   color: white;
   display: flex;
+  cursor: pointer; /* Pointer/hand icon */
+  border-bottom: 1px solid white;
+}
+
+.videoPoolItem:hover {
+  background-color: rgb(2, 85, 2);
 }
 
 .videoPoolItem.selected {
@@ -124,7 +129,6 @@ body {background-color: #110f36;}
 }
 
 .buttonList {
-  width: 200px;
   border: 1px solid white; 
   padding: 4px;
   margin: 2px;
@@ -202,7 +206,6 @@ input, button {
   padding: 1em;
   display: table;
   margin: 0 auto;
-  border: 1px solid black;
   vertical-align: top;
 }
 
