@@ -67,7 +67,7 @@ function ShufflePlayer() {
         />
         <PlaylistSelector
           playlists={playlists}
-          isCollapsedDefault={false}
+          isCollapsedDefault={true}
           onShuffle={() => fetchPlaylistVideos(selectedPlaylistIds)}
           setPlaylistIds={setSelectedPlaylistIds}
           setLoadedPlaylists={setPlaylists}
@@ -75,7 +75,7 @@ function ShufflePlayer() {
         />
         <PlayedHistory
           videos={playedVideos}
-          isCollapsedDefault={false}
+          isCollapsedDefault={true}
           onVideoClicked={video => playVideo(video)}
         />
       </div>

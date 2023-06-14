@@ -129,7 +129,6 @@ body {background-color: #110f36;}
 }
 
 .buttonList {
-  width: 200px;
   border: 1px solid white; 
   padding: 4px;
   margin: 2px;
@@ -207,7 +206,6 @@ input, button {
   padding: 1em;
   display: table;
   margin: 0 auto;
-  border: 1px solid black;
   vertical-align: top;
 }
 
