@@ -14,6 +14,19 @@ body {background-color: #110f36;}
   flex: 5;
 }
 
+.playerWrapper {
+  position: relative !important;
+  padding-top: 56.25% !important /* Player ratio: 100 / (1280 / 720) */
+}
+
+.player {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important
+}
+
 .contentRow {
   display: flex;
   flex-wrap: wrap;
@@ -59,7 +72,6 @@ body {background-color: #110f36;}
   cursor: pointer; /* Pointer/hand icon */
   width: 100%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
-
 }
 
 .playlistSelectorItem {
