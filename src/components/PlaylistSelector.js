@@ -27,7 +27,7 @@ function PlaylistSelector(props) {
       <div 
         className="playlistSelectorTitle"
         onClick={() => setCollapsed(!collapsed)}
-      >Available Playlists (Expand/Collapse)</div>
+      >Playlists (Expand/Collapse)</div>
       <div className={`${collapsed ? 'hide' : ''}`}>
         <div className={`playlistSelectorInner ${collapsed ? 'hide' : ''}`}>
           {props.playlists.map(p =>

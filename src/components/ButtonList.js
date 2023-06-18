@@ -9,11 +9,11 @@ function ButtonList(props) {
         <button
           onClick={props.pickNextVideo}
           className='sytButton nextVideoButton'
-        >Next Video</button>
+        >Next</button>
         <ToggleableButton
           toggled={props.repeatVideo}
           setToggled={props.setRepeatVideo}
-          message="Repeat Video"
+          message="Repeat"
           className="sytButton"
         />
         <ToggleableButton
@@ -28,7 +28,7 @@ function ButtonList(props) {
           <button
             type="button"
             className="sytButton"
-          >Track New Playlist</button>
+          >Add to Playlists</button>
         </Link>
         <Link
           to="/search"
