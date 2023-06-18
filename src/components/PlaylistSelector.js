@@ -42,11 +42,11 @@ function PlaylistSelector(props) {
         </div>
         <button 
           onClick={() => props.onShuffle()}
-          className="playlistSelectorButton"
+          className="sytButton"
         >Combine Playlists</button>
         <button 
           onClick={() => onSelectNone(props)}
-          className="playlistSelectorButton"
+          className="sytButton"
         >Select None</button>
       </div>
     </div>
