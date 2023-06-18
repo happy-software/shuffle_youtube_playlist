@@ -66,6 +66,7 @@ body {background-color: #110f36;}
 
 .sytButton {
   border: 1px solid gray; 
+  font-size: 18px;
   color: black;
   height: 40px;
   padding: 4px 20px; /* Some padding */
@@ -190,7 +191,7 @@ body {background-color: #110f36;}
 
 }
 
-input, button {
+input {
   background-color: #dad8df;
   border: 1px solid gray; 
   color: black; 
@@ -210,7 +211,7 @@ input, button {
   vertical-align: top;
 }
 
-svg path,
+svg path, 
 svg rect{
   fill: #FF6700;
 }
