@@ -33,6 +33,36 @@ body {background-color: #110f36;}
   flex-direction: column;
 }
 
+.sytButton {
+  border: 1px solid gray; 
+  font-size: 18px;
+  color: black;
+  height: 40px;
+  padding: 4px 20px; /* Some padding */
+  margin: 4px 0px;
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */  
+}
+
+.sytButton:focus {
+  outline: none;
+}
+
+.sytButton.toggled {
+  background-color: rgb(50, 184, 141);
+}
+
+.buttonList {
+  border: 1px solid white; 
+  padding: 4px;
+  margin: 2px;
+}
+
+.nextVideoButton {
+  height: 6em;
+}
+
 .playlistSelector {
   color: white;
   border: 1px solid white;
@@ -64,16 +94,6 @@ body {background-color: #110f36;}
   max-height: 16em;
 }
 
-.playlistSelectorButton {
-  border: 1px solid gray; 
-  color: black; 
-  padding: 4px 20px; /* Some padding */
-  margin: 0px 0px;
-  cursor: pointer; /* Pointer/hand icon */
-  width: 100%; /* Set a width if needed */
-  display: block; /* Make the buttons appear below each other */
-}
-
 .playlistSelectorItem {
   display: flex;
   flex-direction: row;
@@ -103,7 +123,6 @@ body {background-color: #110f36;}
 }
 
 .videoPoolTitle {
-  font-size: 18px;
   color: white;
   text-align: center;
   font-size: 18px;
@@ -140,39 +159,9 @@ body {background-color: #110f36;}
   display: none !important;
 }
 
-.buttonList {
-  border: 1px solid white; 
-  padding: 4px;
-  margin: 2px;
-}
-
-.buttonListButton {
-  background-color: #838383; /* Green background */
-  border: 1px solid gray; 
-  color: black; 
-  padding: 4px 20px; /* Some padding */
-  margin: 4px 0px;
-  cursor: pointer; /* Pointer/hand icon */
-  width: 100%; /* Set a width if needed */
-  display: block; /* Make the buttons appear below each other */
-}
-
-.nextVideoButton {
-  height: 6em;
-}
-
-.buttonListButton:focus {
-  outline: none;
-}
-
 .link {
   color: inherit;
   text-decoration: inherit;
-}
-
-
-.buttonListButton.toggled {
-  background-color: rgb(50, 184, 141);
 }
 
 .trackPlaylistForm {
@@ -201,7 +190,7 @@ body {background-color: #110f36;}
 
 }
 
-input, button {
+input {
   background-color: #dad8df;
   border: 1px solid gray; 
   color: black; 
@@ -221,7 +210,7 @@ input, button {
   vertical-align: top;
 }
 
-svg path,
+svg path, 
 svg rect{
   fill: #FF6700;
 }

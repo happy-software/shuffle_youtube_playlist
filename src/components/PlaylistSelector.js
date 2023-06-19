@@ -27,7 +27,7 @@ function PlaylistSelector(props) {
       <div 
         className="playlistSelectorTitle"
         onClick={() => setCollapsed(!collapsed)}
-      >Available Playlists (Expand/Collapse)</div>
+      >Playlists (Expand/Collapse)</div>
       <div className={`${collapsed ? 'hide' : ''}`}>
         <div className={`playlistSelectorInner ${collapsed ? 'hide' : ''}`}>
           {props.playlists.map(p =>
@@ -42,11 +42,11 @@ function PlaylistSelector(props) {
         </div>
         <button 
           onClick={() => props.onShuffle()}
-          className="playlistSelectorButton"
+          className="sytButton"
         >Combine Playlists</button>
         <button 
           onClick={() => onSelectNone(props)}
-          className="playlistSelectorButton"
+          className="sytButton"
         >Select None</button>
       </div>
     </div>

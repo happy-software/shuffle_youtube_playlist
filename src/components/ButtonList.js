@@ -8,27 +8,27 @@ function ButtonList(props) {
       <div>
         <button
           onClick={props.pickNextVideo}
-          className='buttonListButton nextVideoButton'
-        >Next Video</button>
+          className='sytButton nextVideoButton'
+        >Next</button>
         <ToggleableButton
           toggled={props.repeatVideo}
           setToggled={props.setRepeatVideo}
-          message="Repeat Video"
-          className="buttonListButton"
+          message="Repeat"
+          className="sytButton"
         />
         <ToggleableButton
           toggled={props.hideVideo}
           setToggled={props.setHideVideo}
           message={props.hideVideo ? "Show Video" : "Hide Video"}
-          className="buttonListButton"
+          className="sytButton"
         />
         <Link
           to="/track-new-playlist"
           className="link">
           <button
             type="button"
-            className="buttonListButton"
-          >Track New Playlist</button>
+            className="sytButton"
+          >Add to Playlists</button>
         </Link>
         <Link
           to="/search"
@@ -37,7 +37,7 @@ function ButtonList(props) {
           className="link">
           <button
             type="button"
-            className="buttonListButton"
+            className="sytButton"
           >Search</button>
         </Link>
       </div>
