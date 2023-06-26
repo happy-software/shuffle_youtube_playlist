@@ -63,6 +63,14 @@ body {background-color: #110f36;}
   height: 6em;
 }
 
+.chevron-down{
+  transform: rotate(0deg);
+}
+
+.chevron-down.flip{
+  transform: rotate(180deg);
+}
+
 .playlistSelector {
   color: white;
   border: 1px solid white;

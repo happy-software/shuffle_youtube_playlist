@@ -1,25 +1,6 @@
 import React, { useState } from 'react';
 import PlaylistSelectorItem from './PlaylistSelectorItem';
 
-function onSelectNone(props) {
-  const selectedNoPlaylists = props.playlists.map(p => { 
-    return { ...p, is_default: false }
-  });
-  props.setPlaylistIds([]);
-  props.setLoadedPlaylists(selectedNoPlaylists);
-}
-
-function togglePlaylistSelection(props, togglePlaylistId) {
-  const toggledOnePlaylist = props.playlists.map(p => { 
-    return p.playlist_id === togglePlaylistId ? { ...p, is_default: !p.is_default } : p
-  });
-  const playlistIds = toggledOnePlaylist
-    .filter(p => p.is_default)
-    .map(p => p.playlist_id);
-  props.setPlaylistIds(playlistIds);
-  props.setLoadedPlaylists(toggledOnePlaylist);
-}
-
 function PlaylistSelector(props) {
   const [collapsed, setCollapsed] = useState(props.isCollapsedDefault);
   return (
@@ -27,7 +8,8 @@ function PlaylistSelector(props) {
       <div 
         className="playlistSelectorTitle"
         onClick={() => setCollapsed(!collapsed)}
-      >Playlists (Expand/Collapse)</div>
+      >Playlists <img alt='Expand/Collapse' className={`chevron-down ${collapsed ? '' : 'flip'}`} src={'/chevron-down.svg'}></img></div>
+      
       <div className={`${collapsed ? 'hide' : ''}`}>
         <div className={`playlistSelectorInner ${collapsed ? 'hide' : ''}`}>
           {props.playlists.map(p =>
@@ -51,6 +33,25 @@ function PlaylistSelector(props) {
       </div>
     </div>
   );
+}
+
+function onSelectNone(props) {
+  const selectedNoPlaylists = props.playlists.map(p => { 
+    return { ...p, is_default: false }
+  });
+  props.setPlaylistIds([]);
+  props.setLoadedPlaylists(selectedNoPlaylists);
+}
+
+function togglePlaylistSelection(props, togglePlaylistId) {
+  const toggledOnePlaylist = props.playlists.map(p => { 
+    return p.playlist_id === togglePlaylistId ? { ...p, is_default: !p.is_default } : p
+  });
+  const playlistIds = toggledOnePlaylist
+    .filter(p => p.is_default)
+    .map(p => p.playlist_id);
+  props.setPlaylistIds(playlistIds);
+  props.setLoadedPlaylists(toggledOnePlaylist);
 }
 
 export default PlaylistSelector;

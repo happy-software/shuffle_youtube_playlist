@@ -1,7 +1,7 @@
 import React, { useState }  from 'react';
 import VideoTitleDisplay from './VideoTitleDisplay';
 
-function PlayedHistory({ videos, onVideoClicked, isCollapsedDefault }) {
+function VideoSelector({ videos, onVideoClicked, isCollapsedDefault }) {
   const [collapsed, setCollapsed] = useState(isCollapsedDefault);
   const playedVideos = videos.slice().reverse();
 
@@ -10,7 +10,7 @@ function PlayedHistory({ videos, onVideoClicked, isCollapsedDefault }) {
       <div 
         className={`videoPoolTitle`} 
         onClick={() => setCollapsed(!collapsed)}
-      >Video History (Expand/Collapse)</div>
+      >Video History <img alt='Expand/Collapse' className={`chevron-down ${collapsed ? '' : 'flip'}`} src={'/chevron-down.svg'}></img></div>
 
       <div className={`videoPoolList ${collapsed ? 'hide' : ''}`}>
         {
@@ -27,4 +27,4 @@ function PlayedHistory({ videos, onVideoClicked, isCollapsedDefault }) {
   );
 }
 
-export default PlayedHistory;
+export default VideoSelector;
