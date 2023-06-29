@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PlayedHistory from '../../src/components/PlayedHistory';
+import VideoSelector from '../../src/components/VideoSelector';
 
 it('renders without crashing', () => {
 	const div = document.createElement('div');
   const videos = [{}];
-	ReactDOM.render(<PlayedHistory videos={videos} />, div);
+	ReactDOM.render(<VideoSelector videos={videos} />, div);
 });

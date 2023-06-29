@@ -4,7 +4,7 @@ import AppConstants from '../AppConstants';
 import ButtonList from '../components/ButtonList';
 import CurrentVideoInfo from '../components/CurrentVideoInfo';
 import LoadingPlaceholder from '../components/LoadingPlaceholder';
-import PlayedHistory from '../components/PlayedHistory';
+import VideoSelector from '../components/VideoSelector';
 import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
 import useVideoHook from '../hooks/VideoHook';
@@ -73,7 +73,7 @@ function ShufflePlayer() {
           setLoadedPlaylists={setPlaylists}
           className='playlistSelector'
         />
-        <PlayedHistory
+        <VideoSelector
           videos={playedVideos}
           isCollapsedDefault={true}
           onVideoClicked={video => playVideo(video)}
