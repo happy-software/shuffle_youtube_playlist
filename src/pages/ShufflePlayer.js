@@ -1,32 +1,28 @@
 import React, { useState, useEffect }  from 'react';
-import axios from 'axios';
-import AppConstants from '../AppConstants';
-import ButtonList from '../components/ButtonList';
-import CurrentVideoInfo from '../components/CurrentVideoInfo';
-import LoadingPlaceholder from '../components/LoadingPlaceholder';
-import VideoSelector from '../components/VideoSelector';
-import Player from '../components/Player';
-import PlaylistSelector from '../components/PlaylistSelector';
-import useVideoHook from '../hooks/VideoHook';
+import ButtonList from '../components/ButtonList'
+import CurrentVideoInfo from '../components/CurrentVideoInfo'
+import LoadingPlaceholder from '../components/LoadingPlaceholder'
+import Player from '../components/Player'
+import PlaylistSelector from '../components/PlaylistSelector'
+import VideoSelector from '../components/VideoSelector'
+import PlaylistHook from '../hooks/PlaylistHook'
+import VideoHook from '../hooks/VideoHook'
 
 function ShufflePlayer() {
-  const [playlists,           setPlaylists]           = useState([])
   const [currentVideo,        setCurrentVideo]        = useState({})
   const [playedVideos,        setPlayedVideos]        = useState([])
-  const [selectedPlaylistIds, setSelectedPlaylistIds] = useState([])
   const [repeatVideo,         setRepeatVideo]         = useState(false)
   const [hideVideo,           setHideVideo]           = useState(true)
   const [hideDescription,     setHideDescription]     = useState(true)
-  
-  const [videosResult, fetchPlaylistVideos] = useVideoHook(selectedPlaylistIds) 
-  useEffect(loadPlaylists, [])
-  useEffect(pickNextVideo, [videosResult])
 
-  function loadPlaylists() {
-    axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
-      .then(response => setPlaylists(response.data))
-      .catch(error => console.log(`Couldn't retrieve tracked playlists! ${error}`))
-  }
+  // load playlists
+  const [playlistsResult,] = PlaylistHook() 
+  
+  // load videos 
+  const [videosResult, fetchPlaylistVideos] = VideoHook() 
+
+  // pick a video after load
+  useEffect(pickNextVideo, [videosResult])
 
   function pickNextVideo() {
     if (!videosResult.isLoaded) { return; }
@@ -66,11 +62,9 @@ function ShufflePlayer() {
           pickNextVideo={() => pickNextVideo()}
         />
         <PlaylistSelector
-          playlists={playlists}
+          playlists={playlistsResult.playlists}
           isCollapsedDefault={true}
-          onShuffle={() => fetchPlaylistVideos(selectedPlaylistIds)}
-          setPlaylistIds={setSelectedPlaylistIds}
-          setLoadedPlaylists={setPlaylists}
+          onCombine={playlistIds => fetchPlaylistVideos(playlistIds)}
           className='playlistSelector'
         />
         <VideoSelector

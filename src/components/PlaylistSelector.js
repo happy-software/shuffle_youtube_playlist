@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import PlaylistSelectorItem from './PlaylistSelectorItem';
 
-function PlaylistSelector(props) {
+export default function PlaylistSelector(props) {
+  const [playlistToggles, setPlaylistToggles] = useState([])
+  const [selectedPlaylistIds, setSelectedPlaylistIds] = useState([])
   const [collapsed, setCollapsed] = useState(props.isCollapsedDefault);
+
   return (
     <div id="playlistSelector" className="playlistSelector">
       <div 
@@ -23,7 +26,7 @@ function PlaylistSelector(props) {
           )}
         </div>
         <button 
-          onClick={() => props.onShuffle()}
+          onClick={() => onCombine(props)}
           className="sytButton"
         >Combine Playlists</button>
         <button 
@@ -35,7 +38,7 @@ function PlaylistSelector(props) {
   );
 }
 
-function onSelectNone(props) {
+function onSelectNone2(props) {
   const selectedNoPlaylists = props.playlists.map(p => { 
     return { ...p, is_default: false }
   });
@@ -43,7 +46,22 @@ function onSelectNone(props) {
   props.setLoadedPlaylists(selectedNoPlaylists);
 }
 
-function togglePlaylistSelection(props, togglePlaylistId) {
+function onSelectNone(props) {
+  console.log(props.playlists);
+  props.playlists = props.playlists.map(p => p.is_default = false);
+}
+
+
+function togglePlaylistSelection(props, toggledPlaylistId) {
+  console.log(props.playlists);
+  // is_default = toggle
+  const toggleThePlaylist = props.playlists.map(p => p.playlist_id === toggledPlaylistId ? { ...p, is_default: !p.is_default } : p);
+  const playlistIds = toggleThePlaylist
+    .filter(p => p.is_default)
+    .map(p => p.playlist_id);
+}
+
+function togglePlaylistSelection2(props, togglePlaylistId) {
   const toggledOnePlaylist = props.playlists.map(p => { 
     return p.playlist_id === togglePlaylistId ? { ...p, is_default: !p.is_default } : p
   });
@@ -54,4 +72,9 @@ function togglePlaylistSelection(props, togglePlaylistId) {
   props.setLoadedPlaylists(toggledOnePlaylist);
 }
 
-export default PlaylistSelector;
+function onCombine(props) {
+  const playlistIds = props.playlists
+    .filter(p => p.is_default)
+    .map(p => p.playlist_id);
+  props.onCombine(playlistIds)
+}

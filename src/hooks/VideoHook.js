@@ -12,8 +12,8 @@ const initialFetchResult = {
   isError: false,
 }
 
-export default function useVideoHook(initialPlaylistIds) {
-  const [playlistIds, setPlaylistIds] = useState(initialPlaylistIds)
+export default function VideoHook() {
+  const [playlistIds, setPlaylistIds] = useState([])
   const [fetchResult, setFetchResult] = useState(initialFetchResult)
   useEffect(() => { fetchData(playlistIds, setFetchResult) }, [playlistIds])
   return [fetchResult, setPlaylistIds]
@@ -22,6 +22,7 @@ export default function useVideoHook(initialPlaylistIds) {
 async function fetchData(ids, setResult) {
   try { 
     setResult(initialFetchResult)
+    console.log(ids);
     const response = await axios.post(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: ids })
     setResult({
       ...initialFetchResult,
