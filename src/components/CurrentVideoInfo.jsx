@@ -1,8 +1,13 @@
 import React from 'react';
+import { Textfit } from 'react-textfit';
 
 function CurrentVideoInfo(props) {
-  const titleOpts = {
-    flex: 1
+  var titleOpts = {
+    flex: 1,
+    height: "110px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center" 
   }
   const anchorOpts = {
     paddingLeft: 3, 
@@ -13,7 +18,7 @@ function CurrentVideoInfo(props) {
   return(
     <>
     <div id="videoTitleDisplay" className='currentVideoTitle' onClick={() => props.setCollapseDescription(!props.collapseDescription)}>
-      <div style={titleOpts}>{props.currentVideo.title}</div>
+      <Textfit style={titleOpts} mode="multi" max={44}>{props.currentVideo.title}</Textfit>
       <a style={anchorOpts} href={`https://youtube.com/watch?v=${props.currentVideo.video_id}`} target="_blank" rel="noopener noreferrer">
         <img alt='Go to Youtube' src={'/arrow-up-right.svg'}></img>
       </a>
