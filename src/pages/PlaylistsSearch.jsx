@@ -1,6 +1,7 @@
 import React, { useState, useEffect }  from 'react';
 import axios from 'axios';
 import AppConstants from '../AppConstants';
+import LoadingPlaceholder from '../components/LoadingPlaceholder';
 import SearchField from 'react-search-field'
 
 const List = props => (
@@ -44,28 +45,30 @@ function matchingItem(item, queryString) {
   return false;
 }
 
-
-
 function PlaylistsSearch(props) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [loadedVideos, setLoadedVideos] = useState([]);
   const [queryString, setQueryString] = useState("");
 
-  const handleInput = value => {
-    setQueryString(value);
-  }
+  useEffect(loadVideos, [isLoaded]);
 
   function loadVideos() {
+    if (isLoaded) return;
     axios.get(AppConstants.APIEndpoints.TRACKED_VIDEOS)
-    .then(response => setLoadedVideos(response.data))
-    .catch(error => console.log(`Couldn't retrieve tracked videos: ${error}`))
+      .then(response => {
+        setIsLoaded(true);
+        setLoadedVideos(response.data)
+      })
+      .catch(error => console.log(`Couldn't retrieve tracked videos: ${error}`))
   }
-
-  useEffect(loadVideos, []);
 
   return(
     <div>
-      <SearchField onChange={handleInput} placeholder="Search Videos..." />
-      <List queryString={queryString} list={loadedVideos} />
+      <div className="pageTitle">Search All Videos</div>
+      <div className="searchFieldContainer">
+        <SearchField classNames="searchField" onChange={(value) => setQueryString(value)} placeholder="Search Videos..." />
+      </div>
+      { !isLoaded ? <LoadingPlaceholder /> : <List queryString={queryString} list={loadedVideos} /> }
     </div>
     );
 }
