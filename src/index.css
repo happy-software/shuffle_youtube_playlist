@@ -221,3 +221,18 @@ svg path,
 svg rect{
   fill: #FF6700;
 }
+
+.pageTitle{
+  font-size: 44px;
+  text-align: center;
+  padding: 1px;
+}
+
+.searchField{
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.searchFieldContainer{
+  padding: 4px;
+}
