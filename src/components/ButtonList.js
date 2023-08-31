@@ -9,13 +9,14 @@ function ButtonList(props) {
         <button
           onClick={props.pickNextVideo}
           className='sytButton nextVideoButton'
-        >Next</button>
+        >Next <img alt='Next' src={'/next-video.svg'}/></button>
         <ToggleableButton
           toggled={props.repeatVideo}
           setToggled={props.setRepeatVideo}
           message="Repeat"
           className="sytButton"
-        />
+          svg="repeat-video.svg"
+        ></ToggleableButton>
         <ToggleableButton
           toggled={props.hideVideo}
           setToggled={props.setHideVideo}

@@ -5,7 +5,7 @@ function ToggleableButton(props) {
     <button
       className={`${props.className}${props.toggled?' toggled':''}`}
       onClick={() => props.setToggled(!props.toggled)}
-    >{props.message}</button>
+    >{props.message} {props.svg ? <img className="sytButtonImage" alt={props.message} src={props.svg}/> : <div></div>}</button>
   )
 }
 

@@ -1,0 +1,27 @@
+<svg 
+  xmlns="http://www.w3.org/2000/svg" 
+  width="50" 
+  height="50" 
+  style="background-color:none;color:black"
+  fill="currentColor" 
+  stroke="currentColor" 
+  stroke-width="5" 
+  stroke-linecap="round" 
+  viewBox="-4 -4 50 50" 
+  stroke-linejoin="round">
+  <!-- <path d="M 70 60 C 70 80, 110 80, 110 60" stroke="black" fill="transparent"/> -->
+  <!-- <polygon points="1 1, 1 23, 15 12"/>
+  <polygon points="15 1, 15 23, 29 12"/> -->
+    
+  <!-- counterclockwise starting from arrow -->
+  <line x1="6" y1="-3" x2="10" y2="1"></line>
+  <line x1="6" y1="5" x2="10" y2="1"></line>
+  <line x1="8" y1="1" x2="10" y2="1"></line>
+  <path d="M 8 1 Q 1 1 1 8" stroke="black" fill="transparent"/>
+  <line x1="1" y1="8" x2="1" y2="12"></line>
+  <path d="M 1 12 Q 1 19 8 19" stroke="black" fill="transparent"/>
+  <line x1="8" y1="19" x2="15" y2="19"></line>
+  <path d="M 15 19 Q 22 19 22 12" stroke="black" fill="transparent"/>
+  <line x1="22" y1="8" x2="22" y2="12"></line>
+  <path d="M 22 8 Q 22 1 15 1" stroke="black" fill="transparent"/>
+  </svg>

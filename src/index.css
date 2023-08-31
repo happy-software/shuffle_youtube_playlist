@@ -34,9 +34,9 @@ body {background-color: #110f36;}
 
 .sytButton {
   border: 1px solid gray; 
-  font-size: 18px;
+  font-size: 24px;
   color: black;
-  height: 40px;
+  height: 60px;
   padding: 4px 20px; /* Some padding */
   margin: 4px 0px;
   cursor: pointer; /* Pointer/hand icon */
@@ -52,6 +52,14 @@ body {background-color: #110f36;}
   background-color: rgb(50, 184, 141);
 }
 
+.sytButtonText {
+  color: black !important;
+}
+
+.sytButtonImage {
+  height: 24px
+}
+
 .buttonList {
   border: 1px solid white; 
   padding: 4px;
@@ -60,6 +68,7 @@ body {background-color: #110f36;}
 
 .nextVideoButton {
   height: 6em;
+  font-size: 30px;
 }
 
 .chevron-down{
