@@ -34,7 +34,7 @@ function ShufflePlayer() {
       .then(response => {
         response.data = response.data.map(item => ({
           ...item,
-          is_default: selectedPlaylistIds.includes(item.playlist_id)
+          is_default: selectedPlaylistIds.length > 0 ? selectedPlaylistIds.includes(item.playlist_id) : item.is_default
         }))
         setPlaylists(response.data)
       })
