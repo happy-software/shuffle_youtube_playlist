@@ -13,18 +13,43 @@ function ShufflePlayer() {
   const [playlists,           setPlaylists]           = useState([])
   const [currentVideo,        setCurrentVideo]        = useState({})
   const [playedVideos,        setPlayedVideos]        = useState([])
-  const [selectedPlaylistIds, setSelectedPlaylistIds] = useState([])
+  const [selectedPlaylistIds, setSelectedPlaylistIds] = useState(() => {
+    const saved = localStorage.getItem("selectedPlaylistIds");
+    const initialValue = JSON.parse(saved);
+    return initialValue || [];
+  })
   const [repeatVideo,         setRepeatVideo]         = useState(false)
   const [hideVideo,           setHideVideo]           = useState(true)
   const [hideDescription,     setHideDescription]     = useState(true)
   
   const [videosResult, fetchPlaylistVideos] = useVideoHook(selectedPlaylistIds) 
-  useEffect(loadPlaylists, [])
   useEffect(pickNextVideo, [videosResult])
+  useEffect(() => {
+    localStorage.setItem("selectedPlaylistIds", JSON.stringify(selectedPlaylistIds));
+  }, [selectedPlaylistIds]);
+  
+  useCallbackOnce(loadPlaylists)
+
+  function useCallbackOnce(callbackFunction, condition = true) {
+    const isCalledRef = React.useRef(false);
+  
+    React.useEffect(() => {
+      if (condition && !isCalledRef.current) {
+        isCalledRef.current = true;
+        callbackFunction();
+      }
+    }, [callbackFunction, condition]);
+  }
 
   function loadPlaylists() {
     axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
-      .then(response => setPlaylists(response.data))
+      .then(response => {
+        response.data = response.data.map(item => ({
+          ...item,
+          is_default: selectedPlaylistIds.length > 0 ? selectedPlaylistIds.includes(item.playlist_id) : item.is_default
+        }))
+        setPlaylists(response.data)
+      })
       .catch(error => console.log(`Couldn't retrieve tracked playlists! ${error}`))
   }
 
