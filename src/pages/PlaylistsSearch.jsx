@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AppConstants from '../AppConstants';
 import LoadingPlaceholder from '../components/LoadingPlaceholder';
@@ -16,8 +16,8 @@ const List = props => (
           <ul key={index}>
             <li>
               <a href={`https://youtube.com/watch?v=${item.videoId}`}
-                 target="_blank"
-                 rel="noopener noreferrer">
+                target="_blank"
+                rel="noopener noreferrer">
                 {item.title}
               </a>
             </li>
@@ -33,12 +33,12 @@ function filteredList(queryString, list) {
 }
 
 function matchingItem(item, queryString) {
-  if (queryString === "") { return true } 
+  if (queryString === "") { return true }
   queryString = queryString.toLowerCase();
   if (item.videoId.toString().toLowerCase().search(queryString) >= 0 ||
     item.title.toString().toLowerCase().search(queryString) >= 0 ||
     item.description.toString().toLowerCase().search(queryString) >= 0
-    ) {
+  ) {
     return true;
   }
 
@@ -62,15 +62,15 @@ function PlaylistsSearch(props) {
       .catch(error => console.log(`Couldn't retrieve tracked videos: ${error}`))
   }
 
-  return(
+  return (
     <div>
       <div className="pageTitle">Search All Videos</div>
       <div className="searchFieldContainer">
         <SearchField classNames="searchField" onChange={(value) => setQueryString(value)} placeholder="Search Videos..." />
       </div>
-      { !isLoaded ? <LoadingPlaceholder /> : <List queryString={queryString} list={loadedVideos} /> }
+      {!isLoaded ? <LoadingPlaceholder /> : <List queryString={queryString} list={loadedVideos} />}
     </div>
-    );
+  );
 }
 
 export default PlaylistsSearch;

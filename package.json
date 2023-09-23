@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://syt.hebron.wtf",
   "dependencies": {
+    "@tomplum/react-textfit": "^1.1.5",
     "axios": "^0.25.0",
     "gh-pages": "^3.2.3",
     "nan": "^2.15.0",
@@ -12,8 +13,7 @@
     "react-player": "^2.0.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
-    "react-search-field": "^2.0.1",
-    "react-textfit": "1.1.1"
+    "react-search-field": "github:ras1/react-search-field"
   },
   "scripts": {
     "start": "react-scripts start",
