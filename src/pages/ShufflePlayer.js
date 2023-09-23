@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AppConstants from '../AppConstants';
 import ButtonList from '../components/ButtonList';
@@ -10,29 +10,29 @@ import PlaylistSelector from '../components/PlaylistSelector';
 import useVideoHook from '../hooks/VideoHook';
 
 function ShufflePlayer() {
-  const [playlists,           setPlaylists]           = useState([])
-  const [currentVideo,        setCurrentVideo]        = useState({})
-  const [playedVideos,        setPlayedVideos]        = useState([])
+  const [playlists, setPlaylists] = useState([])
+  const [currentVideo, setCurrentVideo] = useState({})
+  const [playedVideos, setPlayedVideos] = useState([])
   const [selectedPlaylistIds, setSelectedPlaylistIds] = useState(() => {
     const saved = localStorage.getItem("selectedPlaylistIds");
     const initialValue = JSON.parse(saved);
     return initialValue || [];
   })
-  const [repeatVideo,         setRepeatVideo]         = useState(false)
-  const [hideVideo,           setHideVideo]           = useState(true)
-  const [hideDescription,     setHideDescription]     = useState(true)
-  
-  const [videosResult, fetchPlaylistVideos] = useVideoHook(selectedPlaylistIds) 
+  const [repeatVideo, setRepeatVideo] = useState(false)
+  const [hideVideo, setHideVideo] = useState(true)
+  const [hideDescription, setHideDescription] = useState(true)
+
+  const [videosResult, fetchPlaylistVideos] = useVideoHook(selectedPlaylistIds)
   useEffect(pickNextVideo, [videosResult])
   useEffect(() => {
     localStorage.setItem("selectedPlaylistIds", JSON.stringify(selectedPlaylistIds));
   }, [selectedPlaylistIds]);
-  
+
   useCallbackOnce(loadPlaylists)
 
   function useCallbackOnce(callbackFunction, condition = true) {
     const isCalledRef = React.useRef(false);
-  
+
     React.useEffect(() => {
       if (condition && !isCalledRef.current) {
         isCalledRef.current = true;
@@ -67,7 +67,7 @@ function ShufflePlayer() {
     setPlayedVideos(played => played.concat(video))
   }
 
-  return ( !videosResult.isLoaded ? <LoadingPlaceholder /> : 
+  return (!videosResult.isLoaded ? <LoadingPlaceholder /> :
     <div>
       <Player
         videoId={currentVideo.video_id}
@@ -76,14 +76,14 @@ function ShufflePlayer() {
         hideVideo={hideVideo}
       />
 
-      <CurrentVideoInfo 
-        currentVideo={currentVideo} 
-        collapseDescription={hideDescription} 
-        setCollapseDescription={setHideDescription} 
+      <CurrentVideoInfo
+        currentVideo={currentVideo}
+        collapseDescription={hideDescription}
+        setCollapseDescription={setHideDescription}
       />
 
       <div className='contentRow'>
-        <ButtonList 
+        <ButtonList
           repeatVideo={repeatVideo}
           setRepeatVideo={setRepeatVideo}
           hideVideo={hideVideo}
