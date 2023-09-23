@@ -1,5 +1,5 @@
 import React from 'react';
-import { Textfit } from 'react-textfit';
+import { Textfit } from '@tomplum/react-textfit';
 
 function CurrentVideoInfo(props) {
   var titleOpts = {
