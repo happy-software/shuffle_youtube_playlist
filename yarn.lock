@@ -7413,9 +7413,9 @@ react-scripts@5.0.0:
   optionalDependencies:
     fsevents "^2.3.2"
 
-"react-search-field@github:ras1/react-search-field":
-  version "2.0.1"
-  resolved "https://codeload.github.com/ras1/react-search-field/tar.gz/6da3e2afc4b558c8ac8034226f864731dfae7339"
+"react-search-field@github:ras1/react-search-field#2.0.2":
+  version "2.0.2"
+  resolved "https://codeload.github.com/ras1/react-search-field/tar.gz/805b162ec01b4d9c09735ff086079c5df4e605d1"
   dependencies:
     prop-types "15.7.2"
     typeco "1.0.0"
