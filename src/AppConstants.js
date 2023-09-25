@@ -4,8 +4,8 @@ const appConstants = {
   APIEndpoints: {
     SHUFFLE: APIRoot + "/shuffle",
     TRACKED_PLAYLISTS: APIRoot + "/tracked-playlists",
-    TRACKED_VIDEOS:    APIRoot + "/videos",
+    TRACKED_VIDEOS: APIRoot + "/videos",
   },
+  SelectedPlaylistIdsKey: "selectedPlaylistIds"
 };
-
 export default appConstants;
