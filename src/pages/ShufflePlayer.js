@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import AppConstants from '../AppConstants';
 import ButtonList from '../components/ButtonList';
 import CurrentVideoInfo from '../components/CurrentVideoInfo';
 import LoadingPlaceholder from '../components/LoadingPlaceholder';
 import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
 import VideoSelector from '../components/VideoSelector';
+import useLocalStorage from '../hooks/UseLocalStorage';
 import usePlaylistDataFetcher from '../hooks/UsePlaylistDataFetcher';
 import useVideoDataFetcher from '../hooks/UseVideoDataFetcher';
 
 export default function ShufflePlayer() {
   const [currentVideo, setCurrentVideo] = useState({})
   const [playedVideos, setPlayedVideos] = useState([])
-  const [selectedPlaylistIds, setSelectedPlaylistIds] = useState(() => {
-    const saved = localStorage.getItem("selectedPlaylistIds");
-    const initialValue = JSON.parse(saved);
-    return initialValue || [];
-  })
   const [repeatVideo, setRepeatVideo] = useState(false)
   const [hideVideo, setHideVideo] = useState(true)
   const [hideDescription, setHideDescription] = useState(true)
 
+  const [selectedPlaylistIds, setSelectedPlaylistIds] = useLocalStorage(AppConstants.SelectedPlaylistIdsKey, []);
   const [playlists, setPlaylists] = usePlaylistDataFetcher(selectedPlaylistIds);
-
-  useEffect(() => {
-    localStorage.setItem("selectedPlaylistIds", JSON.stringify(selectedPlaylistIds));
-  }, [selectedPlaylistIds]);
   const [videoFetchResult, setVideoFetchPlaylistIds] = useVideoDataFetcher()
   useEffect(pickNextVideo, [videoFetchResult])
 
