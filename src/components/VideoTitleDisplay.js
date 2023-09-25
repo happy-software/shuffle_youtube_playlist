@@ -5,19 +5,23 @@ function VideoTitleDisplay({ video, onVideoClicked, className }) {
     flex: 1
   }
   const anchorOpts = {
-    paddingLeft: 3, 
+    paddingLeft: 3,
     flex: 0
   }
 
   return (
-    <div 
-      id="videoTitleDisplay" 
-      onClick={() => onVideoClicked(video)}
+    <div
+      id="videoTitleDisplay"
       className={`${className}`}
     >
-      <div style={titleOpts}>{video.title}</div>
-      <a 
-        style={anchorOpts} 
+      <div
+        onClick={() => onVideoClicked(video)}
+        style={titleOpts}
+      >
+        {video.title}
+      </div>
+      <a
+        style={anchorOpts}
         href={`https://youtube.com/watch?v=${video.video_id}`}
         target="_blank"
         rel="noopener noreferrer"

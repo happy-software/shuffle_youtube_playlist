@@ -1,7 +1,7 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import axios from 'axios';
 import AppConstants from '../../src/AppConstants';
-import useVideoHook from "../../src/hooks/VideoHook";
+import useVideoDataFetcher from "../../src/hooks/UseVideoDataFetcher";
 
 jest.mock('axios');
 
@@ -15,7 +15,7 @@ const testVideos = [
   }
 ];
 const mockResponse = {
-  data: { 
+  data: {
     songs: testVideos
   }
 };
@@ -27,7 +27,7 @@ describe('useVideoHook', () => {
 
     // call the hook using renderHook (it requires a component)
     const initialPlaylistIds = [];
-    const { result, waitForNextUpdate } = renderHook(() => useVideoHook(initialPlaylistIds));
+    const { result, waitForNextUpdate } = renderHook(() => useVideoDataFetcher(initialPlaylistIds));
     expect(axios.post).toHaveBeenCalledWith(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: initialPlaylistIds });
 
     // expect hook state to have been initialized
@@ -53,7 +53,7 @@ describe('useVideoHook', () => {
       dispatchFunction(updatedPlaylistIds);
     })
     expect(axios.post).toHaveBeenCalledWith(AppConstants.APIEndpoints.SHUFFLE, { playlist_ids: updatedPlaylistIds });
-    
+
     // expect hook state to have been initialized
     hookResult = result.current[0];
     expect(hookResult.videos).toEqual([]);

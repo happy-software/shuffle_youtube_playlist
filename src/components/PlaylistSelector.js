@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
 import PlaylistSelectorItem from './PlaylistSelectorItem';
 
-function PlaylistSelector(props) {
+export default function PlaylistSelector(props) {
   const [collapsed, setCollapsed] = useState(props.isCollapsedDefault);
   return (
     <div id="playlistSelector" className="playlistSelector">
-      <div 
+      <div
         className="playlistSelectorTitle"
         onClick={() => setCollapsed(!collapsed)}
       >Playlists <img alt='Expand/Collapse' className={`chevron-down ${collapsed ? '' : 'flip'}`} src={'/chevron-down.svg'}></img></div>
-      
+
       <div className={`${collapsed ? 'hide' : ''}`}>
         <div className={`playlistSelectorInner ${collapsed ? 'hide' : ''}`}>
           {props.playlists.map(p =>
             <PlaylistSelectorItem
-            key={p.playlist_id}
-            label={p.name}
-            value={p.playlist_id}
-            checked={p.is_default}
-            onCheckboxChange={(playlist_id) => togglePlaylistSelection(props, playlist_id)}
+              key={p.playlist_id}
+              label={p.name}
+              value={p.playlist_id}
+              checked={p.is_default}
+              onCheckboxChange={(playlist_id) => togglePlaylistSelection(props, playlist_id)}
             />
           )}
         </div>
-        <button 
+        <button
           onClick={() => props.onShuffle()}
           className="sytButton"
         >Combine Playlists</button>
-        <button 
+        <button
           onClick={() => onSelectNone(props)}
           className="sytButton"
         >Select None</button>
@@ -36,7 +36,7 @@ function PlaylistSelector(props) {
 }
 
 function onSelectNone(props) {
-  const selectedNoPlaylists = props.playlists.map(p => { 
+  const selectedNoPlaylists = props.playlists.map(p => {
     return { ...p, is_default: false }
   });
   props.setPlaylistIds([]);
@@ -44,7 +44,7 @@ function onSelectNone(props) {
 }
 
 function togglePlaylistSelection(props, togglePlaylistId) {
-  const toggledOnePlaylist = props.playlists.map(p => { 
+  const toggledOnePlaylist = props.playlists.map(p => {
     return p.playlist_id === togglePlaylistId ? { ...p, is_default: !p.is_default } : p
   });
   const playlistIds = toggledOnePlaylist
@@ -53,5 +53,3 @@ function togglePlaylistSelection(props, togglePlaylistId) {
   props.setPlaylistIds(playlistIds);
   props.setLoadedPlaylists(toggledOnePlaylist);
 }
-
-export default PlaylistSelector;
