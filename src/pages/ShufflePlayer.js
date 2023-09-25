@@ -39,7 +39,7 @@ export default function ShufflePlayer() {
   function playVideo(video) {
     setCurrentVideo(video);
     setHideDescription(true);
-    setPlayedVideos(played => played.concat(video))
+    setPlayedVideos([...playedVideos, video])
   }
 
   return (!videoFetchResult.isLoaded ? <LoadingPlaceholder /> :
