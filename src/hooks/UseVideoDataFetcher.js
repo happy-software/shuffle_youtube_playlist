@@ -9,14 +9,15 @@ const initialFetchResult = {
   isError: false,
 }
 
-export default function useVideoDataFetcher() {
-  const [playlistIds, setPlaylistIds] = useState([])
+export default function useVideoDataFetcher(selectedPlaylistIds) {
+  const [playlistIds, setPlaylistIds] = useState(selectedPlaylistIds)
   const [fetchResult, setFetchResult] = useState(initialFetchResult)
 
   // Effect hook for fetching data when playlist IDs change
   useEffect(() => {
     fetchData(playlistIds, setFetchResult)
   }, [playlistIds])
+
   return [fetchResult, setPlaylistIds]
 }
 
