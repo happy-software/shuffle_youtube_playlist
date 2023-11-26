@@ -1,8 +1,8 @@
 import { renderHook, act } from "@testing-library/react-hooks";
+import axios from 'axios';
 import AppConstants from '../../src/AppConstants';
 import useVideoDataFetcher from "../../src/hooks/UseVideoDataFetcher";
 
-const axios = require("axios");
 jest.mock('axios');
 
 const testVideos = [
