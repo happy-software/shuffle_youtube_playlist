@@ -1,22 +1,16 @@
-name: MasterDeployCI
+name: DeployCI
 on:
   push:
     branches:
       - master
       - main
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to deploy'
-        required: true
-        default: 'master'
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-      with: 
-        ref: ${{ github.event.inputs.branch || github.ref }}
     - name: Install Packages
       run: yarn
     - name: Deploy
