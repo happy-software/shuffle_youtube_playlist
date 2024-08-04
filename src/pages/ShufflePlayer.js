@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import AppConstants from '../AppConstants';
 import ButtonList from '../components/ButtonList';
 import LoadingPlaceholder from '../components/LoadingPlaceholder';
@@ -11,6 +11,8 @@ import useVideoPlayer from '../hooks/UseVideoPlayer';
 export default function ShufflePlayer() {
   const [repeatVideo, setRepeatVideo] = useState(false)
   const [hideVideo, setHideVideo] = useState(true)
+
+  const playerRef = useRef(null);
 
   const [selectedPlaylistIds, setSelectedPlaylistIds] = useLocalStorage(AppConstants.SelectedPlaylistIdsKey, []);
   const [playlists, setPlaylists] = usePlaylistDataFetcher(selectedPlaylistIds);
@@ -30,6 +32,7 @@ export default function ShufflePlayer() {
       videos={currentVideos}
       repeatVideo={repeatVideo}
       hideVideo={hideVideo}
+      playerRef={playerRef}
     />
 
     <div className='contentRow'>
@@ -38,6 +41,7 @@ export default function ShufflePlayer() {
         setRepeatVideo={setRepeatVideo}
         hideVideo={hideVideo}
         setHideVideo={setHideVideo}
+        playerRef={playerRef}
       />
       <PlaylistSelector
         playlists={playlists}

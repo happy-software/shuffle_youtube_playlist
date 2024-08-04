@@ -6,6 +6,10 @@ function ButtonList(props) {
   return (
     <div className="buttonList">
       <div>
+        <button
+          onClick={() => props.playerRef.current?.seekTo(100, "fraction")}
+          className='sytButton nextVideoButton'
+        >Next</button>
         <ToggleableButton
           toggled={props.repeatVideo}
           setToggled={props.setRepeatVideo}

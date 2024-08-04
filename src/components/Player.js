@@ -6,6 +6,7 @@ function Player(props) {
     <div className='playerWrapper' style={{ display: props.hideVideo ? 'none' : 'block' }}>
       <ReactPlayer
         className='player'
+        ref={props.playerRef}
         url={props.videos.map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
         controls={true}
         loop={props.repeatVideo}
