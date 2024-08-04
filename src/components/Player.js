@@ -20,7 +20,7 @@ function Player(props) {
       <ReactPlayer
         className='player'
         ref={props.playerRef}
-        url={props.videos.slice(0, 200).map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
+        url={props.videos.slice(0, 201).map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
         // url={`https://www.youtube.com/watch?v=${props.videos[0]?.video_id}`}
         controls={true}
         loop={props.repeatVideo}
