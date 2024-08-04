@@ -19,7 +19,7 @@ function CurrentVideoInfo(props) {
       <div id="videoTitleDisplay" className='currentVideoTitle' onClick={() => props.setCollapseDescription(!props.collapseDescription)}>
         <Textfit style={titleOpts} mode="multi" max={44}>{props.currentVideo.title}</Textfit>
         <a style={anchorOpts} href={`https://youtube.com/watch?v=${props.currentVideo.video_id}`} target="_blank" rel="noopener noreferrer">
-          <img alt='Go to Youtube' src={'/arrow-up-right.svg'}></img>
+          <img alt='Go to Youtube Site' src={'/arrow-up-right.svg'}></img>
         </a>
       </div>
 
