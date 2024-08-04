@@ -20,7 +20,7 @@ function Player(props) {
       <ReactPlayer
         className='player'
         ref={props.playerRef}
-        url={props.videos.map(v => `https://www.youtube.com/embed/${v.video_id}`)}
+        url={props.videos.map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
         controls={true}
         loop={props.repeatVideo}
         playing={true}
@@ -31,7 +31,7 @@ function Player(props) {
           youtube: {
             playerVars: {},
             embedOptions: {
-              host: "https://www.youtube-nocookie.com",
+              // host: "https://www.youtube-nocookie.com",
             }
           },
           attributes: {},
