@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import AppConstants from '../AppConstants';
 import ButtonList from '../components/ButtonList';
-import CurrentVideoInfo from '../components/CurrentVideoInfo';
 import LoadingPlaceholder from '../components/LoadingPlaceholder';
 import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
-import VideoSelector from '../components/VideoSelector';
 import useLocalStorage from '../hooks/UseLocalStorage';
 import usePlaylistDataFetcher from '../hooks/UsePlaylistDataFetcher';
 import useVideoPlayer from '../hooks/UseVideoPlayer';
@@ -18,13 +16,8 @@ export default function ShufflePlayer() {
   const [playlists, setPlaylists] = usePlaylistDataFetcher(selectedPlaylistIds);
 
   const {
-    currentVideo,
-    playedVideos,
-    pickNextVideo,
-    playVideo,
+    currentVideos,
     setVideoFetchPlaylistIds,
-    hideDescription,
-    setHideDescription,
     isLoaded
   } = useVideoPlayer(selectedPlaylistIds);
 
@@ -34,16 +27,9 @@ export default function ShufflePlayer() {
 
   return <div>
     <Player
-      videoId={currentVideo.video_id}
-      onEnd={() => pickNextVideo()}
+      videos={currentVideos}
       repeatVideo={repeatVideo}
       hideVideo={hideVideo}
-    />
-
-    <CurrentVideoInfo
-      currentVideo={currentVideo}
-      collapseDescription={hideDescription}
-      setCollapseDescription={setHideDescription}
     />
 
     <div className='contentRow'>
@@ -52,7 +38,6 @@ export default function ShufflePlayer() {
         setRepeatVideo={setRepeatVideo}
         hideVideo={hideVideo}
         setHideVideo={setHideVideo}
-        pickNextVideo={() => pickNextVideo()}
       />
       <PlaylistSelector
         playlists={playlists}
@@ -60,12 +45,6 @@ export default function ShufflePlayer() {
         onShuffle={() => setVideoFetchPlaylistIds(selectedPlaylistIds)}
         setPlaylistIds={setSelectedPlaylistIds}
         setLoadedPlaylists={setPlaylists}
-        className='playlistSelector'
-      />
-      <VideoSelector
-        videos={playedVideos}
-        isCollapsedDefault={true}
-        onVideoClicked={video => playVideo(video)}
       />
     </div>
   </div>

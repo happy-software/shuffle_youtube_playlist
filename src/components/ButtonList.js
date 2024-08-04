@@ -6,10 +6,6 @@ function ButtonList(props) {
   return (
     <div className="buttonList">
       <div>
-        <button
-          onClick={props.pickNextVideo}
-          className='sytButton nextVideoButton'
-        >Next</button>
         <ToggleableButton
           toggled={props.repeatVideo}
           setToggled={props.setRepeatVideo}
