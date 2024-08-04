@@ -7,7 +7,7 @@ function ButtonList(props) {
     <div className="buttonList">
       <div>
         <button
-          onClick={() => props.playerRef.current?.seekTo(100, "fraction")}
+          onClick={() => props.playerRef.current?.nextVideo()}
           className='sytButton nextVideoButton'
         >Next</button>
         <ToggleableButton
