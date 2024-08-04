@@ -2,6 +2,7 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 
 function Player(props) {
+  const YOUTUBE_PLAYLIST_VIDEO_LIMIT = 200;
   function onError() {
     var internalPlayer = props.playerRef.current?.getInternalPlayer();
     var videoUrl = internalPlayer.getVideoUrl()
@@ -20,8 +21,7 @@ function Player(props) {
       <ReactPlayer
         className='player'
         ref={props.playerRef}
-        url={props.videos.slice(0, 201).map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
-        // url={`https://www.youtube.com/watch?v=${props.videos[0]?.video_id}`}
+        url={props.videos.slice(0, YOUTUBE_PLAYLIST_VIDEO_LIMIT).map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
         controls={true}
         loop={props.repeatVideo}
         playing={true}
