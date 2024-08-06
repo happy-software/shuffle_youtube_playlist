@@ -6,11 +6,9 @@ function Player(props) {
 
   function onPlay() {
     var internalPlayer = props.playerRef.current?.getInternalPlayer();
-    if (!internalPlayer) return;
     var videoData = internalPlayer.getVideoData();
     var video = props.videos.find(v => v.video_id === videoData.video_id);
     props.setCurrentVideo(video);
-    console.log(video);
   }
 
   function onError() {
