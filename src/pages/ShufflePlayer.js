@@ -51,7 +51,7 @@ export default function ShufflePlayer() {
       <PlaylistSelector
         playlists={playlists}
         isCollapsedDefault={true}
-        onShuffle={() => setVideoFetchPlaylistIds(selectedPlaylistIds)}
+        onCombinePlaylists={() => setVideoFetchPlaylistIds(selectedPlaylistIds)}
         setPlaylistIds={setSelectedPlaylistIds}
         setLoadedPlaylists={setPlaylists}
       />
