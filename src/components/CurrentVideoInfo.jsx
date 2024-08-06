@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Textfit } from '@tomplum/react-textfit';
 
 function CurrentVideoInfo(props) {
+  const [hideDescription, setHideDescription] = useState(true)
+
   var titleOpts = {
     flex: 1,
     height: "110px",
@@ -16,7 +18,7 @@ function CurrentVideoInfo(props) {
   }
   return (
     <>
-      <div id="videoTitleDisplay" className='currentVideoTitle' onClick={() => props.setCollapseDescription(!props.collapseDescription)}>
+      <div id="videoTitleDisplay" className='currentVideoTitle' onClick={() => setHideDescription(!hideDescription)}>
         <Textfit style={titleOpts} mode="multi" max={44}>{props.currentVideo.title}</Textfit>
         <a style={anchorOpts} href={`https://youtube.com/watch?v=${props.currentVideo.video_id}`} target="_blank" rel="noopener noreferrer">
           <img alt='Go to Youtube Site' src={'/arrow-up-right.svg'}></img>
@@ -24,7 +26,7 @@ function CurrentVideoInfo(props) {
       </div>
 
       <div className="contentRow">
-        <div className={`${props.collapseDescription ? 'hide' : ''}`}>
+        <div className={`${hideDescription ? 'hide' : ''}`}>
           {props.currentVideo.description}
         </div>
       </div>

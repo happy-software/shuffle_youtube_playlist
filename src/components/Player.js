@@ -4,6 +4,15 @@ import ReactPlayer from 'react-player';
 function Player(props) {
   const YOUTUBE_PLAYLIST_VIDEO_LIMIT = 200;
 
+  function onPlay() {
+    var internalPlayer = props.playerRef.current?.getInternalPlayer();
+    if (!internalPlayer) return;
+    var videoData = internalPlayer.getVideoData();
+    var video = props.videos.find(v => v.video_id === videoData.video_id);
+    props.setCurrentVideo(video);
+    console.log(video);
+  }
+
   function onError() {
     var internalPlayer = props.playerRef.current?.getInternalPlayer();
     var videoUrl = internalPlayer.getVideoUrl()
@@ -28,6 +37,7 @@ function Player(props) {
         playing={true}
         width={"100%"}
         height={"800px"}
+        onPlay={onPlay}
         onError={onError}
         config={{
           youtube: {

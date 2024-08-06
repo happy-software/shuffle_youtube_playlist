@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import AppConstants from '../AppConstants';
 import ButtonList from '../components/ButtonList';
+import CurrentVideoInfo from '../components/CurrentVideoInfo';
 import LoadingPlaceholder from '../components/LoadingPlaceholder';
 import Player from '../components/Player';
 import PlaylistSelector from '../components/PlaylistSelector';
@@ -9,6 +10,7 @@ import usePlaylistDataFetcher from '../hooks/UsePlaylistDataFetcher';
 import useVideoPlayer from '../hooks/UseVideoPlayer';
 
 export default function ShufflePlayer() {
+  const [currentVideo, setCurrentVideo] = useState({})
   const [repeatVideo, setRepeatVideo] = useState(false)
   const [hideVideo, setHideVideo] = useState(true)
 
@@ -33,7 +35,10 @@ export default function ShufflePlayer() {
       repeatVideo={repeatVideo}
       hideVideo={hideVideo}
       playerRef={playerRef}
+      setCurrentVideo={setCurrentVideo}
     />
+
+    <CurrentVideoInfo currentVideo={currentVideo} />
 
     <div className='contentRow'>
       <ButtonList
