@@ -16,8 +16,8 @@
     "react-search-field": "github:ras1/react-search-field#2.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts start",
+    "build": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
