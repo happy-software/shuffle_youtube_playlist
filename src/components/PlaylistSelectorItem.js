@@ -4,7 +4,7 @@ function PlaylistSelectorItem(props) {
   return (
     <div className="playlistSelectorItem">
       <label className="checkbox_label">
-        <input 
+        <input
           type="checkbox"
           value={props.value}
           checked={props.checked}

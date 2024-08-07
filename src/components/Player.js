@@ -2,28 +2,41 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 
 function Player(props) {
-  function onReady(event) {
-    // no-op
+  const YOUTUBE_PLAYLIST_VIDEO_LIMIT = 200;
+
+  function onPlay() {
+    var internalPlayer = props.playerRef.current?.getInternalPlayer();
+    var videoData = internalPlayer.getVideoData();
+    var video = props.videos.find(v => v.video_id === videoData.video_id);
+    props.setCurrentVideo(video);
   }
 
-  function onError(event) {
-    console.log(`BROKEN VIDEO: ${JSON.stringify(props.videoId, null, 2)}`)
-    props.onEnd()
+  function onError() {
+    var internalPlayer = props.playerRef.current?.getInternalPlayer();
+    var videoUrl = internalPlayer.getVideoUrl()
+    if (!videoUrl) return;
+    console.log(`BROKEN VIDEO: ${getVideoId(videoUrl)}`);
+    internalPlayer.nextVideo();
   }
 
-  return(
-    <div className='playerWrapper' style={{display: props.hideVideo ? 'none' : 'block'}}>
+  function getVideoId(url) {
+    const urlParams = new URLSearchParams(new URL(url).search);
+    return urlParams.get('v');
+  }
+
+  return (
+    <div className='playerWrapper' style={{ display: props.hideVideo ? 'none' : 'block' }}>
       <ReactPlayer
         className='player'
-        url={`https://www.youtube.com/watch?v=${props.videoId}`}
+        ref={props.playerRef}
+        url={props.videos?.slice(0, YOUTUBE_PLAYLIST_VIDEO_LIMIT).map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
         controls={true}
         loop={props.repeatVideo}
-        onReady={(event) => onReady(event)}
-        onEnded={() => props.onEnd()}
-        onError={() => onError()}
         playing={true}
         width={"100%"}
         height={"800px"}
+        onPlay={onPlay}
+        onError={onError}
         config={{
           youtube: {
             playerVars: {},

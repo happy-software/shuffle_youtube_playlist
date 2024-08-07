@@ -23,7 +23,7 @@ export default function PlaylistSelector(props) {
           )}
         </div>
         <button
-          onClick={() => props.onShuffle()}
+          onClick={() => props.onCombinePlaylists()}
           className="sytButton"
         >Combine Playlists</button>
         <button

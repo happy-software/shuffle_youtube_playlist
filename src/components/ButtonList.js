@@ -7,7 +7,7 @@ function ButtonList(props) {
     <div className="buttonList">
       <div>
         <button
-          onClick={props.pickNextVideo}
+          onClick={() => props.playerRef.current?.getInternalPlayer()?.nextVideo()}
           className='sytButton nextVideoButton'
         >Next</button>
         <ToggleableButton
