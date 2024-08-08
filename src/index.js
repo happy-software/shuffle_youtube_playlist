@@ -6,7 +6,7 @@ import AppRoot from './AppRoot';
 import { Honeybadger, HoneybadgerErrorBoundary } from "@honeybadger-io/react"
 
 const config = {
-    apiKey: process.env.honeybadger_api_key,
+    apiKey: process.env.REACT_APP_HONEYBADGER_API_KEY,
     environment: "production"
 }
 
