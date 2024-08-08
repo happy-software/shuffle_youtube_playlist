@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://syt.hebron.wtf",
   "dependencies": {
+    "@honeybadger-io/js": "^6.9.3",
+    "@honeybadger-io/react": "^6.1.23",
     "@tomplum/react-textfit": "^1.1.5",
     "axios": "^1.6.0",
     "gh-pages": "^5.0.0",

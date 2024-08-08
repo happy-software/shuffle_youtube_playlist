@@ -8,6 +8,7 @@ import PlaylistSelector from '../components/PlaylistSelector';
 import useLocalStorage from '../hooks/UseLocalStorage';
 import usePlaylistDataFetcher from '../hooks/UsePlaylistDataFetcher';
 import useVideoPlayer from '../hooks/UseVideoPlayer';
+import { Honeybadger } from "@honeybadger-io/react"
 
 export default function ShufflePlayer() {
   const [currentVideo, setCurrentVideo] = useState({})
@@ -26,6 +27,7 @@ export default function ShufflePlayer() {
   } = useVideoPlayer(selectedPlaylistIds);
 
   if (!isLoaded) {
+    Honeybadger.notify("Testing Honeybadger deployed!");
     return <LoadingPlaceholder />;
   }
 
