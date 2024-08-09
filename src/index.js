@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import './normalize.css';
-import AppRoot from './AppRoot';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import './normalize.css'
+import AppRoot from './AppRoot'
 import { Honeybadger, HoneybadgerErrorBoundary } from "@honeybadger-io/react"
 
 const config = {
@@ -12,4 +12,4 @@ const config = {
 
 const honeybadger = Honeybadger.configure(config)
 
-ReactDOM.render(<HoneybadgerErrorBoundary honeybadger={honeybadger}><AppRoot /></HoneybadgerErrorBoundary >, document.getElementById("root"));
+ReactDOM.render(<HoneybadgerErrorBoundary honeybadger={honeybadger}><AppRoot /></HoneybadgerErrorBoundary >, document.getElementById("root"))

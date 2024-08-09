@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import axios from 'axios';
-import AppConstants from '../AppConstants';
-import useEffectOnce from './UseEffectOnce';
+import { useState } from 'react'
+import axios from 'axios'
+import AppConstants from '../AppConstants'
+import useEffectOnce from './UseEffectOnce'
 
 export default function usePlaylistDataFetcher(initialPlaylistIds) {
-    const [playlists, setPlaylists] = useState([]);
+    const [playlists, setPlaylists] = useState([])
 
     useEffectOnce(() => {
         axios.get(AppConstants.APIEndpoints.TRACKED_PLAYLISTS)
@@ -16,7 +16,7 @@ export default function usePlaylistDataFetcher(initialPlaylistIds) {
                 setPlaylists(response.data)
             })
             .catch(error => console.log(`Couldn't retrieve tracked playlists! ${error}`))
-    }, [initialPlaylistIds]);
+    }, [initialPlaylistIds])
 
-    return [playlists, setPlaylists];
+    return [playlists, setPlaylists]
 }

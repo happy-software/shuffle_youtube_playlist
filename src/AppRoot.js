@@ -1,12 +1,12 @@
-import React from "react";
+import React from "react"
 import {
   HashRouter as Router,
   Routes,
   Route
-} from "react-router-dom";
-import ShufflePlayer from './pages/ShufflePlayer';
-import TrackPlaylistForm from './pages/TrackPlaylistForm';
-import PlaylistsSearch from './pages/PlaylistsSearch';
+} from "react-router-dom"
+import ShufflePlayer from './pages/ShufflePlayer'
+import TrackPlaylistForm from './pages/TrackPlaylistForm'
+import PlaylistsSearch from './pages/PlaylistsSearch'
 
 export default function AppRoot() {
   return (
@@ -19,5 +19,5 @@ export default function AppRoot() {
         </Routes>
       </div>
     </Router>
-  );
+  )
 }
