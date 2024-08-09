@@ -24,5 +24,7 @@ jobs:
         user_email: 'github-actions[bot]@users.noreply.github.com'
         github_token: ${{ secrets.SYT_DEPLOY_PERSONAL_ACCESS_TOKEN }}
         repository: ${{ github.repository }}
+        REACT_APP_HONEYBADGER_API_KEY: ${{ secrets.HONEYBADGER_API_KEY }}
+
     - name: Updating Domain
       run: echo "Update domain"
