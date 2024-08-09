@@ -8,7 +8,6 @@
     "@honeybadger-io/react": "^6.1.23",
     "@tomplum/react-textfit": "^1.1.5",
     "axios": "^1.6.0",
-    "gh-pages": "^5.0.0",
     "nan": "^2.15.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -48,6 +47,7 @@
     "@babel/preset-react": "^7.16.7",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
+    "gh-pages": "^6.1.1",
     "postcss-normalize": "^10.0.1",
     "react-test-renderer": "^17.0.2"
   }
