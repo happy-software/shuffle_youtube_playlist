@@ -1,32 +1,28 @@
-import React, { useState, useRef } from 'react';
-import AppConstants from '../AppConstants';
-import ButtonList from '../components/ButtonList';
-import CurrentVideoInfo from '../components/CurrentVideoInfo';
-import LoadingPlaceholder from '../components/LoadingPlaceholder';
-import Player from '../components/Player';
-import PlaylistSelector from '../components/PlaylistSelector';
-import useLocalStorage from '../hooks/UseLocalStorage';
-import usePlaylistDataFetcher from '../hooks/UsePlaylistDataFetcher';
-import useVideoPlayer from '../hooks/UseVideoPlayer';
+import React, { useState, useRef } from 'react'
+import AppConstants from '../AppConstants'
+import ButtonList from '../components/ButtonList'
+import CurrentVideoInfo from '../components/CurrentVideoInfo'
+import LoadingPlaceholder from '../components/LoadingPlaceholder'
+import Player from '../components/Player'
+import PlaylistSelector from '../components/PlaylistSelector'
+import useLocalStorage from '../hooks/UseLocalStorage'
+import usePlaylistDataFetcher from '../hooks/UsePlaylistDataFetcher'
+import useVideoPlayer from '../hooks/UseVideoPlayer'
 
 export default function ShufflePlayer() {
   const [currentVideo, setCurrentVideo] = useState({})
   const [repeatVideo, setRepeatVideo] = useState(false)
   const [hideVideo, setHideVideo] = useState(true)
 
-  const playerRef = useRef(null);
+  const playerRef = useRef(null)
 
-  const [selectedPlaylistIds, setSelectedPlaylistIds] = useLocalStorage(AppConstants.SelectedPlaylistIdsKey, []);
-  const [playlists, setPlaylists] = usePlaylistDataFetcher(selectedPlaylistIds);
+  const [selectedPlaylistIds, setSelectedPlaylistIds] = useLocalStorage(AppConstants.SelectedPlaylistIdsKey, [])
+  const [playlists, setPlaylists] = usePlaylistDataFetcher(selectedPlaylistIds)
 
-  const {
-    currentVideos,
-    setVideoFetchPlaylistIds,
-    isLoaded
-  } = useVideoPlayer(selectedPlaylistIds);
+  const { currentVideos, setVideoFetchPlaylistIds, isLoaded } = useVideoPlayer(selectedPlaylistIds)
 
   if (!isLoaded) {
-    return <LoadingPlaceholder />;
+    return <LoadingPlaceholder />
   }
 
   return <div>
