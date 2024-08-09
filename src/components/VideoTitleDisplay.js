@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-function VideoTitleDisplay({ video, onVideoClicked, className }) {
+export default function VideoTitleDisplay({ video, onVideoClicked, className }) {
   const titleOpts = {
     flex: 1
   }
@@ -9,27 +9,10 @@ function VideoTitleDisplay({ video, onVideoClicked, className }) {
     flex: 0
   }
 
-  return (
-    <div
-      id="videoTitleDisplay"
-      className={`${className}`}
-    >
-      <div
-        onClick={() => onVideoClicked(video)}
-        style={titleOpts}
-      >
-        {video.title}
-      </div>
-      <a
-        style={anchorOpts}
-        href={`https://youtube.com/watch?v=${video.video_id}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img alt='Go to Youtube' src={'/arrow-up-right.svg'}></img>
-      </a>
-    </div>
-  );
+  return <div id="videoTitleDisplay" className={`${className}`}>
+    <div onClick={() => onVideoClicked(video)} style={titleOpts}>{video.title}</div>
+    <a style={anchorOpts} href={`https://youtube.com/watch?v=${video.video_id}`} target="_blank" rel="noopener noreferrer">
+      <img alt='Go to Youtube' src={'/arrow-up-right.svg'} />
+    </a>
+  </div>
 }
-
-export default VideoTitleDisplay;
