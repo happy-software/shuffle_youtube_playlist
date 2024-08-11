@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import AppConstants from '../AppConstants';
-import LoadingPlaceholder from '../components/LoadingPlaceholder';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import AppConstants from '../AppConstants'
+import LoadingPlaceholder from '../components/LoadingPlaceholder'
 import SearchField from 'react-search-field'
 
 const List = props => (
@@ -26,7 +26,7 @@ const List = props => (
       }
     </div>
   </div>
-);
+)
 
 function filteredList(queryString, list) {
   return list.filter(item => matchingItem(item, queryString))
@@ -34,43 +34,39 @@ function filteredList(queryString, list) {
 
 function matchingItem(item, queryString) {
   if (queryString === "") { return true }
-  queryString = queryString.toLowerCase();
+  queryString = queryString.toLowerCase()
   if (item.videoId.toString().toLowerCase().search(queryString) >= 0 ||
     item.title.toString().toLowerCase().search(queryString) >= 0 ||
     item.description.toString().toLowerCase().search(queryString) >= 0
   ) {
-    return true;
+    return true
   }
 
-  return false;
+  return false
 }
 
-function PlaylistsSearch(props) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [loadedVideos, setLoadedVideos] = useState([]);
-  const [queryString, setQueryString] = useState("");
+export default function PlaylistsSearch(props) {
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [loadedVideos, setLoadedVideos] = useState([])
+  const [queryString, setQueryString] = useState("")
 
-  useEffect(loadVideos, [isLoaded]);
+  useEffect(loadVideos, [isLoaded])
 
   function loadVideos() {
-    if (isLoaded) return;
+    if (isLoaded) return
     axios.get(AppConstants.APIEndpoints.TRACKED_VIDEOS)
       .then(response => {
-        setIsLoaded(true);
+        setIsLoaded(true)
         setLoadedVideos(response.data)
       })
       .catch(error => console.log(`Couldn't retrieve tracked videos: ${error}`))
   }
 
-  return (
-    <div>
-      <div className="pageTitle">Search All Videos</div>
-      <div className="searchFieldContainer">
-        <SearchField classNames="searchField" onChange={(value) => setQueryString(value)} placeholder="Search Videos..." />
-      </div>
-      {!isLoaded ? <LoadingPlaceholder /> : <List queryString={queryString} list={loadedVideos} />}
+  return <div>
+    <div className="pageTitle">Search All Videos</div>
+    <div className="searchFieldContainer">
+      <SearchField classNames="searchField" onChange={(value) => setQueryString(value)} placeholder="Search Videos..." />
     </div>
-  );
+    {!isLoaded ? <LoadingPlaceholder /> : <List queryString={queryString} list={loadedVideos} />}
+  </div>
 }
-
-export default PlaylistsSearch;

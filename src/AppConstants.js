@@ -1,5 +1,5 @@
-// const APIRoot = "http://localhost:8000"; // When running locally
-const APIRoot = "https://happy-youtube-watcher.herokuapp.com";
+// const APIRoot = "http://localhost:8000" // When running locally
+const APIRoot = "https://happy-youtube-watcher.herokuapp.com"
 const appConstants = {
   APIEndpoints: {
     SHUFFLE: APIRoot + "/shuffle",
@@ -7,5 +7,5 @@ const appConstants = {
     TRACKED_VIDEOS: APIRoot + "/videos",
   },
   SelectedPlaylistIdsKey: "selectedPlaylistIds"
-};
-export default appConstants;
+}
+export default appConstants
