@@ -1,5 +1,5 @@
 // const APIRoot = "http://localhost:8000" // When running locally
-const APIRoot = "https://happy-youtube-watcher.herokuapp.com"
+const APIRoot = "https://hytw.hebronlab.com/"
 const appConstants = {
   APIEndpoints: {
     SHUFFLE: APIRoot + "/shuffle",
