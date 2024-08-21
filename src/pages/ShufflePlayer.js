@@ -12,7 +12,7 @@ import useVideoPlayer from '../hooks/UseVideoPlayer'
 export default function ShufflePlayer() {
   const [currentVideo, setCurrentVideo] = useState({})
   const [repeatVideo, setRepeatVideo] = useState(false)
-  const [hideVideo, setHideVideo] = useState(true)
+  const [hideVideo, setHideVideo] = useState(false)
 
   const playerRef = useRef(null)
 
