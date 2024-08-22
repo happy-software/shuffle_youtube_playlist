@@ -5,6 +5,7 @@
 - [Deployment](#deployment)
 - [Error Tracking](#error-tracking)
 - [Helpful Links](#helpful-links)
+- [Repeat Video](#repeat-video)
 
 # Local Development
 
@@ -42,3 +43,12 @@ The API key is added in [deploy.yml](.github/workflows/deploy.yml), so running d
 
 - [React Player](https://github.com/cookpete/react-player), used to interface with Youtube
 - [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference), used to control some features of the Youtube player
+
+# Repeat Video
+
+- Record current video name or index
+- When `repeat video` is enabled, listen to onProgress event.
+- If current played seconds/percentage goes below previous, check that its the same video index. 
+- If it isn't change to the correct video index.
+- If `repeat video` is enabled, `next video` button clicks do not change song, seekTo 0 instead.
+- Do not `setCurrentVideo` in `player.js` if `repeat video` is enabled
