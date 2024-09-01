@@ -35,7 +35,6 @@ export default function Player(props) {
     return urlParams.get('v')
   }
 
-  console.log(props.videos);
   return <div className='playerWrapper' style={{ display: props.hideVideo ? 'none' : 'block' }}>
     <ReactPlayer
       className='player'
