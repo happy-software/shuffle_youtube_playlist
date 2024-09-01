@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
+import { Honeybadger } from "@honeybadger-io/react"
 
 export default function Player(props) {
   const YOUTUBE_PLAYLIST_VIDEO_LIMIT = 200
@@ -15,8 +16,18 @@ export default function Player(props) {
     var internalPlayer = props.playerRef.current?.getInternalPlayer()
     var videoUrl = internalPlayer.getVideoUrl()
     if (!videoUrl) return
-    console.log(`BROKEN VIDEO: ${getVideoId(videoUrl)}`)
-    internalPlayer.nextVideo()
+
+    var videoId = getVideoId(videoUrl)
+    console.log(`BROKEN VIDEO: ${videoId}`)
+    Honeybadger.notify(`BROKEN VIDEO: ${videoId}`);
+
+    var currentVideoIndex = internalPlayer.getPlaylistIndex()
+    if (currentVideoIndex === 0) {
+      console.log("Recovering from broken first video...")
+      props.onErrorRecovery()
+    } else {
+      internalPlayer.nextVideo()
+    }
   }
 
   function getVideoId(url) {
@@ -28,7 +39,7 @@ export default function Player(props) {
     <ReactPlayer
       className='player'
       ref={props.playerRef}
-      url={props.videos?.slice(0, YOUTUBE_PLAYLIST_VIDEO_LIMIT).map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
+      url={props.videos.slice(0, YOUTUBE_PLAYLIST_VIDEO_LIMIT).map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
       controls={true}
       loop={props.repeatVideo}
       playing={true}
