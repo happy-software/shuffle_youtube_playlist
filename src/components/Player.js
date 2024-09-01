@@ -18,8 +18,8 @@ export default function Player(props) {
     if (!videoUrl) return
 
     var videoId = getVideoId(videoUrl)
-    console.log(`BROKEN VIDEO: ${videoId}`)
-    Honeybadger.notify(`BROKEN VIDEO: ${videoId}`);
+    console.log(`BROKEN VIDEO: ${videoId}, videoUrl: ${videoUrl}`)
+    Honeybadger.notify(`BROKEN VIDEO: ${videoId}, videoUrl: ${videoUrl}`);
 
     var currentVideoIndex = internalPlayer.getPlaylistIndex()
     if (currentVideoIndex === 0) {
@@ -35,6 +35,7 @@ export default function Player(props) {
     return urlParams.get('v')
   }
 
+  console.log(props.videos);
   return <div className='playerWrapper' style={{ display: props.hideVideo ? 'none' : 'block' }}>
     <ReactPlayer
       className='player'
