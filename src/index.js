@@ -7,6 +7,7 @@ import { Honeybadger, HoneybadgerErrorBoundary } from "@honeybadger-io/react"
 
 const config = {
     apiKey: process.env.REACT_APP_HONEYBADGER_API_KEY,
+    enableUncaught: true,
     environment: "production"
 }
 
