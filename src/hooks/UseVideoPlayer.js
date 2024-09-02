@@ -3,7 +3,7 @@ import useVideoDataFetcher from '../hooks/UseVideoDataFetcher'
 
 export default function useVideoPlayer(selectedPlaylistIds) {
     const [currentVideos, setCurrentVideos] = useState([])
-    const [videoFetchResult, setVideoFetchPlaylistIds, triggerRefetch] = useVideoDataFetcher(selectedPlaylistIds)
+    const [videoFetchResult, setVideoFetchPlaylistIds] = useVideoDataFetcher(selectedPlaylistIds)
 
     useEffect(shuffleVideos, [videoFetchResult])
 
@@ -27,7 +27,6 @@ export default function useVideoPlayer(selectedPlaylistIds) {
     return {
         currentVideos,
         setVideoFetchPlaylistIds,
-        triggerRefetch,
         isLoaded: videoFetchResult.isLoaded
     }
 }

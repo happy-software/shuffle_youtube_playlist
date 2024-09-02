@@ -15,21 +15,18 @@ export default function Player(props) {
   function onError() {
     const internalPlayer = props.playerRef.current?.getInternalPlayer()
     const videoUrl = internalPlayer.getVideoUrl()
-    if (!videoUrl) return
-
     const videoId = getVideoId(videoUrl)
-    const currentVideoIndex = internalPlayer.getPlaylistIndex()
 
+    const currentVideoIndex = internalPlayer.getPlaylistIndex()
     // use JS destructuring syntax to exclude the `description` property from the rest of the object, it can be too long
     const { description, ...destructuredVideo } = props.videos[currentVideoIndex]
-    const errorMessage = `BROKEN VIDEO: ${videoId}, videoUrl: ${videoUrl}, video: ${JSON.stringify(destructuredVideo)}`
 
+    const errorMessage = `BROKEN VIDEO: ${videoId}, index: ${currentVideoIndex}, videoUrl: ${videoUrl}, video: ${JSON.stringify(destructuredVideo)}`
     console.log(errorMessage)
     Honeybadger.notify(errorMessage);
 
-    if (currentVideoIndex === 0) {
-      console.log("Recovering from broken first video...")
-      props.onErrorRecovery()
+    if (currentVideoIndex === 0 || !videoUrl) {
+      window.location.reload()
     } else {
       internalPlayer.nextVideo()
     }
