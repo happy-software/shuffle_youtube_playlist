@@ -12,33 +12,54 @@ export default function Player(props) {
     props.setCurrentVideo(video)
   }
 
-  function onError() {
+  function onError(event) {
+    // setTimeout(() => {
+    //   console.log(event)
+    //   console.log("Recovering from broken video...")
+    // }, 3000);
+
     const internalPlayer = props.playerRef.current?.getInternalPlayer()
-    const videoUrl = internalPlayer.getVideoUrl()
-    if (!videoUrl) return
-
-    const videoId = getVideoId(videoUrl)
     const currentVideoIndex = internalPlayer.getPlaylistIndex()
+    const videoUrl = internalPlayer.getVideoUrl()
 
-    // use JS destructuring syntax to exclude the `description` property from the rest of the object, it can be too long
-    const { description, ...destructuredVideo } = props.videos[currentVideoIndex]
-    const errorMessage = `BROKEN VIDEO: ${videoId}, videoUrl: ${videoUrl}, video: ${JSON.stringify(destructuredVideo)}`
+    if (videoUrl) {
+      const videoId = getVideoId(videoUrl)
 
-    console.log(errorMessage)
-    Honeybadger.notify(errorMessage);
+      // use JS destructuring syntax to exclude the `description` property from the rest of the object, it can be too long
+      const { description, ...destructuredVideo } = props.videos[currentVideoIndex]
+      const errorMessage = `BROKEN VIDEO: ${videoId}, index: ${currentVideoIndex}, videoUrl: ${videoUrl}, video: ${JSON.stringify(destructuredVideo)}`
 
-    if (currentVideoIndex === 0) {
+      console.log(errorMessage)
+      Honeybadger.notify(errorMessage);
+    }
+
+    if (currentVideoIndex === 0 || !videoUrl) {
       console.log("Recovering from broken first video...")
-      props.onErrorRecovery()
+      window.location.reload()
+      console.log(internalPlayer)
+      // internalPlayer.destroy()
+      // // if (props.videos?.length > 0) {
+      // //   props.setCurrentVideos(props.videos?.shift()) // remove first video
+      // // }
+      // // internalPlayer.previousVideo()
+      // props.onErrorRecovery()
+      // internalPlayer.nextVideo()
     } else {
       internalPlayer.nextVideo()
     }
+    // if (!internalPlayer.playerInfo.videoData.isPlayable) {
+    //   console.log("not playable trying next")
+    //   // internalPlayer.nextVideo()
+    //   internalPlayer.playVideoAt(currentVideoIndex + 1)
+    // }
   }
 
   function getVideoId(url) {
     const urlParams = new URLSearchParams(new URL(url).search)
     return urlParams.get('v')
   }
+
+  // setTimeout(() => { console.log("stuff") }, 3000);
 
   return <div className='playerWrapper' style={{ display: props.hideVideo ? 'none' : 'block' }}>
     <ReactPlayer

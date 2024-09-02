@@ -19,7 +19,7 @@ export default function ShufflePlayer() {
   const [selectedPlaylistIds, setSelectedPlaylistIds] = useLocalStorage(AppConstants.SelectedPlaylistIdsKey, [])
   const [playlists, setPlaylists] = usePlaylistDataFetcher(selectedPlaylistIds)
 
-  const { currentVideos, setVideoFetchPlaylistIds, triggerRefetch, isLoaded } = useVideoPlayer(selectedPlaylistIds)
+  const { currentVideos, setCurrentVideos, setVideoFetchPlaylistIds, triggerRefetch, isLoaded } = useVideoPlayer(selectedPlaylistIds)
 
   if (!isLoaded) {
     return <LoadingPlaceholder />
@@ -28,6 +28,7 @@ export default function ShufflePlayer() {
   return <div>
     <Player
       videos={currentVideos}
+      setCurrentVideos={setCurrentVideos}
       repeatVideo={repeatVideo}
       hideVideo={hideVideo}
       playerRef={playerRef}

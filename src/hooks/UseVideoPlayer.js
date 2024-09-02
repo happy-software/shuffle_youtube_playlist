@@ -26,6 +26,7 @@ export default function useVideoPlayer(selectedPlaylistIds) {
 
     return {
         currentVideos,
+        setCurrentVideos,
         setVideoFetchPlaylistIds,
         triggerRefetch,
         isLoaded: videoFetchResult.isLoaded

@@ -5,7 +5,7 @@ import ToggleableButton from './ToggleableButton'
 export default function ButtonList(props) {
   return <div className="buttonList">
     <div>
-      <button onClick={() => props.playerRef.current?.getInternalPlayer()?.nextVideo()} className='sytButton nextVideoButton'>Next</button>
+      <button onClick={() => props.playerRef.current?.getInternalPlayer()?.nextVideo()} className='sytButton nextVideoButton'>Nextbo</button>
       <ToggleableButton toggled={props.repeatVideo} setToggled={props.setRepeatVideo} message="Repeat" className="sytButton" />
       <ToggleableButton toggled={props.hideVideo} setToggled={props.setHideVideo} message={props.hideVideo ? "Show Video" : "Hide Video"} className="sytButton" />
       <Link to="/track-new-playlist" className="link">
