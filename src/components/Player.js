@@ -21,9 +21,9 @@ export default function Player(props) {
     const { description, ...errorVideo } = props.videos[currentVideoIndex]
     errorVideo.videoIndex = currentVideoIndex
 
-    console.log('BROKEN VIDEO')
+    console.log(`BROKEN VIDEO: ${JSON.stringify(errorVideo)}`)
     await Honeybadger.notifyAsync({
-      message: `BROKEN VIDEO: ${errorVideo.title}`,
+      message: 'BROKEN VIDEO',
       context: {
         ...errorVideo
       }
