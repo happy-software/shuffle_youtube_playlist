@@ -12,18 +12,13 @@ const initialFetchResult = {
 export default function useVideoDataFetcher(selectedPlaylistIds) {
   const [playlistIds, setPlaylistIds] = useState(selectedPlaylistIds)
   const [fetchResult, setFetchResult] = useState(initialFetchResult)
-  const [refetchTrigger, setRefetchTrigger] = useState(false)
 
   // Effect hook for fetching data when playlist IDs change
   useEffect(() => {
     fetchData(playlistIds, setFetchResult)
-  }, [playlistIds, refetchTrigger])
+  }, [playlistIds])
 
-  function triggerRefetch() {
-    setRefetchTrigger(!refetchTrigger)
-  }
-
-  return [fetchResult, setPlaylistIds, triggerRefetch]
+  return [fetchResult, setPlaylistIds]
 }
 
 async function fetchData(playlistIds, setFetchResult) {
