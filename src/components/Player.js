@@ -22,12 +22,17 @@ export default function Player(props) {
     errorVideo.videoIndex = currentVideoIndex
 
     console.log(`BROKEN VIDEO: ${JSON.stringify(errorVideo)}`)
-    await Honeybadger.notifyAsync({
-      message: 'BROKEN VIDEO',
-      context: {
-        ...errorVideo
-      }
-    })
+
+    try {
+      await Honeybadger.notifyAsync({
+        message: 'BROKEN VIDEO',
+        context: {
+          ...errorVideo
+        }
+      })
+    } catch (e) {
+      console.log(e)
+    }
 
     if (currentVideoIndex === 0 || !videoUrl) {
       window.location.reload()
