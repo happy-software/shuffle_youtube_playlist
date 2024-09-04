@@ -236,3 +236,13 @@ svg rect{
 .searchFieldContainer{
   padding: 4px;
 }
+
+.shaFooter {
+  text-align: center;
+  color: #404040;
+  padding: 5px;
+}
+
+.shaFooter a {
+  color: inherit;
+}

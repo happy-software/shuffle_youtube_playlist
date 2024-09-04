@@ -52,5 +52,7 @@ export default function ShufflePlayer() {
         setLoadedPlaylists={setPlaylists}
       />
     </div>
+
+    <div className='shaFooter'>With Love, Happy Software | <a href="https://github.com/happy-software/shuffle_youtube_playlist" target="_blank" rel="noopener noreferrer">Github</a> | Commit: {process.env.REACT_APP_GIT_SHA}</div>
   </div>
 }
