@@ -9,7 +9,7 @@ const config = {
     apiKey: process.env.REACT_APP_HONEYBADGER_API_KEY,
     enableUncaught: true,
     environment: "production",
-    revision: process.env.REACT_APP_GIT_SHA
+    revision: `${process.env.REACT_APP_GIT_SHA}`
 }
 
 const honeybadger = Honeybadger.configure(config)
