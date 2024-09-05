@@ -1,9 +1,11 @@
 * {
   color: white;
-  font-family: 'Roboto', sans-serif; 
+  font-family: 'Roboto', sans-serif;
 }
 
-body {background-color: #110f36;}
+body {
+  background-color: #110f36;
+}
 
 .currentVideoTitle {
   padding-left: 5px;
@@ -15,7 +17,7 @@ body {background-color: #110f36;}
 
 .playerWrapper {
   position: relative !important;
-  padding-top: 56.25% !important /* Player ratio: 100 / (1280 / 720) */
+  padding-top: 56.25% !important;
 }
 
 .player {
@@ -33,15 +35,15 @@ body {background-color: #110f36;}
 }
 
 .sytButton {
-  border: 1px solid gray; 
+  border: 1px solid gray;
   font-size: 18px;
   color: black;
   height: 40px;
-  padding: 4px 20px; /* Some padding */
+  padding: 4px 20px;
   margin: 4px 0px;
-  cursor: pointer; /* Pointer/hand icon */
-  width: 100%; /* Set a width if needed */
-  display: block; /* Make the buttons appear below each other */  
+  cursor: pointer;
+  width: 100%;
+  display: block;
 }
 
 .sytButton:focus {
@@ -53,7 +55,7 @@ body {background-color: #110f36;}
 }
 
 .buttonList {
-  border: 1px solid white; 
+  border: 1px solid white;
   padding: 4px;
   margin: 2px;
 }
@@ -62,11 +64,11 @@ body {background-color: #110f36;}
   height: 6em;
 }
 
-.chevron-down{
+.chevron-down {
   transform: rotate(0deg);
 }
 
-.chevron-down.flip{
+.chevron-down.flip {
   transform: rotate(180deg);
 }
 
@@ -92,7 +94,7 @@ body {background-color: #110f36;}
 .playlistSelectorInner {
   color: white;
   padding: 4px;
-  font-size: 18px;
+  font-size: 25px;
   display: flex;
   flex-direction: column;
   border-top: 1px solid white;
@@ -104,19 +106,22 @@ body {background-color: #110f36;}
 .playlistSelectorItem {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  margin: 3px 3px;
 }
 
 .checkbox_label {
   display: flex;
+  gap: 10px;
 }
 
 .checkbox_input {
-  width: 13px;
-  height: 13px;
+  width: 25px;
+  height: 25px;
   padding: 0;
-  margin: 3px 3px;
   top: -1px;
   display: flex;
+  flex-shrink: 0;
 }
 
 .videoPool {
@@ -150,7 +155,7 @@ body {background-color: #110f36;}
   font-size: 18px;
   color: white;
   display: flex;
-  cursor: pointer; /* Pointer/hand icon */
+  cursor: pointer;
   border-bottom: 1px solid white;
 }
 
@@ -172,7 +177,7 @@ body {background-color: #110f36;}
 }
 
 .trackPlaylistForm {
-  display:grid;
+  display: grid;
   grid-template-columns: 100px 500px;
   grid-gap: 10px;
 }
@@ -199,15 +204,15 @@ body {background-color: #110f36;}
 
 input {
   background-color: #dad8df;
-  border: 1px solid gray; 
-  color: black; 
-  padding: 10px 10px; /* Some padding */
+  border: 1px solid gray;
+  color: black;
+  padding: 10px 10px;
   margin: 0px 0px;
-  cursor: pointer; /* Pointer/hand icon */
+  cursor: pointer;
   box-sizing: border-box;
 }
 
-.loader{
+.loader {
   height: 100%;
   width: 50%;
   text-align: center;
@@ -217,23 +222,23 @@ input {
   vertical-align: top;
 }
 
-svg path, 
-svg rect{
+svg path,
+svg rect {
   fill: #FF6700;
 }
 
-.pageTitle{
+.pageTitle {
   font-size: 44px;
   text-align: center;
   padding: 1px;
 }
 
-.searchField{
+.searchField {
   width: 100%;
   box-sizing: border-box;
 }
 
-.searchFieldContainer{
+.searchFieldContainer {
   padding: 4px;
 }
 
