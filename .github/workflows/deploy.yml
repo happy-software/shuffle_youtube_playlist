@@ -11,20 +11,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+
     - name: Install Packages
       run: yarn
+    
     - name: Deploy
-      run: |
-        git config --global user.name $user_name
-        git config --global user.email $user_email
-        git remote set-url origin https://${github_token}@github.com/${repository}
-        yarn deploy
       env:
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
         github_token: ${{ secrets.SYT_DEPLOY_PERSONAL_ACCESS_TOKEN }}
         repository: ${{ github.repository }}
         REACT_APP_HONEYBADGER_API_KEY: ${{ secrets.HONEYBADGER_API_KEY }}
+      run: |
+        git config --global user.name $user_name
+        git config --global user.email $user_email
+        git remote set-url origin https://${github_token}@github.com/${repository}
+        yarn deploy
 
-    - name: Updating Domain
-      run: echo "Update domain"
+    - name: Checkout gh-pages branch
+      run: |
+        git fetch origin gh-pages:gh-pages
+        git checkout gh-pages
+
+    - name: Upload Source Maps to Honeybadger
+      env:
+        HONEYBADGER_API_KEY: ${{ secrets.HONEYBADGER_API_KEY }}
+        REVISION: ${{ github.sha }}
+      run: |
+        for file in static/js/*.map; do
+          curl https://api.honeybadger.io/v1/source_maps \
+            -F api_key=$HONEYBADGER_API_KEY \
+            -F revision=$REVISION \
+            -F minified_url=https://syt.hebron.wtf/static/js/$(basename ${file%.map}) \
+            -F source_map=@$file \
+            -F minified_file=@${file%.map}
+        done
