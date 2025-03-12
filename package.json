@@ -7,7 +7,7 @@
     "@honeybadger-io/js": "^6.9.3",
     "@honeybadger-io/react": "^6.1.23",
     "@tomplum/react-textfit": "^1.1.5",
-    "axios": "^1.7.4",
+    "axios": "^1.8.2",
     "nan": "^2.15.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
