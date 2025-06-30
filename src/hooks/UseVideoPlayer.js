@@ -9,7 +9,7 @@ export default function useVideoPlayer(selectedPlaylistIds) {
 
     function shuffleVideos() {
         if (!videoFetchResult.isLoaded) {
-            setCurrentVideos([]) // fix to allow combine playlist to work, breaks youtube playlist control
+            setCurrentVideos(["CYoa9hI3CXg"]) // fix to allow combine playlist to work, breaks youtube playlist control
             return
         }
         const shuffledVideos = fisherYatesShuffle([...videoFetchResult.videos])
