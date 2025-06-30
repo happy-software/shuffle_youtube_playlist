@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import useVideoDataFetcher from '../hooks/UseVideoDataFetcher'
 
 export default function useVideoPlayer(selectedPlaylistIds) {
-    const [currentVideos, setCurrentVideos] = useState([])
+    const [currentVideos, setCurrentVideos] = useState(["0b_GF82FTr8"])
     const [videoFetchResult, setVideoFetchPlaylistIds] = useVideoDataFetcher(selectedPlaylistIds)
 
     useEffect(shuffleVideos, [videoFetchResult])
