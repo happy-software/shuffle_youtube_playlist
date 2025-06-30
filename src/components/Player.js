@@ -45,7 +45,7 @@ export default function Player(props) {
     <ReactPlayer
       className='player'
       ref={props.playerRef}
-      url={props.videos?.slice(0, YOUTUBE_PLAYLIST_VIDEO_LIMIT).map(v => `https://www.youtube.com/watch?v=${v.video_id}`)}
+      url={props.videos?.slice(0, YOUTUBE_PLAYLIST_VIDEO_LIMIT).map(v => `https://www.youtube.com/watch?v=${v.video_id}`) ?? "HZFb8yFSCPY" }
       controls={true}
       loop={props.repeatVideo}
       playing={true}
