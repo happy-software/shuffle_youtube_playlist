@@ -27,6 +27,7 @@ export default function Player(props) {
       await Honeybadger.notifyAsync({
         message: 'BROKEN VIDEO',
         context: {
+          video_url: videoUrl,
           ...errorVideo
         }
       })
