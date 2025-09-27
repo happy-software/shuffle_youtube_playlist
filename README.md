@@ -1,3 +1,12 @@
+# Project Status
+
+This project has been deprecated in favor of [Happy Youtube Watcher](https://github.com/happy-software/happy_youtube_watcher).
+
+
+I've left the rest of the README in its original state below.
+
+---
+
 - [Local Development](#local-development)
   - [Setup](#setup)
   - [Run App](#run-app)
