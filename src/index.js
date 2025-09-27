@@ -4,9 +4,4 @@ import './index.css'
 import './normalize.css'
 import AppRoot from './AppRoot'
 
-const config = {
-    enableUncaught: true,
-    environment: "production"
-}
-
 ReactDOM.render(<AppRoot />, document.getElementById("root"))
