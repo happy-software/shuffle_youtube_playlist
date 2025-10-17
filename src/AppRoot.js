@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 
 export default function AppRoot() {
-  const redirectUrl = "https://hytw.hebronlab.com"
+  const redirectUrl = "https://hytw.happysoftware.dev"
   const [countdown, setCountdown] = useState(15) // start at 15 seconds
 
   useEffect(() => {
